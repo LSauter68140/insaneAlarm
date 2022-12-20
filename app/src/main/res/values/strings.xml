@@ -11,4 +11,10 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="add_alarm">Add alarm</string>
+    <string name="quickAlarm">Alarme rapide</string>
+    <string name="alarm">Alarme</string>
+    <string name="reminder">Rappel</string>
+    <string name="add">Ajout</string>
+    <string name="listitemsetting">listItemSetting</string>
+    <string name="alarmType_temp">Type d\'alarme</string>
 </resources>
