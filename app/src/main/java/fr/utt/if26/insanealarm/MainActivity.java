@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout fabLayout1, fabLayout2, fabLayout3;
     View fabBGLayout;
     boolean isFABOpen = false;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

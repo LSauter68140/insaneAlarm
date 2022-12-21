@@ -10,8 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <TextView
-            android:id="@+id/listItem_nextRingTime"
+            android:id="@+id/listItemNextRingTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
@@ -24,36 +25,39 @@
             android:layout_weight="1"
             android:text=""
             android:textAlignment="center" />
-        
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <ImageButton
                 android:id="@+id/listItemSettingBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_more_vert_24"
                 android:contentDescription="@string/listitemsetting" />
+
             <Switch
-                android:id="@+id/listItemActivateClock"
+                android:id="@+id/listItemActivateAlarm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="false"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/listItemType"
                 android:layout_width="match_parent"

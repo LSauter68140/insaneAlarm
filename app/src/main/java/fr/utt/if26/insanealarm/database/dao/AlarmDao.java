@@ -11,20 +11,21 @@ import java.util.List;
 
 import fr.utt.if26.insanealarm.model.Alarm;
 
+@Dao
 public interface AlarmDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-     void insertAlarm(Alarm alarm);
+    void insertAlarm(Alarm alarm);
 
-    @Query("DELETE FROM Alarm")
+    @Query("DELETE FROM alarm")
     void deleteAll();
 
-    @Query("DELETE from Alarm WHERE id = :id")
-    void deleteAlarmById(String id);
+    @Query("DELETE from alarm WHERE id = :id")
+    void deleteAlarmById(Integer id);
 
     @Update(entity = Alarm.class)
-     void updateAlarm(Alarm m);
+    void updateAlarm(Alarm alarm);
 
-    @Query("SELECT * FROM Alarm ORDER BY nextRing ASC")
-    LiveData<List<Alarm>>getAlarm();
+    @Query("SELECT * FROM alarm ORDER BY nextRing ASC")
+    LiveData<List<Alarm>> getAlarm();
 }

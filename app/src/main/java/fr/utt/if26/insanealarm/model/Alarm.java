@@ -2,70 +2,106 @@ package fr.utt.if26.insanealarm.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
+import fr.utt.if26.insanealarm.database.converters.Converters;
 
 @Entity(tableName = "Alarm")
 public class Alarm {
 
     @PrimaryKey(autoGenerate = true)
-    protected String id;
+    private Integer id;
 
     @NonNull
-    @ColumnInfo(name = "nextRing")
-    private Date nextRing;
+    @ColumnInfo(name = "name")
+    private String name;
+
+    @NonNull
+    @TypeConverters(Converters.class)
+    private LocalDateTime nextRing;
     @NonNull
     @ColumnInfo(name = "isActivate", defaultValue = "true")
     private Boolean isActivate;
-    @NonNull
-    @ColumnInfo(name = "Frequency")
-    private String frequency;
+    @Embedded
+    private AlarmFrequency alarmFrequency;
     @NonNull
     @ColumnInfo(name = "alarmType", defaultValue = "1")
     private Integer alarmType;
     @NonNull
     @ColumnInfo(name = "ringtonePath")
     private String ringtonePath;
-    @NonNull
-    @ColumnInfo(name = "snoozeId")
-    private String snoozeId;
+    @Embedded
+    private Snooze snooze;
     @NonNull
     @ColumnInfo(name = "dismissMode", defaultValue = "false")
     private Boolean dismissMode;
 
-    public Alarm( @NonNull Date nextRing, @NonNull Boolean isActivate, @NonNull String frequency, @NonNull Integer alarmType, @NonNull String ringtonePath, @NonNull String snoozeId, @NonNull Boolean dismissMode) {
+    public Alarm(@NonNull String name, @NonNull LocalDateTime nextRing, @NonNull Boolean isActivate, @NonNull AlarmFrequency alarmFrequency, @NonNull Integer alarmType, @NonNull String ringtonePath, @NonNull Snooze snooze, @NonNull Boolean dismissMode) {
+        this.name = name;
         this.nextRing = nextRing;
         this.isActivate = isActivate;
-        this.frequency = frequency;
+        this.alarmFrequency = alarmFrequency;
         this.alarmType = alarmType;
         this.ringtonePath = ringtonePath;
-        this.snoozeId = snoozeId;
+        this.snooze = snooze;
         this.dismissMode = dismissMode;
     }
-
+/*
     public Alarm() {
-        this.nextRing = new Date(0);
+        this.name = "";
+        this.nextRing = LocalDateTime.now();
         this.isActivate = false;
-        this.frequency = "";
+        this.alarmFrequency = new AlarmFrequency(false, false, false, false, false, false, false);
         this.alarmType = 0;
         this.ringtonePath = "";
-        this.snoozeId = "";
+        this.snooze = new Snooze(0, 0, 0, 0);
         this.dismissMode = false;
+    }*/
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    @NonNull
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
+
     @NonNull
-    public Date getNextRing() {
+    public String getName() {
+        return name;
+    }
+
+    public AlarmFrequency getAlarmFrequency() {
+        return alarmFrequency;
+    }
+
+    public void setAlarmFrequency(AlarmFrequency alarmFrequency) {
+        this.alarmFrequency = alarmFrequency;
+    }
+
+    public Snooze getSnooze() {
+        return snooze;
+    }
+
+    public void setSnooze(Snooze snooze) {
+        this.snooze = snooze;
+    }
+
+    @NonNull
+    public LocalDateTime getNextRing() {
         return nextRing;
     }
 
-    public void setNextRing(@NonNull Date nextRing) {
+    public void setNextRing(@NonNull LocalDateTime nextRing) {
         this.nextRing = nextRing;
     }
 
@@ -79,12 +115,12 @@ public class Alarm {
     }
 
     @NonNull
-    public String getFrequency() {
-        return frequency;
+    public AlarmFrequency getFrequency() {
+        return alarmFrequency;
     }
 
-    public void setFrequency(@NonNull String frequency) {
-        this.frequency = frequency;
+    public void setFrequency(@NonNull AlarmFrequency alarmFrequency) {
+        this.alarmFrequency = alarmFrequency;
     }
 
     @NonNull
@@ -106,12 +142,12 @@ public class Alarm {
     }
 
     @NonNull
-    public String getSnoozeId() {
-        return snoozeId;
+    public Snooze getSnoozeId() {
+        return snooze;
     }
 
-    public void setSnoozeId(@NonNull String snoozeId) {
-        this.snoozeId = snoozeId;
+    public void setSnoozeId(@NonNull Snooze snooze) {
+        this.snooze = snooze;
     }
 
     @NonNull
@@ -134,10 +170,10 @@ public class Alarm {
                 "id='" + id + '\'' +
                 ", nextRing=" + nextRing +
                 ", isActivate=" + isActivate +
-                ", frequency='" + frequency + '\'' +
+                ", alarmFrequency='" + alarmFrequency + '\'' +
                 ", alarmType=" + alarmType +
                 ", ringtonePath='" + ringtonePath + '\'' +
-                ", snoozeId='" + snoozeId + '\'' +
+                ", snooze='" + snooze + '\'' +
                 ", dismissMode=" + dismissMode +
                 '}';
     }

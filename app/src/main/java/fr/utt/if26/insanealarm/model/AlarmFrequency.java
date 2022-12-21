@@ -4,15 +4,15 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
-
-@Entity(tableName = "AlarmFrenquency")
+//@Entity(foreignKeys = @ForeignKey(entity = AlarmFrequency.class, parentColumns = "frequencyID", childColumns = "alarmFrequencyId", onDelete = CASCADE))
+@Entity(tableName = "AlarmFrequency")
 public class AlarmFrequency {
 
+    @ColumnInfo(name = "alarmFrequencyId")
     @PrimaryKey(autoGenerate = true)
-    protected String id;
-    @ColumnInfo(name = "nextRing")
-    private Date nextRing;
+    private Integer alarmFrequencyId = 0;
+    //@ColumnInfo(name = "nextRing")
+    //private LocalDateTime nextRing;
     @ColumnInfo(name = "monday", defaultValue = "false")
     private Boolean monday;
     @ColumnInfo(name = "tuesday", defaultValue = "false")
@@ -28,8 +28,19 @@ public class AlarmFrequency {
     @ColumnInfo(name = "sunday", defaultValue = "false")
     private Boolean sunday;
 
-    public AlarmFrequency(Date nextRing, Boolean monday, Boolean tuesday, Boolean wednesday, Boolean thursday, Boolean friday, Boolean saturday, Boolean sunday) {
-        this.nextRing = nextRing;
+/*    public AlarmFrequency() {
+        // this.nextRing = LocalDateTime.now();
+        this.monday = false;
+        this.tuesday = false;
+        this.wednesday = false;
+        this.thursday = false;
+        this.friday = false;
+        this.saturday = false;
+        this.sunday = false;
+    }*/
+
+    public AlarmFrequency(Boolean monday, Boolean tuesday, Boolean wednesday, Boolean thursday, Boolean friday, Boolean saturday, Boolean sunday) {
+        //  this.nextRing = nextRing;
         this.monday = monday;
         this.tuesday = tuesday;
         this.wednesday = wednesday;
@@ -39,16 +50,21 @@ public class AlarmFrequency {
         this.sunday = sunday;
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public Date getNextRing() {
+    /*public LocalDateTime getNextRing() {
         return nextRing;
     }
 
-    public void setNextRing(Date nextRing) {
+    public void setNextRing(LocalDateTime nextRing) {
         this.nextRing = nextRing;
+    }*/
+
+    public void setAlarmFrequencyId(Integer alarmFrequencyId) {
+        this.alarmFrequencyId = alarmFrequencyId;
+    }
+
+    public Integer getAlarmFrequencyId() {
+        return alarmFrequencyId;
     }
 
     public Boolean getMonday() {

@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
 public class UserSetting {
 
     @PrimaryKey(autoGenerate = true)
-    private String userID;
+    private Integer userID;
 
     @NonNull
     @ColumnInfo(name = "displayMode", defaultValue = "light")
@@ -18,9 +18,18 @@ public class UserSetting {
     @ColumnInfo(name = "timeFormat", defaultValue = "24h")
     private String timeFormat;
 
-    public UserSetting(@NonNull String displayMode, @NonNull String timeFormat) {
+    public UserSetting(Integer userID, @NonNull String displayMode, @NonNull String timeFormat) {
+        this.userID = userID;
         this.displayMode = displayMode;
         this.timeFormat = timeFormat;
+    }
+
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Integer userID) {
+        this.userID = userID;
     }
 
     @NonNull
