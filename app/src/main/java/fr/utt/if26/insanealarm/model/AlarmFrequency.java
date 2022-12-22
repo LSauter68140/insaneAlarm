@@ -1,8 +1,15 @@
 package fr.utt.if26.insanealarm.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import fr.utt.if26.insanealarm.database.converters.Converters;
 
 //@Entity(foreignKeys = @ForeignKey(entity = AlarmFrequency.class, parentColumns = "frequencyID", childColumns = "alarmFrequencyId", onDelete = CASCADE))
 @Entity(tableName = "AlarmFrequency")
@@ -11,8 +18,10 @@ public class AlarmFrequency {
     @ColumnInfo(name = "alarmFrequencyId")
     @PrimaryKey(autoGenerate = true)
     private Integer alarmFrequencyId = 0;
-    //@ColumnInfo(name = "nextRing")
-    //private LocalDateTime nextRing;
+
+    @NonNull
+    @TypeConverters(Converters.class)
+    private LocalDateTime nextRing;
     @ColumnInfo(name = "monday", defaultValue = "false")
     private Boolean monday;
     @ColumnInfo(name = "tuesday", defaultValue = "false")
@@ -39,8 +48,8 @@ public class AlarmFrequency {
         this.sunday = false;
     }*/
 
-    public AlarmFrequency(Boolean monday, Boolean tuesday, Boolean wednesday, Boolean thursday, Boolean friday, Boolean saturday, Boolean sunday) {
-        //  this.nextRing = nextRing;
+    public AlarmFrequency(@NonNull LocalDateTime nextRing, Boolean monday, Boolean tuesday, Boolean wednesday, Boolean thursday, Boolean friday, Boolean saturday, Boolean sunday) {
+        this.nextRing = nextRing;
         this.monday = monday;
         this.tuesday = tuesday;
         this.wednesday = wednesday;
@@ -48,16 +57,18 @@ public class AlarmFrequency {
         this.friday = friday;
         this.saturday = saturday;
         this.sunday = sunday;
+
     }
 
 
-    /*public LocalDateTime getNextRing() {
+    @NonNull
+    public LocalDateTime getNextRing() {
         return nextRing;
     }
 
-    public void setNextRing(LocalDateTime nextRing) {
+    public void setNextRing(@NonNull LocalDateTime nextRing) {
         this.nextRing = nextRing;
-    }*/
+    }
 
     public void setAlarmFrequencyId(Integer alarmFrequencyId) {
         this.alarmFrequencyId = alarmFrequencyId;
@@ -123,4 +134,31 @@ public class AlarmFrequency {
         this.sunday = sunday;
     }
 
+    public ArrayList<String> getWeekSchedule() {
+
+        ArrayList<String> validDays = new ArrayList<>();
+        if (this.monday) {
+            validDays.add("mo");
+        }
+        if (this.tuesday) {
+            validDays.add("tu");
+        }
+        if (this.wednesday) {
+            validDays.add("we");
+        }
+        if (this.thursday) {
+            validDays.add("th");
+        }
+        if (this.friday) {
+            validDays.add("fr");
+        }
+        if (this.saturday) {
+            validDays.add("sa");
+        }
+        if (this.sunday) {
+            validDays.add("su");
+        }
+
+        return validDays;
+    }
 }

@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -41,7 +42,7 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
             synchronized (InsaneAlarmDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    InsaneAlarmDatabase.class, "cursus_database")
+                                    InsaneAlarmDatabase.class, "insaneAlarmDB")
                             .addCallback(InsaneAlarmDatabaseCallback)
                             .build();
                 }
@@ -62,9 +63,10 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
                 alarmDao.insertAlarm(
                         new Alarm(
                                 "Alarme 1",
-                                LocalDateTime.now().minusDays(1),
-                                true,
+                                LocalTime.now().minusHours(1),
+                                false,
                                 new AlarmFrequency(
+                                        LocalDateTime.now().plusDays(2),
                                         false,
                                         false,
                                         false,
@@ -82,9 +84,10 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
                 alarmDao.insertAlarm(
                         new Alarm(
                                 "Encore une alarme",
-                                LocalDateTime.now(),
+                                LocalTime.now().minusHours(1),
                                 true,
                                 new AlarmFrequency(
+                                        LocalDateTime.now().plusDays(2),
                                         false,
                                         false,
                                         false,

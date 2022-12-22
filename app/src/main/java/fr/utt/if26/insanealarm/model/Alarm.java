@@ -7,7 +7,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import fr.utt.if26.insanealarm.database.converters.Converters;
 
@@ -23,7 +23,7 @@ public class Alarm {
 
     @NonNull
     @TypeConverters(Converters.class)
-    private LocalDateTime nextRing;
+    private LocalTime timeToGoOff;
     @NonNull
     @ColumnInfo(name = "isActivate", defaultValue = "true")
     private Boolean isActivate;
@@ -41,9 +41,9 @@ public class Alarm {
     @ColumnInfo(name = "dismissMode", defaultValue = "false")
     private Boolean dismissMode;
 
-    public Alarm(@NonNull String name, @NonNull LocalDateTime nextRing, @NonNull Boolean isActivate, @NonNull AlarmFrequency alarmFrequency, @NonNull Integer alarmType, @NonNull String ringtonePath, @NonNull Snooze snooze, @NonNull Boolean dismissMode) {
+    public Alarm(@NonNull String name, @NonNull LocalTime timeToGoOff, @NonNull Boolean isActivate, @NonNull AlarmFrequency alarmFrequency, @NonNull Integer alarmType, @NonNull String ringtonePath, @NonNull Snooze snooze, @NonNull Boolean dismissMode) {
         this.name = name;
-        this.nextRing = nextRing;
+        this.timeToGoOff = timeToGoOff;
         this.isActivate = isActivate;
         this.alarmFrequency = alarmFrequency;
         this.alarmType = alarmType;
@@ -62,6 +62,15 @@ public class Alarm {
         this.snooze = new Snooze(0, 0, 0, 0);
         this.dismissMode = false;
     }*/
+
+    @NonNull
+    public LocalTime getTimeToGoOff() {
+        return timeToGoOff;
+    }
+
+    public void setTimeToGoOff(@NonNull LocalTime timeToGoOff) {
+        this.timeToGoOff = timeToGoOff;
+    }
 
     public void setId(Integer id) {
         this.id = id;
@@ -96,15 +105,7 @@ public class Alarm {
         this.snooze = snooze;
     }
 
-    @NonNull
-    public LocalDateTime getNextRing() {
-        return nextRing;
-    }
-
-    public void setNextRing(@NonNull LocalDateTime nextRing) {
-        this.nextRing = nextRing;
-    }
-
+    
     @NonNull
     public Boolean getActivate() {
         return isActivate;
@@ -168,7 +169,7 @@ public class Alarm {
     public String toString() {
         return "Alarm{" +
                 "id='" + id + '\'' +
-                ", nextRing=" + nextRing +
+                ", timeToGoOff" + timeToGoOff +
                 ", isActivate=" + isActivate +
                 ", alarmFrequency='" + alarmFrequency + '\'' +
                 ", alarmType=" + alarmType +

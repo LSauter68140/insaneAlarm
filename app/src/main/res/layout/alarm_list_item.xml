@@ -7,8 +7,8 @@
     android:paddingBottom="10dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="191dp"
+        android:layout_height="92dp"
         android:orientation="vertical">
 
         <TextView
@@ -16,55 +16,65 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
-            android:textAlignment="center" />
+            android:textAlignment="textStart"
+            android:textSize="34sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/listItemFrequency"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:paddingStart="8dp"
             android:text=""
-            android:textAlignment="center" />
+            android:textAlignment="textStart"
+            tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="97dp"
+        android:layout_height="89dp"
+        android:gravity="end"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/listItemType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="@string/alarmType_temp"
+            android:textAlignment="textEnd" />
 
-            <ImageButton
-                android:id="@+id/listItemSettingBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_more_vert_24"
-                android:contentDescription="@string/listitemsetting" />
+    </LinearLayout>
 
-            <Switch
-                android:id="@+id/listItemActivateAlarm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:baselineAligned="true"
+        android:gravity="top|end"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Switch
+            android:id="@+id/listItemActivateAlarm"
+            android:layout_width="69dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:checked="false"
+            android:minHeight="48dp"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-            <TextView
-                android:id="@+id/listItemType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/alarmType_temp"
-                android:textAlignment="center" />
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/listItemSettingBtn"
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:baselineAlignBottom="false"
+            android:contentDescription="@string/listitemsetting"
+            android:minWidth="32dp"
+            android:minHeight="48dp"
+            android:src="@drawable/ic_baseline_more_vert_24" />
+
+
     </LinearLayout>
 
 </LinearLayout>

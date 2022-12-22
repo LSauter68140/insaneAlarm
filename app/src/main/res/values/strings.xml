@@ -17,4 +17,13 @@
     <string name="add">Ajout</string>
     <string name="listitemsetting">listItemSetting</string>
     <string name="alarmType_temp">Type d\'alarme</string>
+
+    <string name="monday">Lundi</string>
+    <string name="tuesday">Mardi</string>
+    <string name="wednesday">Mercredi</string>
+    <string name="thursday">Jeudi</string>
+    <string name="friday">Vendredi</string>
+    <string name="saturday">Samedi</string>
+    <string name="sunday">Dimanche</string>
+    <string name="unique">Une seule fois</string>
 </resources>
