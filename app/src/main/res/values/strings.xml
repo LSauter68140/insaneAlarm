@@ -26,4 +26,7 @@
     <string name="saturday">Samedi</string>
     <string name="sunday">Dimanche</string>
     <string name="unique">Une seule fois</string>
+    <string name="edit">Éditer</string>
+    <string name="preview">Prévisualiser</string>
+    <string name="delete">Supprimer</string>
 </resources>

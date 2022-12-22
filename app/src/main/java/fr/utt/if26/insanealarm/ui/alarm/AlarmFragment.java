@@ -35,7 +35,6 @@ public class AlarmFragment extends Fragment {
 
         alarmViewModel.getAllAlarms().observe(getViewLifecycleOwner(), adapter::submitList);
         recyclerView.setAdapter(adapter);
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return root;
     }
