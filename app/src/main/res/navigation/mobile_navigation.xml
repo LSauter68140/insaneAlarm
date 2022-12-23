@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_alarm">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_alarm"
         android:name="fr.utt.if26.insanealarm.ui.alarm.AlarmFragment"
-        android:label=""
+        android:label="Alarm"
         tools:layout="@layout/fragment_alarm" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="fr.utt.if26.insanealarm.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_addEditAlarm"
+        android:name="fr.utt.if26.insanealarm.ui.addEdit.AddEditFragment"
+        android:label="Ajouter une alarm"
+        tools:layout="@layout/fragment_add_edit" />
 
     <fragment
         android:id="@+id/nav_slideshow"

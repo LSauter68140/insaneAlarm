@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.alarm.AlarmFragment"
-    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+    android:background="@color/background"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    tools:context=".ui.alarm.AlarmFragment">
 
 
     <ImageView
@@ -16,18 +17,21 @@
         android:contentDescription="@string/menu_home"
         android:scaleX="1.1"
         android:scaleY="1.1"
-        android:src="@drawable/homewallpaper3"
+        android:src="@drawable/homewallpaper4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="ImageContrastCheck,ImageContrastCheck" />
 
 
     <include
         android:id="@+id/alarmRecycler"
         layout="@layout/alarm_list_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="194dp"
+        tools:layout_editor_absoluteY="-29dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
