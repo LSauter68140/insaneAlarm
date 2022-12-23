@@ -1,7 +1,6 @@
 package fr.utt.if26.insanealarm.ui.alarm;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +27,10 @@ public class AlarmFragment extends Fragment {
         View root = binding.getRoot();
 
         RecyclerView recyclerView = root.findViewById(R.id.alarmRecyclerView);
-        Log.i("e", "aperooooo");
-        final AlarmListAdapter adapter = new AlarmListAdapter(new AlarmListAdapter.AlarmDiff());
+
         AlarmViewModel alarmViewModel =
                 new ViewModelProvider(this).get(AlarmViewModel.class);
+        final AlarmListAdapter adapter = new AlarmListAdapter(new AlarmListAdapter.AlarmDiff(), alarmViewModel);
 
         alarmViewModel.getAllAlarms().observe(getViewLifecycleOwner(), adapter::submitList);
         recyclerView.setAdapter(adapter);

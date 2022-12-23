@@ -35,6 +35,7 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     private final ImageButton settingBtn;
     private final Switch activateAlarm;
     private final TextView type;
+    AlarmViewModel alarmViewModel;
 
     @SuppressLint("NonConstantResourceId")
     public AlarmViewHolder(@NonNull View itemView) {
@@ -45,41 +46,23 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         activateAlarm = itemView.findViewById(id.listItemActivateAlarm);
         type = itemView.findViewById(id.listItemType);
 
-
+        // alarmViewModel = new ViewModelProvider(get).get(AlarmViewModel.class);
     }
 
 
-    @SuppressLint("NonConstantResourceId")
-    public void bind(Alarm alarm) {
+    public void bind(Alarm alarm, AlarmViewModel alarmViewModel) {
         nextRingTime.setText(formatNextTimeToGoOff(alarm.getTimeToGoOff()));
         frequency.setText(formatFrequency(alarm, itemView.getResources()));
         activateAlarm.setChecked(alarm.getActivate());
-        type.setText(String.valueOf(alarm.getAlarmType()));
-        settingBtn.setOnClickListener(view ->
-        {
-            PopupMenu popupMenu = new PopupMenu(settingBtn.getContext(), settingBtn, R.style.alarmSettingPopupMenu);
-            popupMenu.inflate(menu.alarm_setting_context);
-            popupMenu.setGravity(Gravity.END);
-            popupMenu.setOnMenuItemClickListener(item -> {
-                switch (item.getItemId()) {
-                    case id.alarmSettingEdit:
-                        Toast.makeText(settingBtn.getContext(), "Editer " + alarm.getName(), Toast.LENGTH_SHORT).show();
-                        return true;
-                    case id.alarmSettingPreview:
-                        Toast.makeText(itemView.getContext(), "Visualiser", Toast.LENGTH_SHORT).show();
-
-                        return true;
-                    case id.alarmSettingDelete:
-                        Toast.makeText(itemView.getContext(), "supprimer", Toast.LENGTH_SHORT).show();
-
-                        return true;
-                    default:
-                        return false;
-                }
-            });
-            //displaying the popup
-            popupMenu.show();
+        activateAlarm.setOnClickListener(v -> {
+            try {
+                onClickAlarmSwitch(alarmViewModel, alarm);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         });
+        type.setText(String.valueOf(alarm.getAlarmType()));
+        settingBtn.setOnClickListener(v -> onClickSettingBtn(v, alarmViewModel, alarm));
     }
 
     static AlarmViewHolder create(ViewGroup parent) {
@@ -108,5 +91,56 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         return weekSummary.substring(0, weekSummary.length() - 1);
     }
 
+    // add listener function for each component
+
+    public void onClickAlarmSwitch(AlarmViewModel alarmViewModel, Alarm alarm) throws InterruptedException {
+        alarm.setActivate(activateAlarm.isChecked());
+        //activateAlarm.getDrawingTime();
+        alarmViewModel.updateAlarm(alarm);
+        // test for animation
+        /*
+        Thread t = new Thread(() -> {
+            try {
+                Thread.sleep(400);
+                alarmViewModel.updateAlarm(alarm);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        t.start();*/
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    public void onClickSettingBtn(View view, AlarmViewModel alarmViewModel, Alarm alarm) {
+        PopupMenu popupMenu = new PopupMenu(settingBtn.getContext(), settingBtn, R.style.alarmSettingPopupMenu);
+        popupMenu.inflate(menu.alarm_setting_context);
+        popupMenu.setGravity(Gravity.END);
+        popupMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case id.alarmSettingEdit:
+                    Toast.makeText(settingBtn.getContext(), "Editer " + alarm.getName(), Toast.LENGTH_SHORT).show();
+                    return true;
+                case id.alarmSettingPreview:
+                    Toast.makeText(itemView.getContext(), "Visualiser", Toast.LENGTH_SHORT).show();
+
+                    return true;
+                case id.alarmSettingDelete:
+                    Toast.makeText(itemView.getContext(), "supprimer", Toast.LENGTH_SHORT).show();
+
+                    return true;
+                default:
+                    return false;
+            }
+        });
+        //displaying the popup
+        popupMenu.show();
+        // better style use windows popup
+        // https://stackoverflow.com/questions/49706495/how-to-pass-a-custom-layout-to-a-popupmenu
+        // https://stackoverflow.com/questions/34449251/implement-pop-up-menu-with-margin
+        // https://stackoverflow.com/questions/5944987/how-to-create-a-popup-window-popupwindow-in-android
+
+        alarm.setAlarmType(alarm.getAlarmType() + 1);
+        alarmViewModel.updateAlarm(alarm);
+    }
 
 }
