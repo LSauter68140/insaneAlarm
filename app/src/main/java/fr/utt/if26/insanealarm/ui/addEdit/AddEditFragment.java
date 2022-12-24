@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,7 @@ import fr.utt.if26.insanealarm.databinding.FragmentAddEditBinding;
 
 public class AddEditFragment extends Fragment {
 
+    TimePicker timePickerAddAlarm;
     private FragmentAddEditBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,

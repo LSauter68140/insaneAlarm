@@ -1,9 +1,6 @@
 package fr.utt.if26.insanealarm;
 
-import android.animation.Animator;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -12,7 +9,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import fr.utt.if26.insanealarm.databinding.ActivityMainBinding;
@@ -20,13 +16,7 @@ import fr.utt.if26.insanealarm.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private NavController navController;
     DrawerLayout drawer;
-    // FAB menu
-    FloatingActionButton fab, fab1, fab2, fab3;
-    LinearLayout fabLayout1, fabLayout2, fabLayout3;
-    View fabBGLayout;
-    boolean isFABOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,25 +26,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
-
-        // link fab
-        fab = binding.appBarMain.fab;
-        fab1 = binding.appBarMain.fab1;
-        fab2 = binding.appBarMain.fab2;
-        fab3 = binding.appBarMain.fab3;
-        fabBGLayout = binding.appBarMain.fabBGLayout;
-        fabLayout1 = binding.appBarMain.fabLayout1;
-        fabLayout2 = binding.appBarMain.fabLayout2;
-        fabLayout3 = binding.appBarMain.fabLayout3;
-
-        fab.setOnClickListener(view -> {
-            if (!isFABOpen) {
-                showFABMenu();
-            } else {
-                closeFABMenu();
-            }
-        });
-        fabBGLayout.setOnClickListener(v -> closeFABMenu());
 
 
         drawer = binding.drawerLayout;
@@ -66,86 +37,23 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_alarm, R.id.nav_addEditAlarm, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
                 .build();
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        fab1.setOnClickListener(view -> {
-            navController.navigate(R.id.nav_addEditAlarm);
-            NavigationUI.setupWithNavController(navigationView, navController);
-            closeFABMenu();
-        });
-        fab2.setOnClickListener(view -> {
-            navController.navigate(R.id.nav_slideshow);
-            closeFABMenu();
-        });
-        fab3.setOnClickListener(view -> {
-            navController.navigate(R.id.nav_alarm);
-            closeFABMenu();
-        });
 
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        //return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-        //        || super.onSupportNavigateUp();
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+        //return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
 
-
-    // FAB menu function
-
-    private void showFABMenu() {
-        isFABOpen = true;
-        fabLayout1.setVisibility(View.VISIBLE);
-        fabLayout2.setVisibility(View.VISIBLE);
-        fabLayout3.setVisibility(View.VISIBLE);
-        fabBGLayout.setVisibility(View.VISIBLE);
-        fab.animate().rotationBy(180);
-        fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
-        fabLayout3.animate().translationY(-getResources().getDimension(R.dimen.standard_155));
-    }
-
-    private void closeFABMenu() {
-        isFABOpen = false;
-        fabBGLayout.setVisibility(View.GONE);
-        fab.animate().rotation(0);
-        fabLayout1.animate().translationY(0);
-        fabLayout2.animate().translationY(0);
-        fabLayout3.animate().translationY(0);
-        fabLayout3.animate().translationY(0).setListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                if (!isFABOpen) {
-                    fabLayout1.setVisibility(View.GONE);
-                    fabLayout2.setVisibility(View.GONE);
-                    fabLayout3.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
-            }
-        });
-    }
 
     @Override
     public void onBackPressed() {
-        if (isFABOpen) {
-            closeFABMenu();
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
 }
