@@ -17,8 +17,12 @@ import fr.utt.if26.insanealarm.database.dao.AlarmDao;
 import fr.utt.if26.insanealarm.database.dao.UserSettingDao;
 import fr.utt.if26.insanealarm.model.Alarm;
 import fr.utt.if26.insanealarm.model.AlarmFrequency;
+import fr.utt.if26.insanealarm.model.Control;
+import fr.utt.if26.insanealarm.model.Dismiss;
 import fr.utt.if26.insanealarm.model.Snooze;
+import fr.utt.if26.insanealarm.model.Task;
 import fr.utt.if26.insanealarm.model.UserSetting;
+import fr.utt.if26.insanealarm.model.WakeupCheck;
 
 @Database(entities = {Alarm.class, AlarmFrequency.class, UserSetting.class}, version = 1, exportSchema = false)
 public abstract class InsaneAlarmDatabase extends RoomDatabase {
@@ -68,17 +72,26 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
                                 new AlarmFrequency(
                                         LocalDateTime.now().plusDays(2),
                                         false,
-                                        false,
-                                        false,
-                                        false,
+                                        true,
+                                        true,
+                                        true,
                                         false,
                                         false,
                                         false
                                 ),
-                                0,
                                 "./ringtone.mp3",
-                                new Snooze(0, 0, 0, 0),
-                                false
+                                new WakeupCheck(false, 0, 0),
+                                new Snooze(
+                                        0,
+                                        new Control(false, 0, true, true, false),
+
+                                        0,
+                                        0,
+                                        new Task("math", 1, 2, 60, true)
+                                ),
+                                new Dismiss(
+                                        new Control(true, 0, false, false, false),
+                                        new Task("write", 2, 1, 0, true), true)
                         )
                 );
                 alarmDao.insertAlarm(
@@ -89,17 +102,27 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
                                 new AlarmFrequency(
                                         LocalDateTime.now().plusDays(2),
                                         false,
-                                        false,
+                                        true,
                                         false,
                                         false,
                                         false,
                                         false,
                                         false
                                 ),
-                                0,
+
                                 "./apero.mp3",
-                                new Snooze(0, 0, 0, 0),
-                                false
+                                new WakeupCheck(true, 300, 120),
+                                new Snooze(
+                                        0,
+                                        new Control(false, 0, true, true, false),
+
+                                        0,
+                                        0,
+                                        new Task("math", 1, 2, 60, true)
+                                ),
+                                new Dismiss(
+                                        new Control(true, 0, false, false, false),
+                                        new Task("write", 2, 1, 0, true), true)
                         )
                 );
             });

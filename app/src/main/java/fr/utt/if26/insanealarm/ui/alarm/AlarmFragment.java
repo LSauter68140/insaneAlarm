@@ -72,7 +72,6 @@ public class AlarmFragment extends Fragment {
         //event listener
         fab1.setOnClickListener(view -> {
             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(R.id.nav_addEditAlarm);
-            //NavigationUI.setupWithNavController(navigationView, navController);
             closeFABMenu();
         });
         fab2.setOnClickListener(view -> {

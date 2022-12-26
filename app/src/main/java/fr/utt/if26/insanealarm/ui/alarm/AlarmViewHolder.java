@@ -35,7 +35,6 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     private final ImageButton settingBtn;
     private final Switch activateAlarm;
     private final TextView type;
-    AlarmViewModel alarmViewModel;
 
     @SuppressLint("NonConstantResourceId")
     public AlarmViewHolder(@NonNull View itemView) {
@@ -54,14 +53,8 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         nextRingTime.setText(formatNextTimeToGoOff(alarm.getTimeToGoOff()));
         frequency.setText(formatFrequency(alarm, itemView.getResources()));
         activateAlarm.setChecked(alarm.getActivate());
-        activateAlarm.setOnClickListener(v -> {
-            try {
-                onClickAlarmSwitch(alarmViewModel, alarm);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        type.setText(String.valueOf(alarm.getAlarmType()));
+        activateAlarm.setOnClickListener(v -> onClickAlarmSwitch(alarmViewModel, alarm));
+        type.setText(String.valueOf(alarm.getDismiss().getTask().getNumberTask()));
         settingBtn.setOnClickListener(v -> onClickSettingBtn(v, alarmViewModel, alarm));
     }
 
@@ -72,7 +65,13 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     }
 
     private String formatNextTimeToGoOff(LocalTime localTime) {
-        return localTime.getHour() + ":" + localTime.getMinute();
+        int hour = localTime.getHour();
+        int min = localTime.getMinute();
+        return (
+                (hour < 10 ? "0" + hour : String.valueOf(hour))
+                        + ":"
+                        + (min < 10 ? "0" + min : String.valueOf(min))
+        );
     }
 
     private String formatFrequency(Alarm alarm, Resources resources) {
@@ -81,7 +80,7 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
             return resources.getString(string.unique);
         }
 
-        Boolean isShort = validDays.size() < 3;
+        Boolean isShort = validDays.size() > 2;
 
         StringBuilder weekSummary = new StringBuilder();
         for (String validDay : validDays
@@ -93,9 +92,8 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
 
     // add listener function for each component
 
-    public void onClickAlarmSwitch(AlarmViewModel alarmViewModel, Alarm alarm) throws InterruptedException {
+    public void onClickAlarmSwitch(AlarmViewModel alarmViewModel, Alarm alarm) {
         alarm.setActivate(activateAlarm.isChecked());
-        //activateAlarm.getDrawingTime();
         alarmViewModel.updateAlarm(alarm);
         // test for animation
         /*
@@ -139,7 +137,6 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         // https://stackoverflow.com/questions/34449251/implement-pop-up-menu-with-margin
         // https://stackoverflow.com/questions/5944987/how-to-create-a-popup-window-popupwindow-in-android
 
-        alarm.setAlarmType(alarm.getAlarmType() + 1);
         alarmViewModel.updateAlarm(alarm);
     }
 

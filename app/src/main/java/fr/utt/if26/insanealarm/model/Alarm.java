@@ -30,26 +30,33 @@ public class Alarm {
     @Embedded
     private AlarmFrequency alarmFrequency;
     @NonNull
-    @ColumnInfo(name = "alarmType", defaultValue = "1")
-    private Integer alarmType;
-    @NonNull
     @ColumnInfo(name = "ringtonePath")
     private String ringtonePath;
-    @Embedded
+    @Embedded(prefix = "snooze_")
     private Snooze snooze;
-    @NonNull
-    @ColumnInfo(name = "dismissMode", defaultValue = "false")
-    private Boolean dismissMode;
+    @Embedded(prefix = "dismiss_")
+    private Dismiss dismiss;
+    @Embedded(prefix = "wkupChk_")
+    private WakeupCheck wakeupCheck;
 
-    public Alarm(@NonNull String name, @NonNull LocalTime timeToGoOff, @NonNull Boolean isActivate, @NonNull AlarmFrequency alarmFrequency, @NonNull Integer alarmType, @NonNull String ringtonePath, @NonNull Snooze snooze, @NonNull Boolean dismissMode) {
+    public Alarm(
+            @NonNull String name,
+            @NonNull LocalTime timeToGoOff,
+            @NonNull Boolean isActivate,
+            @NonNull AlarmFrequency alarmFrequency,
+            @NonNull String ringtonePath,
+            @NonNull WakeupCheck wakeupCheck,
+            Snooze snooze,
+            Dismiss dismiss
+    ) {
         this.name = name;
         this.timeToGoOff = timeToGoOff;
         this.isActivate = isActivate;
         this.alarmFrequency = alarmFrequency;
-        this.alarmType = alarmType;
         this.ringtonePath = ringtonePath;
         this.snooze = snooze;
-        this.dismissMode = dismissMode;
+        this.dismiss = dismiss;
+        this.wakeupCheck = wakeupCheck;
     }
 /*
     public Alarm() {
@@ -105,7 +112,7 @@ public class Alarm {
         this.snooze = snooze;
     }
 
-    
+
     @NonNull
     public Boolean getActivate() {
         return isActivate;
@@ -125,15 +132,6 @@ public class Alarm {
     }
 
     @NonNull
-    public Integer getAlarmType() {
-        return alarmType;
-    }
-
-    public void setAlarmType(@NonNull Integer alarmType) {
-        this.alarmType = alarmType;
-    }
-
-    @NonNull
     public String getRingtonePath() {
         return ringtonePath;
     }
@@ -150,14 +148,22 @@ public class Alarm {
     public void setSnoozeId(@NonNull Snooze snooze) {
         this.snooze = snooze;
     }
+    
 
-    @NonNull
-    public Boolean getDismissMode() {
-        return dismissMode;
+    public Dismiss getDismiss() {
+        return dismiss;
     }
 
-    public void setDismissMode(@NonNull Boolean dismissMode) {
-        this.dismissMode = dismissMode;
+    public void setDismiss(Dismiss dismiss) {
+        this.dismiss = dismiss;
+    }
+
+    public WakeupCheck getWakeupCheck() {
+        return wakeupCheck;
+    }
+
+    public void setWakeupCheck(WakeupCheck wakeupCheck) {
+        this.wakeupCheck = wakeupCheck;
     }
 
     public void affiche() {
@@ -168,14 +174,23 @@ public class Alarm {
     @Override
     public String toString() {
         return "Alarm{" +
-                "id='" + id + '\'' +
-                ", timeToGoOff" + timeToGoOff +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", timeToGoOff=" + timeToGoOff +
                 ", isActivate=" + isActivate +
-                ", alarmFrequency='" + alarmFrequency + '\'' +
-                ", alarmType=" + alarmType +
+                ", alarmFrequency=" + alarmFrequency +
                 ", ringtonePath='" + ringtonePath + '\'' +
-                ", snooze='" + snooze + '\'' +
-                ", dismissMode=" + dismissMode +
+                ", snooze=" + snooze +
+                ", dismiss=" + dismiss +
+                ", wakeupCheck=" + wakeupCheck +
                 '}';
     }
 }
+
+/*
+ * truc à rajouter
+ * wake up check (vérifier qu'on est bien réveillé)
+ * snoze challenge
+ * dismiss challenge
+ *
+ * */

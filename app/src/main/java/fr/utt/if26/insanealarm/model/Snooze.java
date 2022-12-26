@@ -1,6 +1,7 @@
 package fr.utt.if26.insanealarm.model;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -13,13 +14,14 @@ public class Snooze {
     private Integer snoozeId = 0;
     @ColumnInfo(name = "activateNxtSnoozeMode")
     private Integer activateNxtSnoozeMode;
-    @ColumnInfo(name = "deactivateMode")
-    private Integer deactivateMode;
     @ColumnInfo(name = "snoozeSecTime")
     private Integer snoozeSecTime;
     @ColumnInfo(name = "snoozeLimit")
     private Integer snoozeLimit;
-
+    @Embedded
+    private Control control;
+    @Embedded
+    private Task task;
     /*public Snooze() {
         this.activateNxtSnoozeMode = 0;
         this.deactivateMode = 0;
@@ -27,11 +29,12 @@ public class Snooze {
         this.snoozeSecTime = 0;
     }*/
 
-    public Snooze(Integer activateNxtSnoozeMode, Integer deactivateMode, Integer snoozeSecTime, Integer snoozeLimit) {
+    public Snooze(Integer activateNxtSnoozeMode, Control control, Integer snoozeSecTime, Integer snoozeLimit, Task task) {
         this.activateNxtSnoozeMode = activateNxtSnoozeMode;
-        this.deactivateMode = deactivateMode;
+        this.control = control;
         this.snoozeSecTime = snoozeSecTime;
         this.snoozeLimit = snoozeLimit;
+        this.task = task;
     }
 
     public void setSnoozeId(Integer snoozeId) {
@@ -50,12 +53,20 @@ public class Snooze {
         this.activateNxtSnoozeMode = activateNxtSnoozeMode;
     }
 
-    public Integer getDeactivateMode() {
-        return deactivateMode;
+    public Control getControl() {
+        return control;
     }
 
-    public void setDeactivateMode(Integer deactivateMode) {
-        this.deactivateMode = deactivateMode;
+    public void setControl(Control control) {
+        this.control = control;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
     }
 
     public Integer getSnoozeSecTime() {
