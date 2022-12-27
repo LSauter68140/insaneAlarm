@@ -15,11 +15,22 @@
         android:id="@+id/nav_addEditAlarm"
         android:name="fr.utt.if26.insanealarm.ui.addAlarm.AddAlarmFragment"
         android:label="@string/addAlarm"
-        tools:layout="@layout/fragment_add_edit" />
+        tools:layout="@layout/fragment_add_edit">
+        <action
+            android:id="@+id/action_nav_addEditAlarm_to_nav_soundAlarm"
+            app:destination="@id/nav_soundAlarm" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="fr.utt.if26.insanealarm.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
+
+    <fragment
+        android:id="@+id/nav_soundAlarm"
+        android:name="fr.utt.if26.insanealarm.ui.subPartAlarm.Sound.SoundFragment"
+        android:label="Sound"
+        tools:layout="@layout/fragment_sub_part_sound" />
 </navigation>

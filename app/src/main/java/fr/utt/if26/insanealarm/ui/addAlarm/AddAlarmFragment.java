@@ -16,7 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ import java.util.Objects;
 
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.FragmentAddEditBinding;
+import fr.utt.if26.insanealarm.model.Alarm;
 import fr.utt.if26.insanealarm.utils.DayTimeTranslator;
 
 public class AddAlarmFragment extends Fragment {
@@ -32,15 +34,17 @@ public class AddAlarmFragment extends Fragment {
     private View root;
     private FragmentAddEditBinding binding;
     private TimePicker timePickerAddAlarm;
+    private Alarm newAlarm;
     private TextView tvNextGooff;
     // private HashMap<String, Boolean> nextDayGooff;
     private Boolean[] nextDayGooff;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        AddAlarmViewModel addEditViewModel =
-                new ViewModelProvider(this).get(AddAlarmViewModel.class);
-
+        //AddAlarmViewModel addAlarmViewModel =
+        //        new ViewModelProvider(this).get(AddAlarmViewModel.class);
+        AddAlarmViewModel addAlarmViewModel = ViewModelProviders.of(requireActivity()).get(AddAlarmViewModel.class);
+        addAlarmViewModel.getAlarm().observe(getViewLifecycleOwner(), v -> newAlarm = v);
         binding = FragmentAddEditBinding.inflate(inflater, container, false);
         root = binding.getRoot();
 
@@ -50,6 +54,18 @@ public class AddAlarmFragment extends Fragment {
         timePickerAddAlarm.setOnTimeChangedListener((view, hour, minute) -> setNextGoOffCountDown(hour, minute));
         addBtnFrequency();
 
+        // button part
+        root.findViewById(R.id.layoutRingtone).setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_nav_addEditAlarm_to_nav_soundAlarm)); // open new fragment to change ringtone
+        root.findViewById(R.id.layoutSnooze).setOnClickListener(v -> {
+        });
+        root.findViewById(R.id.layoutDismiss).setOnClickListener(v -> {
+        });
+        root.findViewById(R.id.layoutWakeupCheck).setOnClickListener(v -> {
+            Log.i("ringtone", addAlarmViewModel.getRingtone().getValue());
+            addAlarmViewModel.getRingtone().setValue("/apero.mp3");
+        });
+        // show alarm field
+        addAlarmViewModel.getRingtone().observe(getViewLifecycleOwner(), ((TextView) root.findViewById(R.id.tvSoundDescription))::setText);
         return root;
     }
 
@@ -61,7 +77,6 @@ public class AddAlarmFragment extends Fragment {
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT, 1
                 );
-        // String[] days = {"Lu", "Ma", "Me", "Je", "Ve", "Sa", "Su"};
         String[] days = {"mo", "tu", "we", "th", "fr", "sa", "su"};
         CheckBox checkBox;
         int index = 0;

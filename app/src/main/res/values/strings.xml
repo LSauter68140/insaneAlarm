@@ -39,4 +39,5 @@
     <string name="snoozeAlarm">Snooze de l\'alarme</string>
     <string name="wakeupCheck">Vérification du réveil</string>
     <string name="soundAlarm">Son de l\'alarme</string>
+    <string name="name">Name</string>
 </resources>
