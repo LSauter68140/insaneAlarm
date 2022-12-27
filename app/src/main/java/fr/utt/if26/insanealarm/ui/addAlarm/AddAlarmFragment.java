@@ -1,4 +1,4 @@
-package fr.utt.if26.insanealarm.ui.addEdit;
+package fr.utt.if26.insanealarm.ui.addAlarm;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -27,7 +27,7 @@ import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.FragmentAddEditBinding;
 import fr.utt.if26.insanealarm.utils.DayTimeTranslator;
 
-public class AddEditFragment extends Fragment {
+public class AddAlarmFragment extends Fragment {
 
     private View root;
     private FragmentAddEditBinding binding;
@@ -38,8 +38,8 @@ public class AddEditFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        AddEditViewModel addEditViewModel =
-                new ViewModelProvider(this).get(AddEditViewModel.class);
+        AddAlarmViewModel addEditViewModel =
+                new ViewModelProvider(this).get(AddAlarmViewModel.class);
 
         binding = FragmentAddEditBinding.inflate(inflater, container, false);
         root = binding.getRoot();
