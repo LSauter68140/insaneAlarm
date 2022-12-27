@@ -30,4 +30,13 @@
     <string name="preview">Prévisualiser</string>
     <string name="delete">Supprimer</string>
     <string name="addAlarm">Ajouter une alarm</string>
+    <string name="addAlarmBtn">Ajouter !</string>
+    <string name="frequency">Fréquence</string>
+    <string name="test">Tester</string>
+    <string name="discard">Annuler</string>
+    <string name="myAlarm">Mon Alarme</string>
+    <string name="dismissAlarm">Désactivation de l\'alarme</string>
+    <string name="snoozeAlarm">Snooze de l\'alarme</string>
+    <string name="wakeupCheck">Vérification du réveil</string>
+    <string name="soundAlarm">Son de l\'alarme</string>
 </resources>

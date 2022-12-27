@@ -4,7 +4,7 @@ import android.content.res.Resources;
 
 import fr.utt.if26.insanealarm.R;
 
-public class DayTranslator {
+public class DayTimeTranslator {
 
 
     public static String getDay(String abr, Boolean isShort, Resources resources) {
@@ -21,10 +21,20 @@ public class DayTranslator {
                 return isShort ? "Ve" : resources.getString(R.string.friday);
             case "sa":
                 return isShort ? "Sa" : resources.getString(R.string.saturday);
-            case "so":
+            case "su":
                 return isShort ? "Di" : resources.getString(R.string.sunday);
             default:
                 return "";
         }
+    }
+
+    public static String readableTime(Long h, Long m, Long s) {
+        return readableTime(h, m) + ":" + (s < 10 ? "0" + s : String.valueOf(s));
+    }
+
+    public static String readableTime(Long h, Long m) {
+        return (h < 10 ? "0" + h : String.valueOf(h))
+                + ":"
+                + (m < 10 ? "0" + m : String.valueOf(m));
     }
 }

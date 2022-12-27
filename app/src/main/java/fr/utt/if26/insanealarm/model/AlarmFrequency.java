@@ -60,6 +60,16 @@ public class AlarmFrequency {
 
     }
 
+    public AlarmFrequency() {
+        this.nextRing = LocalDateTime.now();
+        this.monday = false;
+        this.tuesday = false;
+        this.wednesday = false;
+        this.thursday = false;
+        this.friday = false;
+        this.saturday = false;
+        this.sunday = false;
+    }
 
     @NonNull
     public LocalDateTime getNextRing() {

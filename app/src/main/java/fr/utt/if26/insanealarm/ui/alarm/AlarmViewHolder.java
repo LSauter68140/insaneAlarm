@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.model.Alarm;
-import fr.utt.if26.insanealarm.utils.DayTranslator;
+import fr.utt.if26.insanealarm.utils.DayTimeTranslator;
 
 @SuppressLint("UseSwitchCompatOrMaterialCode")
 public class AlarmViewHolder extends RecyclerView.ViewHolder {
@@ -65,13 +65,7 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     }
 
     private String formatNextTimeToGoOff(LocalTime localTime) {
-        int hour = localTime.getHour();
-        int min = localTime.getMinute();
-        return (
-                (hour < 10 ? "0" + hour : String.valueOf(hour))
-                        + ":"
-                        + (min < 10 ? "0" + min : String.valueOf(min))
-        );
+        return DayTimeTranslator.readableTime((long) localTime.getHour(), (long) localTime.getMinute());
     }
 
     private String formatFrequency(Alarm alarm, Resources resources) {
@@ -85,7 +79,7 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         StringBuilder weekSummary = new StringBuilder();
         for (String validDay : validDays
         ) {
-            weekSummary.append(DayTranslator.getDay(validDay, isShort, resources)).append(",");
+            weekSummary.append(DayTimeTranslator.getDay(validDay, isShort, resources)).append(",");
         }
         return weekSummary.substring(0, weekSummary.length() - 1);
     }
