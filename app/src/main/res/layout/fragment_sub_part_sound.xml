@@ -6,27 +6,186 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvSoundTest"
-        android:layout_width="143dp"
-        android:layout_height="54dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/textView5"
+        style="@style/Widget.MaterialComponents.TextView"
+        android:layout_width="268dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="104dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/tvSoundTitle"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.538"
+        app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.33" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editSound"
+    <LinearLayout
+        android:id="@+id/layoutWakeupCheck"
+        android:layout_width="312dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/layout_corner"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.313"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+        <TextView
+            android:id="@+id/tvSoundPath"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tvSettingPath" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/name"
+        android:layout_marginTop="64dp"
+        android:text="@string/setting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.091"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutWakeupCheck" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSoundTest"
-        android:autofillHints="apero"
-        tools:ignore="LabelFor" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+        <LinearLayout
+            android:id="@+id/layoutAlarmVolume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tvAlarmVolume" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <SeekBar
+                    android:id="@+id/alarmSoundVolume"
+                    android:layout_width="287dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/alarmSoundVolumePreview"
+                    android:layout_width="125dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutSameAsPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="299dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tvSameAsPhone" />
+
+            <Switch
+                android:id="@+id/switchSameAsPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutIncreaseVolume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="314dp"
+                android:layout_height="wrap_content"
+                android:text="@string/tvIncreaseVolume" />
+
+            <Switch
+                android:id="@+id/switchIncreaseVomlume"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutNeedVibration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="314dp"
+                android:layout_height="wrap_content"
+                android:text="@string/tvNeedVibration" />
+
+            <Switch
+                android:id="@+id/switchNeedVirbation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutFlashLight"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="265dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tvFlashLight" />
+
+            <TextView
+                android:id="@+id/tvFlashLightStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

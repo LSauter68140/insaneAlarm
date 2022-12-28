@@ -1,13 +1,13 @@
 package fr.utt.if26.insanealarm.ui.subPartAlarm.Sound;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -26,8 +26,17 @@ public class SoundFragment extends Fragment {
         binding = FragmentSubPartSoundBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.tvSoundTest;
-        final EditText editSound = binding.editSound;
+        final LinearLayout layoutWakeupCheck = binding.layoutWakeupCheck;
+
+        layoutWakeupCheck.setOnClickListener(v -> {
+            String path = Environment.getExternalStorageDirectory() + "/" + "Music" + "/";
+            Uri uri = Uri.parse(path);
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setDataAndType(uri, "*/*");
+            startActivity(intent);
+        });
+       /*final TextView textView = binding.tvSoundTest;
+        //final EditText editSound = binding.editSound;
         alarmViewModel.getRingtone().observe(getViewLifecycleOwner(), textView::setText);
         editSound.addTextChangedListener(new TextWatcher() {
             @Override
@@ -42,7 +51,7 @@ public class SoundFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 alarmViewModel.getRingtone().setValue(s.toString());
             }
-        });
+        });*/
         return root;
     }
 

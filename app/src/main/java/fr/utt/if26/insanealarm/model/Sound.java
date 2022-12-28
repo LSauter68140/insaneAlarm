@@ -11,7 +11,7 @@ public class Sound {
     private Integer soundId;
     @ColumnInfo(name = "ringtonePath")
     private String ringtonePath;
-    @ColumnInfo(name = "drawShape")
+    @ColumnInfo(name = "needVibration")
     private Boolean needVibration;
     @ColumnInfo(name = "alarmVolume")
     private Integer alarmVolume; // between 0 to 100

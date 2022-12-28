@@ -40,4 +40,12 @@
     <string name="wakeupCheck">Vérification du réveil</string>
     <string name="soundAlarm">Son de l\'alarme</string>
     <string name="name">Name</string>
+    <string name="tvSoundTitle">Choisir le son de l\'alarme</string>
+    <string name="tvIncreaseVolume">Monter le volume quand l\'alarme se déclenche</string>
+    <string name="tvSameAsPhone">Prioriser le même volume sonore que celui du téléphone</string>
+    <string name="tvAlarmVolume">Volume de l\'alarme</string>
+    <string name="setting">Paramètres</string>
+    <string name="tvSettingPath">chemin du son</string>
+    <string name="tvNeedVibration">Vibrer quand l\'alarme sonne</string>
+    <string name="tvFlashLight">Choisir le type de flash lorsque l\'alarme sonne</string>
 </resources>
