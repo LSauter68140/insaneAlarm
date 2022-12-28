@@ -20,11 +20,24 @@ import fr.utt.if26.insanealarm.model.AlarmFrequency;
 import fr.utt.if26.insanealarm.model.Control;
 import fr.utt.if26.insanealarm.model.Dismiss;
 import fr.utt.if26.insanealarm.model.Snooze;
+import fr.utt.if26.insanealarm.model.Sound;
 import fr.utt.if26.insanealarm.model.Task;
 import fr.utt.if26.insanealarm.model.UserSetting;
 import fr.utt.if26.insanealarm.model.WakeupCheck;
 
-@Database(entities = {Alarm.class, AlarmFrequency.class, UserSetting.class}, version = 1, exportSchema = false)
+@Database(entities = {
+        Alarm.class,
+        AlarmFrequency.class,
+        UserSetting.class,
+        Snooze.class,
+        Control.class,
+        Dismiss.class,
+        Task.class,
+        WakeupCheck.class
+},
+        version = 1,
+        exportSchema = false
+)
 public abstract class InsaneAlarmDatabase extends RoomDatabase {
 
 
@@ -69,6 +82,7 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
                                 "Alarme 1",
                                 LocalTime.now().minusHours(1),
                                 false,
+                                "C'est meme plus la peine de se lever je crois !",
                                 new AlarmFrequency(
                                         LocalDateTime.now().plusDays(2),
                                         false,
@@ -79,7 +93,7 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
                                         false,
                                         false
                                 ),
-                                "./ringtone.mp3",
+                                new Sound("/apero.mp3", false, 0, true, true, 0),
                                 new WakeupCheck(false, 0, 0),
                                 new Snooze(
                                         0,
@@ -97,8 +111,9 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
                 alarmDao.insertAlarm(
                         new Alarm(
                                 "Encore une alarme",
-                                LocalTime.now().minusHours(1),
+                                LocalTime.now().minusHours(3),
                                 true,
+                                "Oh tu vas arriver en retard",
                                 new AlarmFrequency(
                                         LocalDateTime.now().plusDays(2),
                                         false,
@@ -109,8 +124,7 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
                                         false,
                                         false
                                 ),
-
-                                "./apero.mp3",
+                                new Sound("/ringtone.mp3", true, 100, true, false, 1),
                                 new WakeupCheck(true, 300, 120),
                                 new Snooze(
                                         0,

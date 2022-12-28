@@ -20,7 +20,9 @@ public class Alarm {
     @NonNull
     @ColumnInfo(name = "name")
     private String name;
-
+    @NonNull
+    @ColumnInfo(name = "label")
+    private String label;
     @NonNull
     @TypeConverters(Converters.class)
     private LocalTime timeToGoOff;
@@ -29,9 +31,8 @@ public class Alarm {
     private Boolean isActivate;
     @Embedded
     private AlarmFrequency alarmFrequency;
-    @NonNull
-    @ColumnInfo(name = "ringtonePath")
-    private String ringtonePath;
+    @Embedded
+    private Sound sound;
     @Embedded(prefix = "snooze_")
     private Snooze snooze;
     @Embedded(prefix = "dismiss_")
@@ -43,17 +44,19 @@ public class Alarm {
             @NonNull String name,
             @NonNull LocalTime timeToGoOff,
             @NonNull Boolean isActivate,
+            @NonNull String label,
             @NonNull AlarmFrequency alarmFrequency,
-            @NonNull String ringtonePath,
+            @NonNull Sound sound,
             @NonNull WakeupCheck wakeupCheck,
-            Snooze snooze,
-            Dismiss dismiss
+            @NonNull Snooze snooze,
+            @NonNull Dismiss dismiss
     ) {
         this.name = name;
         this.timeToGoOff = timeToGoOff;
         this.isActivate = isActivate;
+        this.label = label;
         this.alarmFrequency = alarmFrequency;
-        this.ringtonePath = ringtonePath;
+        this.sound = sound;
         this.snooze = snooze;
         this.dismiss = dismiss;
         this.wakeupCheck = wakeupCheck;
@@ -65,7 +68,7 @@ public class Alarm {
         this.isActivate = false;
         this.alarmFrequency = new AlarmFrequency(false, false, false, false, false, false, false);
         this.alarmType = 0;
-        this.ringtonePath = "";
+        this.sound = "";
         this.snooze = new Snooze(0, 0, 0, 0);
         this.dismissMode = false;
     }*/
@@ -132,15 +135,6 @@ public class Alarm {
     }
 
     @NonNull
-    public String getRingtonePath() {
-        return ringtonePath;
-    }
-
-    public void setRingtonePath(@NonNull String ringtonePath) {
-        this.ringtonePath = ringtonePath;
-    }
-
-    @NonNull
     public Snooze getSnoozeId() {
         return snooze;
     }
@@ -148,7 +142,7 @@ public class Alarm {
     public void setSnoozeId(@NonNull Snooze snooze) {
         this.snooze = snooze;
     }
-    
+
 
     public Dismiss getDismiss() {
         return dismiss;
@@ -166,6 +160,23 @@ public class Alarm {
         this.wakeupCheck = wakeupCheck;
     }
 
+    @NonNull
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(@NonNull String label) {
+        this.label = label;
+    }
+
+    public Sound getSound() {
+        return sound;
+    }
+
+    public void setSound(Sound sound) {
+        this.sound = sound;
+    }
+
     public void affiche() {
         System.out.println(this);
     }
@@ -179,7 +190,7 @@ public class Alarm {
                 ", timeToGoOff=" + timeToGoOff +
                 ", isActivate=" + isActivate +
                 ", alarmFrequency=" + alarmFrequency +
-                ", ringtonePath='" + ringtonePath + '\'' +
+                ", sound='" + sound + '\'' +
                 ", snooze=" + snooze +
                 ", dismiss=" + dismiss +
                 ", wakeupCheck=" + wakeupCheck +

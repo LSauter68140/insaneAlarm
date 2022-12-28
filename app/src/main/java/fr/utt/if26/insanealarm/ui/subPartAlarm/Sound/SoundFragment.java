@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import fr.utt.if26.insanealarm.databinding.FragmentSubPartSoundBinding;
 import fr.utt.if26.insanealarm.ui.addAlarm.AddAlarmViewModel;
@@ -22,7 +22,7 @@ public class SoundFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        AddAlarmViewModel alarmViewModel = ViewModelProviders.of(requireActivity()).get(AddAlarmViewModel.class);
+        AddAlarmViewModel alarmViewModel = new ViewModelProvider(requireActivity()).get(AddAlarmViewModel.class);
         binding = FragmentSubPartSoundBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 

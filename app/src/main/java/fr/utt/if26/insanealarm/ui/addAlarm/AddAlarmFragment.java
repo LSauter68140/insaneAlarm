@@ -2,12 +2,15 @@ package fr.utt.if26.insanealarm.ui.addAlarm;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -16,7 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import java.time.Duration;
@@ -26,7 +29,6 @@ import java.util.Objects;
 
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.FragmentAddEditBinding;
-import fr.utt.if26.insanealarm.model.Alarm;
 import fr.utt.if26.insanealarm.utils.DayTimeTranslator;
 
 public class AddAlarmFragment extends Fragment {
@@ -34,17 +36,14 @@ public class AddAlarmFragment extends Fragment {
     private View root;
     private FragmentAddEditBinding binding;
     private TimePicker timePickerAddAlarm;
-    private Alarm newAlarm;
     private TextView tvNextGooff;
-    // private HashMap<String, Boolean> nextDayGooff;
     private Boolean[] nextDayGooff;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         //AddAlarmViewModel addAlarmViewModel =
         //        new ViewModelProvider(this).get(AddAlarmViewModel.class);
-        AddAlarmViewModel addAlarmViewModel = ViewModelProviders.of(requireActivity()).get(AddAlarmViewModel.class);
-        addAlarmViewModel.getAlarm().observe(getViewLifecycleOwner(), v -> newAlarm = v);
+        AddAlarmViewModel addAlarmViewModel = new ViewModelProvider(requireActivity()).get(AddAlarmViewModel.class);
         binding = FragmentAddEditBinding.inflate(inflater, container, false);
         root = binding.getRoot();
 
@@ -55,17 +54,35 @@ public class AddAlarmFragment extends Fragment {
         addBtnFrequency();
 
         // button part
-        root.findViewById(R.id.layoutRingtone).setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_nav_addEditAlarm_to_nav_soundAlarm)); // open new fragment to change ringtone
+        root.findViewById(R.id.layoutRingtone).setOnClickListener(v ->
+                NavHostFragment.findNavController(this).navigate(R.id.action_nav_addEditAlarm_to_nav_soundAlarm)); // open new fragment to change ringtone
         root.findViewById(R.id.layoutSnooze).setOnClickListener(v -> {
         });
         root.findViewById(R.id.layoutDismiss).setOnClickListener(v -> {
         });
         root.findViewById(R.id.layoutWakeupCheck).setOnClickListener(v -> {
-            Log.i("ringtone", addAlarmViewModel.getRingtone().getValue());
+            Log.i("ringtone", addAlarmViewModel.getAlarmLabel().getValue());
             addAlarmViewModel.getRingtone().setValue("/apero.mp3");
         });
-        // show alarm field
         addAlarmViewModel.getRingtone().observe(getViewLifecycleOwner(), ((TextView) root.findViewById(R.id.tvSoundDescription))::setText);
+
+        ((EditText) root.findViewById(R.id.etAlarmLabel)).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                addAlarmViewModel.getAlarmLabel().setValue(s.toString());
+            }
+        });
+
         return root;
     }
 

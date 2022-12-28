@@ -11,6 +11,7 @@ import fr.utt.if26.insanealarm.model.AlarmFrequency;
 import fr.utt.if26.insanealarm.model.Control;
 import fr.utt.if26.insanealarm.model.Dismiss;
 import fr.utt.if26.insanealarm.model.Snooze;
+import fr.utt.if26.insanealarm.model.Sound;
 import fr.utt.if26.insanealarm.model.Task;
 import fr.utt.if26.insanealarm.model.WakeupCheck;
 
@@ -18,12 +19,14 @@ public class AddAlarmViewModel extends ViewModel {
 
     private final MutableLiveData<Alarm> mNewAlarm;
     private final MutableLiveData<String> ringtoneName;
+    private final MutableLiveData<String> alarmLabel;
 
     public AddAlarmViewModel() {
         Alarm newAlarm = new Alarm(
                 "Mon alarme",
                 LocalTime.now(),
                 true,
+                "Oouh c'est l'heure de se lever",
                 new AlarmFrequency(
                         LocalDateTime.now(),
                         false,
@@ -33,7 +36,7 @@ public class AddAlarmViewModel extends ViewModel {
                         false,
                         false,
                         false),
-                "/ringtone.mp3",
+                new Sound("/ringtone.mp3", false, 0, true, true, 0),
                 new WakeupCheck(false, 0, 0),
                 new Snooze(10,
                         new Control(false, 0, false, false, false),
@@ -50,7 +53,10 @@ public class AddAlarmViewModel extends ViewModel {
         mNewAlarm = new MutableLiveData<>();
         mNewAlarm.setValue(newAlarm);
         ringtoneName = new MutableLiveData<>();
-        ringtoneName.setValue(newAlarm.getRingtonePath());
+        ringtoneName.setValue(newAlarm.getSound().getRingtonePath());
+
+        alarmLabel = new MutableLiveData<>();
+        alarmLabel.setValue(newAlarm.getLabel());
     }
 
     public MutableLiveData<Alarm> getAlarm() {
@@ -59,5 +65,9 @@ public class AddAlarmViewModel extends ViewModel {
 
     public MutableLiveData<String> getRingtone() {
         return ringtoneName;
+    }
+
+    public MutableLiveData<String> getAlarmLabel() {
+        return alarmLabel;
     }
 }
