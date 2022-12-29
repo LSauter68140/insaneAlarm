@@ -48,4 +48,9 @@
     <string name="tvSettingPath">chemin du son</string>
     <string name="tvNeedVibration">Vibrer quand l\'alarme sonne</string>
     <string name="tvFlashLight">Choisir le type de flash lorsque l\'alarme sonne</string>
+    <string name="alarmSoundFlashByFlash">Par flash</string>
+    <string name="alarmSoundFlashStay">Allumé en continu</string>
+    <string name="alarmSoundFlashNone">Éteint</string>
+    <string name="alarmFromDevice">Depuis votre bigo</string>
+    <string name="fromDevice">Depuis l\'application</string>
 </resources>

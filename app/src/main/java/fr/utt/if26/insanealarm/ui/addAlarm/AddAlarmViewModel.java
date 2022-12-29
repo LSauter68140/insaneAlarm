@@ -1,11 +1,14 @@
 package fr.utt.if26.insanealarm.ui.addAlarm;
 
+import android.content.res.Resources;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.model.Alarm;
 import fr.utt.if26.insanealarm.model.AlarmFrequency;
 import fr.utt.if26.insanealarm.model.Control;
@@ -20,6 +23,11 @@ public class AddAlarmViewModel extends ViewModel {
     private final MutableLiveData<Alarm> mNewAlarm;
     private final MutableLiveData<String> ringtoneName;
     private final MutableLiveData<String> alarmLabel;
+    private final MutableLiveData<Integer> flashLightMode;
+    private final MutableLiveData<Boolean> needVibration;
+    private final MutableLiveData<Boolean> sameAsPhone;
+    private final MutableLiveData<Boolean> increaseVolume;
+    private final MutableLiveData<Integer> alarmVolume;
 
     public AddAlarmViewModel() {
         Alarm newAlarm = new Alarm(
@@ -54,9 +62,18 @@ public class AddAlarmViewModel extends ViewModel {
         mNewAlarm.setValue(newAlarm);
         ringtoneName = new MutableLiveData<>();
         ringtoneName.setValue(newAlarm.getSound().getRingtonePath());
-
+        flashLightMode = new MutableLiveData<>();
+        flashLightMode.setValue(newAlarm.getSound().getFlashLight());
         alarmLabel = new MutableLiveData<>();
         alarmLabel.setValue(newAlarm.getLabel());
+        needVibration = new MutableLiveData<>();
+        needVibration.setValue(newAlarm.getSound().getNeedVibration());
+        sameAsPhone = new MutableLiveData<>();
+        sameAsPhone.setValue(newAlarm.getSound().getSameAsPhone());
+        increaseVolume = new MutableLiveData<>();
+        increaseVolume.setValue(newAlarm.getSound().getIncreaseVolume());
+        alarmVolume = new MutableLiveData<>();
+        alarmVolume.setValue(newAlarm.getSound().getAlarmVolume());
     }
 
     public MutableLiveData<Alarm> getAlarm() {
@@ -70,4 +87,41 @@ public class AddAlarmViewModel extends ViewModel {
     public MutableLiveData<String> getAlarmLabel() {
         return alarmLabel;
     }
+
+    public MutableLiveData<Integer> getFlashLightMode() {
+        return flashLightMode;
+    }
+
+    public MutableLiveData<Boolean> getNeedVibration() {
+        return needVibration;
+    }
+
+    public MutableLiveData<String> getRingtoneName() {
+        return ringtoneName;
+    }
+
+    public MutableLiveData<Boolean> getSameAsPhone() {
+        return sameAsPhone;
+    }
+
+    public MutableLiveData<Boolean> getIncreaseVolume() {
+        return increaseVolume;
+    }
+
+    public MutableLiveData<Integer> getAlarmVolume() {
+        return alarmVolume;
+    }
+
+    public String ConvertFlashLightModeToStr(Integer flashLightMode, Resources resources) {
+        switch (flashLightMode) {
+            case 1:
+                return resources.getString(R.string.alarmSoundFlashStay);
+            case 2:
+                return resources.getString(R.string.alarmSoundFlashByFlash);
+            // same as 0
+            default:
+                return resources.getString(R.string.alarmSoundFlashNone);
+        }
+    }
+
 }

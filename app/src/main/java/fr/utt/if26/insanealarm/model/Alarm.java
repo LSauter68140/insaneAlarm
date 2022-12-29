@@ -29,14 +29,19 @@ public class Alarm {
     @NonNull
     @ColumnInfo(name = "isActivate", defaultValue = "true")
     private Boolean isActivate;
+    @NonNull
     @Embedded
     private AlarmFrequency alarmFrequency;
+    @NonNull
     @Embedded
     private Sound sound;
+    @NonNull
     @Embedded(prefix = "snooze_")
     private Snooze snooze;
+    @NonNull
     @Embedded(prefix = "dismiss_")
     private Dismiss dismiss;
+    @NonNull
     @Embedded(prefix = "wkupChk_")
     private WakeupCheck wakeupCheck;
 
@@ -99,19 +104,22 @@ public class Alarm {
         return name;
     }
 
+    @NonNull
     public AlarmFrequency getAlarmFrequency() {
         return alarmFrequency;
     }
 
-    public void setAlarmFrequency(AlarmFrequency alarmFrequency) {
+    public void setAlarmFrequency(@NonNull AlarmFrequency alarmFrequency) {
         this.alarmFrequency = alarmFrequency;
     }
+
+    @NonNull
 
     public Snooze getSnooze() {
         return snooze;
     }
 
-    public void setSnooze(Snooze snooze) {
+    public void setSnooze(@NonNull Snooze snooze) {
         this.snooze = snooze;
     }
 
@@ -143,20 +151,21 @@ public class Alarm {
         this.snooze = snooze;
     }
 
-
+    @NonNull
     public Dismiss getDismiss() {
         return dismiss;
     }
 
-    public void setDismiss(Dismiss dismiss) {
+    public void setDismiss(@NonNull Dismiss dismiss) {
         this.dismiss = dismiss;
     }
 
+    @NonNull
     public WakeupCheck getWakeupCheck() {
         return wakeupCheck;
     }
 
-    public void setWakeupCheck(WakeupCheck wakeupCheck) {
+    public void setWakeupCheck(@NonNull WakeupCheck wakeupCheck) {
         this.wakeupCheck = wakeupCheck;
     }
 
@@ -169,11 +178,12 @@ public class Alarm {
         this.label = label;
     }
 
+    @NonNull
     public Sound getSound() {
         return sound;
     }
 
-    public void setSound(Sound sound) {
+    public void setSound(@NonNull Sound sound) {
         this.sound = sound;
     }
 

@@ -60,7 +60,7 @@ public class AddAlarmFragment extends Fragment {
         });
         root.findViewById(R.id.layoutDismiss).setOnClickListener(v -> {
         });
-        root.findViewById(R.id.layoutWakeupCheck).setOnClickListener(v -> {
+        root.findViewById(R.id.layoutSound).setOnClickListener(v -> {
             Log.i("ringtone", addAlarmViewModel.getAlarmLabel().getValue());
             addAlarmViewModel.getRingtone().setValue("/apero.mp3");
         });

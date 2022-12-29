@@ -20,13 +20,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/layoutWakeupCheck"
+        android:id="@+id/layoutSound"
         android:layout_width="312dp"
         android:layout_height="55dp"
         android:layout_marginTop="44dp"
         android:background="@drawable/layout_corner"
         android:clickable="true"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.313"
@@ -35,10 +35,16 @@
 
         <TextView
             android:id="@+id/tvSoundPath"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/tvSettingPath" />
+
+        <TextView
+            android:id="@+id/tvRingtoneName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <TextView
@@ -50,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutWakeupCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutSound" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -87,8 +93,9 @@
 
                 <TextView
                     android:id="@+id/alarmSoundVolumePreview"
-                    android:layout_width="125dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="97dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center" />
             </LinearLayout>
 
         </LinearLayout>
@@ -165,24 +172,26 @@
         <LinearLayout
             android:id="@+id/layoutFlashLight"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="66dp"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
+            android:gravity="fill"
             android:orientation="horizontal"
             android:padding="15dp">
 
             <TextView
                 android:id="@+id/textView12"
-                android:layout_width="265dp"
-                android:layout_height="wrap_content"
+                android:layout_width="156dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:text="@string/tvFlashLight" />
 
             <TextView
                 android:id="@+id/tvFlashLightStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_width="60dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:textAlignment="textEnd" />
 
         </LinearLayout>
 

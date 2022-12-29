@@ -44,8 +44,6 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         settingBtn = itemView.findViewById(id.listItemSettingBtn);
         activateAlarm = itemView.findViewById(id.listItemActivateAlarm);
         type = itemView.findViewById(id.listItemType);
-
-        // alarmViewModel = new ViewModelProvider(get).get(AlarmViewModel.class);
     }
 
 
