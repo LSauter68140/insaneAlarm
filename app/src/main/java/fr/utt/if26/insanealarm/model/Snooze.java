@@ -12,6 +12,8 @@ public class Snooze {
     @ColumnInfo(name = "snoozeId")
     @PrimaryKey(autoGenerate = true)
     private Integer snoozeId = 0;
+    @ColumnInfo(name = "isActivated")
+    private Boolean isActivated;
     @ColumnInfo(name = "activateNxtSnoozeMode")
     private Integer activateNxtSnoozeMode;
     @ColumnInfo(name = "snoozeSecTime")
@@ -29,7 +31,8 @@ public class Snooze {
         this.snoozeSecTime = 0;
     }*/
 
-    public Snooze(Integer activateNxtSnoozeMode, Control control, Integer snoozeSecTime, Integer snoozeLimit, Task task) {
+    public Snooze(Boolean isActivated, Integer activateNxtSnoozeMode, Control control, Integer snoozeSecTime, Integer snoozeLimit, Task task) {
+        this.isActivated = isActivated;
         this.activateNxtSnoozeMode = activateNxtSnoozeMode;
         this.control = control;
         this.snoozeSecTime = snoozeSecTime;
@@ -47,6 +50,14 @@ public class Snooze {
 
     public Integer getActivateNxtSnoozeMode() {
         return activateNxtSnoozeMode;
+    }
+
+    public Boolean getActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(Boolean activated) {
+        isActivated = activated;
     }
 
     public void setActivateNxtSnoozeMode(Integer activateNxtSnoozeMode) {

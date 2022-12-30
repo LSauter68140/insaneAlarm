@@ -31,11 +31,18 @@
     <fragment
         android:id="@+id/nav_soundAlarm"
         android:name="fr.utt.if26.insanealarm.ui.subPartAlarm.Sound.SoundFragment"
-        android:label="Sound"
+        android:label="Son"
         tools:layout="@layout/fragment_sub_part_sound" />
     <fragment
         android:id="@+id/nav_soundAlarmSoundLocalDevice"
         android:name="fr.utt.if26.insanealarm.ui.subPartAlarm.Sound.ListInAppSoundFragment"
         android:label="Sound"
         tools:layout="@layout/fragment_adapter_list" />
+
+
+    <fragment
+        android:id="@+id/nav_snoozeAlarm"
+        android:name="fr.utt.if26.insanealarm.ui.subPartAlarm.Snooze.SnoozeFragment"
+        android:label="Snooze"
+        tools:layout="@layout/fragment_sub_part_snooze" />
 </navigation>

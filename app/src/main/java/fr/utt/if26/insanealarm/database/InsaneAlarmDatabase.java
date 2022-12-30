@@ -96,6 +96,7 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
                                 new Sound("/apero.mp3", false, 0, true, true, 0),
                                 new WakeupCheck(false, 0, 0),
                                 new Snooze(
+                                        true,
                                         0,
                                         new Control(false, 0, true, true, false),
 
@@ -127,6 +128,7 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
                                 new Sound("/ringtone.mp3", true, 100, true, false, 1),
                                 new WakeupCheck(true, 300, 120),
                                 new Snooze(
+                                        false,
                                         0,
                                         new Control(false, 0, true, true, false),
 

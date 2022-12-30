@@ -53,4 +53,13 @@
     <string name="alarmSoundFlashNone">Éteint</string>
     <string name="alarmFromDevice">Depuis votre bigo</string>
     <string name="fromDevice">Depuis l\'application</string>
+    <string name="alarmSnooze">Snooze de l\'alarme</string>
+    <string name="controls">Contrôles</string>
+    <string name="tasks">Tâches</string>
+    <string name="snoozeTime">Le temps de Snooze</string>
+    <string name="snoozeLimit">Nombre de snooze Maximum possible</string>
+    <string name="iterate">itération(s)</string>
+    <string name="min">min</string>
+    <string name="tvSnoozeDesc">Si vous voulez ou pas un snooze, vous pourrez ainsi choisir les paramètres d\'activation et de désactivatotion du snooze.</string>
+    <string name="snooze">Snooze</string>
 </resources>

@@ -28,6 +28,9 @@ public class AddAlarmViewModel extends ViewModel {
     private final MutableLiveData<Boolean> sameAsPhone;
     private final MutableLiveData<Boolean> increaseVolume;
     private final MutableLiveData<Integer> alarmVolume;
+    private final MutableLiveData<Integer> snoozeLimit;
+    private final MutableLiveData<Integer> snoozeTime;
+    private final MutableLiveData<Boolean> activateSnooze;
 
     public AddAlarmViewModel() {
         Alarm newAlarm = new Alarm(
@@ -46,9 +49,11 @@ public class AddAlarmViewModel extends ViewModel {
                         false),
                 new Sound("/ringtone.mp3", false, 0, true, true, 0),
                 new WakeupCheck(false, 0, 0),
-                new Snooze(10,
+                new Snooze(
+                        true,
+                        10,
                         new Control(false, 0, false, false, false),
-                        60,
+                        5,
                         2,
                         new Task("Maths", 1, 2, 60, true)
                 ),
@@ -74,15 +79,19 @@ public class AddAlarmViewModel extends ViewModel {
         increaseVolume.setValue(newAlarm.getSound().getIncreaseVolume());
         alarmVolume = new MutableLiveData<>();
         alarmVolume.setValue(newAlarm.getSound().getAlarmVolume());
+        snoozeLimit = new MutableLiveData<>();
+        snoozeLimit.setValue(newAlarm.getSnooze().getSnoozeLimit());
+        snoozeTime = new MutableLiveData<>();
+        snoozeTime.setValue(newAlarm.getSnooze().getSnoozeSecTime());
+        activateSnooze = new MutableLiveData<>();
+        activateSnooze.setValue(newAlarm.getSnooze().getActivated());
+
     }
 
     public MutableLiveData<Alarm> getAlarm() {
         return mNewAlarm;
     }
 
-    public MutableLiveData<String> getRingtone() {
-        return ringtoneName;
-    }
 
     public MutableLiveData<String> getAlarmLabel() {
         return alarmLabel;
@@ -110,6 +119,18 @@ public class AddAlarmViewModel extends ViewModel {
 
     public MutableLiveData<Integer> getAlarmVolume() {
         return alarmVolume;
+    }
+
+    public MutableLiveData<Integer> getSnoozeLimit() {
+        return snoozeLimit;
+    }
+
+    public MutableLiveData<Integer> getSnoozeTime() {
+        return snoozeTime;
+    }
+
+    public MutableLiveData<Boolean> getActivateSnooze() {
+        return activateSnooze;
     }
 
     public String ConvertFlashLightModeToStr(Integer flashLightMode, Resources resources) {

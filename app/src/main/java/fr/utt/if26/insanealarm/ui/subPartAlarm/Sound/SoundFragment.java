@@ -122,12 +122,10 @@ public class SoundFragment extends Fragment {
                             Log.i("parsed", String.valueOf(Uri.parse(result.getString("uriStr"))));
                             alarmViewModel.getRingtoneName().setValue(result.getString("uriStr"));
                         });
-
-
         return root;
     }
 
-    // listener function
+    // listener functions
 
     @SuppressLint("NonConstantResourceId")
     public void listenerLayoutFlashLight(View v) {

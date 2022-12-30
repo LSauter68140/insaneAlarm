@@ -1,6 +1,7 @@
 package fr.utt.if26.insanealarm.ui.addAlarm;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,6 +31,7 @@ import java.util.Objects;
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.FragmentAddEditBinding;
 import fr.utt.if26.insanealarm.utils.DayTimeTranslator;
+import fr.utt.if26.insanealarm.utils.FileManager;
 
 public class AddAlarmFragment extends Fragment {
 
@@ -57,14 +59,19 @@ public class AddAlarmFragment extends Fragment {
         root.findViewById(R.id.layoutRingtone).setOnClickListener(v ->
                 NavHostFragment.findNavController(this).navigate(R.id.action_nav_addEditAlarm_to_nav_soundAlarm)); // open new fragment to change ringtone
         root.findViewById(R.id.layoutSnooze).setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(R.id.nav_snoozeAlarm); // open new fragment to add snooze
+
         });
         root.findViewById(R.id.layoutDismiss).setOnClickListener(v -> {
         });
         root.findViewById(R.id.layoutSound).setOnClickListener(v -> {
             Log.i("ringtone", addAlarmViewModel.getAlarmLabel().getValue());
-            addAlarmViewModel.getRingtone().setValue("/apero.mp3");
+            addAlarmViewModel.getRingtoneName().setValue("/apero.mp3");
         });
-        addAlarmViewModel.getRingtone().observe(getViewLifecycleOwner(), ((TextView) root.findViewById(R.id.tvSoundDescription))::setText);
+        addAlarmViewModel.getRingtoneName().observe(getViewLifecycleOwner(), ringtone ->
+                ((TextView) root.findViewById(R.id.tvSoundDescription))
+                        .setText(FileManager.getNameFromURI(requireContext(), Uri.parse(ringtone)))
+        );
 
         ((EditText) root.findViewById(R.id.etAlarmLabel)).addTextChangedListener(new TextWatcher() {
             @Override
