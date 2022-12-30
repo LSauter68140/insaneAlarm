@@ -69,6 +69,15 @@ public class AddAlarmFragment extends Fragment {
             Log.i("ringtone", addAlarmViewModel.getAlarmLabel().getValue());
             addAlarmViewModel.getRingtoneName().setValue("/apero.mp3");
         });
+
+
+        // toolbar buttons
+        root.findViewById(R.id.discardBtn).setOnClickListener(v ->
+                NavHostFragment.findNavController(this).navigateUp());
+        root.findViewById(R.id.previewBtn).setOnClickListener(v -> {
+            //TODO
+        });
+
         addAlarmViewModel.getRingtoneName().observe(getViewLifecycleOwner(), ringtone ->
                 ((TextView) root.findViewById(R.id.tvSoundDescription))
                         .setText(FileManager.getNameFromURI(requireContext(), Uri.parse(ringtone)))

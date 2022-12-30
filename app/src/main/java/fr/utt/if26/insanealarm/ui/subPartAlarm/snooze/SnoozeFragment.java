@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.FragmentSubPartSnoozeBinding;
@@ -26,6 +27,15 @@ public class SnoozeFragment extends Fragment {
         alarmViewModel = new ViewModelProvider(requireActivity()).get(AddAlarmViewModel.class);
         binding = FragmentSubPartSnoozeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        /// button layout
+
+        root.findViewById(R.id.layoutControl).setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(R.id.nav_controlAlarm); // open new fragment to add snooze
+        });
+        root.findViewById(R.id.layoutTask).setOnClickListener(v -> {
+            // TODO
+        });
 
         NumberPicker npSnoozeLimit = binding.npSnoozeLimit;
         NumberPicker npSnoozeTime = binding.npSnoozeTime;

@@ -10,6 +10,7 @@ import android.widget.Switch;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.FragmentSubPartDismissBinding;
@@ -24,6 +25,16 @@ public class DismissFragment extends Fragment {
         alarmViewModel = new ViewModelProvider(requireActivity()).get(AddAlarmViewModel.class);
         binding = FragmentSubPartDismissBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        /// button layout
+
+        root.findViewById(R.id.layoutControl).setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(R.id.nav_controlAlarm); // open new fragment to add snooze
+        });
+        root.findViewById(R.id.layoutTask).setOnClickListener(v -> {
+            // TODO
+        });
+
 
         //dimiss layout
         binding.layoutAutoDismiss.setOnClickListener(this::listenerAutoDismiss);

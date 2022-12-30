@@ -51,4 +51,11 @@
         android:name="fr.utt.if26.insanealarm.ui.subPartAlarm.dismiss.DismissFragment"
         android:label="Désactivation"
         tools:layout="@layout/fragment_sub_part_dismiss" />
+
+
+    <fragment
+        android:id="@+id/nav_controlAlarm"
+        android:name="fr.utt.if26.insanealarm.ui.subPartAlarm.controls.ControlsFragment"
+        android:label="Contrôles"
+        tools:layout="@layout/fragment_sub_part_controls" />
 </navigation>
