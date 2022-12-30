@@ -4,6 +4,8 @@ import static android.content.Intent.ACTION_OPEN_DOCUMENT;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -33,7 +35,7 @@ public class SoundFragment extends Fragment {
 
     private FragmentSubPartSoundBinding binding;
     private AddAlarmViewModel alarmViewModel;
-    // private TextView tvRingtoneName;
+    private Ringtone ringtoneTest;
 
     @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -75,6 +77,9 @@ public class SoundFragment extends Fragment {
 
             }
         });
+
+        //listener for toggle button
+        binding.btnTestPauseRingtone.setOnClickListener(this::listenerToggleBtnPlayPause);
 
         /// listener for each each layout
         binding.layoutSound.setOnClickListener(this::listenerLayoutSound);
@@ -156,7 +161,7 @@ public class SoundFragment extends Fragment {
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.alarmFromDevice:
-                    triggerChooser(Intent.ACTION_GET_CONTENT);
+                    triggerChooser();
                     return true;
                 case R.id.alarmFromApp:
                     NavHostFragment.findNavController(this).navigate(R.id.nav_soundAlarmSoundLocalDevice);
@@ -185,6 +190,16 @@ public class SoundFragment extends Fragment {
         alarmViewModel.getIncreaseVolume().setValue(Boolean.FALSE.equals(alarmViewModel.getIncreaseVolume().getValue()));
     }
 
+    public void listenerToggleBtnPlayPause(View v) {
+        if (!v.isSelected()) {
+            ringtoneTest = RingtoneManager.getRingtone(getContext(), Uri.parse(alarmViewModel.getRingtoneName().getValue()));
+            ringtoneTest.play();
+        } else {
+            ringtoneTest.stop();
+        }
+        v.setSelected(!v.isSelected());
+    }
+
     private void disableLL(ViewGroup layout) {
         for (int i = 0; i < layout.getChildCount(); i++) {
             View child = layout.getChildAt(i);
@@ -208,24 +223,18 @@ public class SoundFragment extends Fragment {
     ActivityResultLauncher<Intent> mLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
-                // Do your code from onActivityResult
-
-                Log.i("code", String.valueOf(result.getResultCode()));
-                assert result.getData() != null;
-                Log.i("res", result.getData().getData().toString());
+                if (result.getData() == null) {
+                    return;
+                }
                 try {
                     Uri myUri = result.getData().getData();
-                    // Ringtone r = RingtoneManager.getRingtone(getContext(), myUri);
-                    //   r.play();
-
                     alarmViewModel.getRingtoneName().setValue(String.valueOf(myUri));
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
 
-    private void triggerChooser(String action) {
+    private void triggerChooser() {
         Intent intent = new Intent(ACTION_OPEN_DOCUMENT, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI); // Uri
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);

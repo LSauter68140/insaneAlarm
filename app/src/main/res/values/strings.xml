@@ -45,7 +45,7 @@
     <string name="tvSameAsPhone">Prioriser le même volume sonore que celui du téléphone</string>
     <string name="tvAlarmVolume">Volume de l\'alarme</string>
     <string name="setting">Paramètres</string>
-    <string name="tvSettingPath">chemin du son</string>
+    <string name="tvRingtone">Sonnerie</string>
     <string name="tvNeedVibration">Vibrer quand l\'alarme sonne</string>
     <string name="tvFlashLight">Choisir le type de flash lorsque l\'alarme sonne</string>
     <string name="alarmSoundFlashByFlash">Par flash</string>

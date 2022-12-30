@@ -23,11 +23,15 @@ public class FileManager {
     @SuppressLint("Range")
     public static String getNameFromURI(@NonNull Context context, @NonNull Uri uri) {
         String result = null;
-        try (Cursor c = context.getContentResolver().query(uri, null, null, null, null)) {
-            c.moveToFirst();
-            result = c.getString(c.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-        } catch (Exception e) {
-            // error occurs
+        if (ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
+            try (Cursor c = context.getContentResolver().query(uri, null, null, null, null)) {
+                c.moveToFirst();
+                result = c.getString(c.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            } catch (Exception e) {
+                // error occurs
+            }
+        } else {
+            result = uri.getLastPathSegment();
         }
         return result;
     }

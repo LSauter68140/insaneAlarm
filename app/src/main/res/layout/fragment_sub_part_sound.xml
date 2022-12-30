@@ -21,15 +21,15 @@
 
     <LinearLayout
         android:id="@+id/layoutSound"
-        android:layout_width="312dp"
-        android:layout_height="55dp"
+        android:layout_width="310dp"
+        android:layout_height="73dp"
         android:layout_marginTop="44dp"
         android:background="@drawable/layout_corner"
         android:clickable="true"
         android:orientation="vertical"
         android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.313"
+        app:layout_constraintHorizontal_bias="0.168"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5">
 
@@ -38,20 +38,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/tvSettingPath" />
+            android:padding="5dp"
+            android:text="@string/tvRingtone" />
 
         <TextView
             android:id="@+id/tvRingtoneName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:padding="5dp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="48dp"
         android:text="@string/setting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.091"
@@ -196,5 +198,18 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <ToggleButton
+        android:id="@+id/btnTestPauseRingtone"
+        style="@style/playPauseToggleBtn"
+        android:layout_width="28dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="208dp"
+        android:background="@drawable/play_pause_toggle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/layoutSound"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
