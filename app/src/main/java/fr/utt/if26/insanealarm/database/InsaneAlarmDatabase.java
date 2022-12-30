@@ -106,7 +106,7 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
                                 ),
                                 new Dismiss(
                                         new Control(true, 0, false, false, false),
-                                        new Task("write", 2, 1, 0, true), true)
+                                        new Task("write", 2, 1, 0, true), false, 0)
                         )
                 );
                 alarmDao.insertAlarm(
@@ -138,7 +138,7 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
                                 ),
                                 new Dismiss(
                                         new Control(true, 0, false, false, false),
-                                        new Task("write", 2, 1, 0, true), true)
+                                        new Task("write", 2, 1, 0, true), true, 70)
                         )
                 );
             });

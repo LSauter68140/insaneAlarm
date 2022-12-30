@@ -17,12 +17,13 @@ public class Dismiss {
     private Task task;
     @ColumnInfo(name = "autoDismiss")
     private Boolean autoDismiss;
+    private Integer maxTimeSecAutoDismiss;
 
-
-    public Dismiss(Control control, Task task, Boolean autoDismiss) {
+    public Dismiss(Control control, Task task, Boolean autoDismiss, Integer maxTimeSecAutoDismiss) {
         this.control = control;
         this.task = task;
         this.autoDismiss = autoDismiss;
+        this.maxTimeSecAutoDismiss = maxTimeSecAutoDismiss;
     }
 
     public Integer getDismissId() {
@@ -57,13 +58,23 @@ public class Dismiss {
         this.autoDismiss = autoDismiss;
     }
 
+    public Integer getMaxTimeSecAutoDismiss() {
+        return maxTimeSecAutoDismiss;
+    }
+
+    public void setMaxTimeSecAutoDismiss(Integer maxTimeSecAutoDismiss) {
+        this.maxTimeSecAutoDismiss = maxTimeSecAutoDismiss;
+    }
+
     @NonNull
     @Override
     public String toString() {
         return "Dismiss{" +
-                "control=" + control +
+                "dismissId=" + dismissId +
+                ", control=" + control +
                 ", task=" + task +
                 ", autoDismiss=" + autoDismiss +
+                ", maxTimeSecAutoDismiss=" + maxTimeSecAutoDismiss +
                 '}';
     }
 }

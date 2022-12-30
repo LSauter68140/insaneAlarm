@@ -55,14 +55,15 @@ public class AddAlarmFragment extends Fragment {
         timePickerAddAlarm.setOnTimeChangedListener((view, hour, minute) -> setNextGoOffCountDown(hour, minute));
         addBtnFrequency();
 
-        // button part
+        // layout button part
         root.findViewById(R.id.layoutRingtone).setOnClickListener(v ->
                 NavHostFragment.findNavController(this).navigate(R.id.action_nav_addEditAlarm_to_nav_soundAlarm)); // open new fragment to change ringtone
         root.findViewById(R.id.layoutSnooze).setOnClickListener(v -> {
             NavHostFragment.findNavController(this).navigate(R.id.nav_snoozeAlarm); // open new fragment to add snooze
-
         });
         root.findViewById(R.id.layoutDismiss).setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(R.id.nav_dismissAlarm); // open new fragment to add snooze
+
         });
         root.findViewById(R.id.layoutSound).setOnClickListener(v -> {
             Log.i("ringtone", addAlarmViewModel.getAlarmLabel().getValue());

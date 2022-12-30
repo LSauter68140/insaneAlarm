@@ -1,4 +1,4 @@
-package fr.utt.if26.insanealarm.ui.subPartAlarm.Sound;
+package fr.utt.if26.insanealarm.ui.subPartAlarm.sound;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

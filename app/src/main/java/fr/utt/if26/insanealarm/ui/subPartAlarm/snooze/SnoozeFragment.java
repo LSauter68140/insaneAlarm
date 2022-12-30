@@ -1,4 +1,4 @@
-package fr.utt.if26.insanealarm.ui.subPartAlarm.Snooze;
+package fr.utt.if26.insanealarm.ui.subPartAlarm.snooze;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

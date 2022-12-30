@@ -31,6 +31,8 @@ public class AddAlarmViewModel extends ViewModel {
     private final MutableLiveData<Integer> snoozeLimit;
     private final MutableLiveData<Integer> snoozeTime;
     private final MutableLiveData<Boolean> activateSnooze;
+    private final MutableLiveData<Boolean> autoDismiss;
+    private final MutableLiveData<Integer> maxTimeSecAutoDismiss;
 
     public AddAlarmViewModel() {
         Alarm newAlarm = new Alarm(
@@ -60,17 +62,19 @@ public class AddAlarmViewModel extends ViewModel {
                 new Dismiss(
                         new Control(true, 0, false, false, false),
                         new Task("none", 0, 0, 0, false),
-                        true
+                        true, 85
                 )
         );
         mNewAlarm = new MutableLiveData<>();
         mNewAlarm.setValue(newAlarm);
+        // first add page
         ringtoneName = new MutableLiveData<>();
         ringtoneName.setValue(newAlarm.getSound().getRingtonePath());
         flashLightMode = new MutableLiveData<>();
         flashLightMode.setValue(newAlarm.getSound().getFlashLight());
         alarmLabel = new MutableLiveData<>();
         alarmLabel.setValue(newAlarm.getLabel());
+        // sound
         needVibration = new MutableLiveData<>();
         needVibration.setValue(newAlarm.getSound().getNeedVibration());
         sameAsPhone = new MutableLiveData<>();
@@ -79,13 +83,18 @@ public class AddAlarmViewModel extends ViewModel {
         increaseVolume.setValue(newAlarm.getSound().getIncreaseVolume());
         alarmVolume = new MutableLiveData<>();
         alarmVolume.setValue(newAlarm.getSound().getAlarmVolume());
+        //snooze
         snoozeLimit = new MutableLiveData<>();
         snoozeLimit.setValue(newAlarm.getSnooze().getSnoozeLimit());
         snoozeTime = new MutableLiveData<>();
         snoozeTime.setValue(newAlarm.getSnooze().getSnoozeSecTime());
         activateSnooze = new MutableLiveData<>();
         activateSnooze.setValue(newAlarm.getSnooze().getActivated());
-
+        //dismiss
+        autoDismiss = new MutableLiveData<>();
+        autoDismiss.setValue(newAlarm.getDismiss().getAutoDismiss());
+        maxTimeSecAutoDismiss = new MutableLiveData<>();
+        maxTimeSecAutoDismiss.setValue(newAlarm.getDismiss().getMaxTimeSecAutoDismiss());
     }
 
     public MutableLiveData<Alarm> getAlarm() {
@@ -131,6 +140,14 @@ public class AddAlarmViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> getActivateSnooze() {
         return activateSnooze;
+    }
+
+    public MutableLiveData<Boolean> getAutoDismiss() {
+        return autoDismiss;
+    }
+
+    public MutableLiveData<Integer> getMaxTimeSecAutoDismiss() {
+        return maxTimeSecAutoDismiss;
     }
 
     public String ConvertFlashLightModeToStr(Integer flashLightMode, Resources resources) {
