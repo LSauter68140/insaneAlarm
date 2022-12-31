@@ -34,7 +34,7 @@ public class SnoozeFragment extends Fragment {
             NavHostFragment.findNavController(this).navigate(R.id.nav_controlAlarm); // open new fragment to add snooze
         });
         root.findViewById(R.id.layoutTask).setOnClickListener(v -> {
-            // TODO
+            NavHostFragment.findNavController(this).navigate(R.id.nav_taskAlarm); // open new fragment to add snooze
         });
 
         NumberPicker npSnoozeLimit = binding.npSnoozeLimit;

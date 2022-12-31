@@ -20,13 +20,16 @@ public class Task {
     private Integer timer;
     @ColumnInfo(name = "canSkip")
     private boolean canSkip;
+    @ColumnInfo(name = "muteSound")
+    private boolean muteSound;
 
-    public Task(String type, Integer difficulty, Integer numberTask, Integer timer, boolean canSkip) {
+    public Task(String type, Integer difficulty, Integer numberTask, Integer timer, boolean canSkip, boolean muteSound) {
         this.type = type;
         this.difficulty = difficulty;
         this.numberTask = numberTask;
         this.timer = timer;
         this.canSkip = canSkip;
+        this.muteSound = muteSound;
     }
 
     public Integer getTaskId() {
@@ -77,15 +80,25 @@ public class Task {
         this.canSkip = canSkip;
     }
 
+    public boolean isMuteSound() {
+        return muteSound;
+    }
+
+    public void setMuteSound(boolean muteSound) {
+        this.muteSound = muteSound;
+    }
+
     @NonNull
     @Override
     public String toString() {
         return "Task{" +
-                "type='" + type + '\'' +
+                "taskId=" + taskId +
+                ", type='" + type + '\'' +
                 ", difficulty=" + difficulty +
                 ", numberTask=" + numberTask +
                 ", timer=" + timer +
                 ", canSkip=" + canSkip +
+                ", muteSound=" + muteSound +
                 '}';
     }
 }

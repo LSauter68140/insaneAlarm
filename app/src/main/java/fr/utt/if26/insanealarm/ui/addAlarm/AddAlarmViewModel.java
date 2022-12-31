@@ -67,11 +67,11 @@ public class AddAlarmViewModel extends ViewModel {
                         new Control(false, 0, false, false, false),
                         5,
                         2,
-                        new Task("Maths", 1, 2, 60, true)
+                        new Task("Maths", 1, 2, 60, true, false)
                 ),
                 new Dismiss(
                         new Control(true, 0, false, false, false),
-                        new Task("none", 0, 0, 0, false),
+                        new Task("none", 0, 0, 0, false, true),
                         true, 85
                 )
         );

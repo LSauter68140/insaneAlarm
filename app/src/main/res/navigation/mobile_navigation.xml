@@ -58,4 +58,12 @@
         android:name="fr.utt.if26.insanealarm.ui.subPartAlarm.controls.ControlsFragment"
         android:label="Contrôles"
         tools:layout="@layout/fragment_sub_part_controls" />
+
+    <fragment
+        android:id="@+id/nav_taskAlarm"
+        android:name="fr.utt.if26.insanealarm.ui.subPartAlarm.tasks.TasksFragment"
+        android:label="Tâches"
+        tools:layout="@layout/fragment_sub_part_task"
+
+        />
 </navigation>

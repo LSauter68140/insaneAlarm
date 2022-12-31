@@ -71,4 +71,13 @@
     <string name="tvVolume">Boutons de volume</string>
     <string name="tvPower">Bouton power</string>
     <string name="tvShake">Secouer le bigo</string>
+    <string name="tvTaskTitle">Quelles taches pour désactiver mon snooze/ alarm</string>
+    <string name="rbTaskNone">Rien</string>
+    <string name="rbTaskMath">Maths</string>
+    <string name="rbTaskWrite">Texte</string>
+    <string name="difficulty">Difficulté</string>
+    <string name="tvMuteSound">Muter l\'alarme quand on doit faire la tâche</string>
+    <string name="tvTaskTimer">Temps maxi par tache (après le délai, une nouvelle tache recomence), si 0 pas de temps</string>
+    <string name="tvNumberTask">Nombre de taches</string>
+    <string name="tvSkipTask">Autorise à passer si trop dur</string>
 </resources>
