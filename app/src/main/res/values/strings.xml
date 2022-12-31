@@ -62,9 +62,13 @@
     <string name="min">min</string>
     <string name="tvSnoozeDesc">Si vous voulez ou pas un snooze, vous pourrez ainsi choisir les paramètres d\'activation et de désactivatotion du snooze.</string>
     <string name="snooze">Snooze</string>
-    <string name="tvDismiss">Désactivation de l\'alarme</string>
+    <string name="tvDismiss">Désactivation</string>
     <string name="tvAutoDismiss">Désactivation automatique de l\'alarme après un laps de temps</string>
     <string name="minutes">minutes</string>
     <string name="secondes">secondes</string>
     <string name="tvControls">Choissez comment vous voulez snooze et désactiver votre alarme</string>
+    <string name="tvOnscreen">Bouton sur l\'écran</string>
+    <string name="tvVolume">Boutons de volume</string>
+    <string name="tvPower">Bouton power</string>
+    <string name="tvShake">Secouer le bigo</string>
 </resources>

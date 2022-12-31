@@ -201,7 +201,7 @@
 
     <ToggleButton
         android:id="@+id/btnTestPauseRingtone"
-        style="@style/playPauseToggleBtn"
+        style="@style/toggleBtnIcon"
         android:layout_width="28dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"

@@ -34,6 +34,16 @@ public class AddAlarmViewModel extends ViewModel {
     private final MutableLiveData<Boolean> autoDismiss;
     private final MutableLiveData<Integer> maxTimeSecAutoDismiss;
 
+    //controls mutable
+    private final MutableLiveData<Boolean> snoozeCtrOnscreen;
+    private final MutableLiveData<Boolean> snoozeCtrVolume;
+    private final MutableLiveData<Boolean> snoozeCtrPower;
+    private final MutableLiveData<Boolean> snoozeCtrShake;
+    private final MutableLiveData<Boolean> dismissCtrOnscreen;
+    private final MutableLiveData<Boolean> dismissCtrVolume;
+    private final MutableLiveData<Boolean> dismissCtrPower;
+    private final MutableLiveData<Boolean> dismissCtrShake;
+
     public AddAlarmViewModel() {
         Alarm newAlarm = new Alarm(
                 "Mon alarme",
@@ -95,6 +105,25 @@ public class AddAlarmViewModel extends ViewModel {
         autoDismiss.setValue(newAlarm.getDismiss().getAutoDismiss());
         maxTimeSecAutoDismiss = new MutableLiveData<>();
         maxTimeSecAutoDismiss.setValue(newAlarm.getDismiss().getMaxTimeSecAutoDismiss());
+
+        // controls
+        snoozeCtrOnscreen = new MutableLiveData<>();
+        snoozeCtrOnscreen.setValue(newAlarm.getSnooze().getControl().isButtonOnScreen());
+        snoozeCtrVolume = new MutableLiveData<>();
+        snoozeCtrVolume.setValue(newAlarm.getSnooze().getControl().isVolumeButton());
+        snoozeCtrShake = new MutableLiveData<>();
+        snoozeCtrShake.setValue(newAlarm.getSnooze().getControl().isShakeUrPhone());
+        snoozeCtrPower = new MutableLiveData<>();
+        snoozeCtrPower.setValue(newAlarm.getSnooze().getControl().isPowerButton());
+
+        dismissCtrOnscreen = new MutableLiveData<>();
+        dismissCtrOnscreen.setValue(newAlarm.getDismiss().getControl().isButtonOnScreen());
+        dismissCtrVolume = new MutableLiveData<>();
+        dismissCtrVolume.setValue(newAlarm.getDismiss().getControl().isVolumeButton());
+        dismissCtrShake = new MutableLiveData<>();
+        dismissCtrShake.setValue(newAlarm.getDismiss().getControl().isShakeUrPhone());
+        dismissCtrPower = new MutableLiveData<>();
+        dismissCtrPower.setValue(newAlarm.getDismiss().getControl().isPowerButton());
     }
 
     public MutableLiveData<Alarm> getAlarm() {
@@ -150,6 +179,38 @@ public class AddAlarmViewModel extends ViewModel {
         return maxTimeSecAutoDismiss;
     }
 
+    public MutableLiveData<Boolean> getSnoozeCtrOnscreen() {
+        return snoozeCtrOnscreen;
+    }
+
+    public MutableLiveData<Boolean> getSnoozeCtrVolume() {
+        return snoozeCtrVolume;
+    }
+
+    public MutableLiveData<Boolean> getSnoozeCtrPower() {
+        return snoozeCtrPower;
+    }
+
+    public MutableLiveData<Boolean> getSnoozeCtrShake() {
+        return snoozeCtrShake;
+    }
+
+    public MutableLiveData<Boolean> getDismissCtrOnscreen() {
+        return dismissCtrOnscreen;
+    }
+
+    public MutableLiveData<Boolean> getDismissCtrVolume() {
+        return dismissCtrVolume;
+    }
+
+    public MutableLiveData<Boolean> getDismissCtrPower() {
+        return dismissCtrPower;
+    }
+
+    public MutableLiveData<Boolean> getDismissCtrShake() {
+        return dismissCtrShake;
+    }
+
     public String ConvertFlashLightModeToStr(Integer flashLightMode, Resources resources) {
         switch (flashLightMode) {
             case 1:
@@ -162,4 +223,10 @@ public class AddAlarmViewModel extends ViewModel {
         }
     }
 
+    public boolean atLeatOneDismissCrl() {
+        return Boolean.TRUE.equals(dismissCtrShake.getValue()) ||
+                Boolean.TRUE.equals(dismissCtrOnscreen.getValue()) ||
+                Boolean.TRUE.equals(dismissCtrVolume.getValue()) ||
+                Boolean.TRUE.equals(dismissCtrPower.getValue());
+    }
 }
