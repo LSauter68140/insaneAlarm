@@ -187,7 +187,7 @@ public class Alarm {
         this.sound = sound;
     }
 
-    public void affiche() {
+    public void display() {
         System.out.println(this);
     }
 

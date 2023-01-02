@@ -57,3 +57,8 @@ public class MainActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 }
+
+// job
+// https://stackoverflow.com/questions/50363541/schedule-a-work-on-a-specific-time-with-workmanager?answertab=scoredesc#tab-top
+// https://github.com/dlew/joda-time-android
+// https://developer.android.com/reference/androidx/work/WorkManager.html

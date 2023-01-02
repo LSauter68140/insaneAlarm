@@ -31,14 +31,14 @@ public class ControlsFragment extends Fragment {
 
         // add observer and listener for dismiss and snooze toggle buttons
         Map<String, ToggleButton> allToggleBtns = Map.of(
-                "getSnoozeCtrOnscreen", ((ToggleButton) root.findViewById(R.id.tbOnScreenSnooze)),
-                "getSnoozeCtrVolume", ((ToggleButton) root.findViewById(R.id.tbVolumeSnooze)),
-                "getSnoozeCtrPower", ((ToggleButton) root.findViewById(R.id.tbPowerSnooze)),
-                "getSnoozeCtrShake", ((ToggleButton) root.findViewById(R.id.tbShakeSnooze)),
-                "getDismissCtrOnscreen", ((ToggleButton) root.findViewById(R.id.tbOnScreenDismiss)),
-                "getDismissCtrVolume", ((ToggleButton) root.findViewById(R.id.tbVolumeDimiss)),
-                "getDismissCtrPower", ((ToggleButton) root.findViewById(R.id.tbPowerDismiss)),
-                "getDismissCtrShake", ((ToggleButton) root.findViewById(R.id.tbShakeDismiss))
+                "getSnoozeCtrOnscreen", root.findViewById(R.id.tbOnScreenSnooze),
+                "getSnoozeCtrVolume", root.findViewById(R.id.tbVolumeSnooze),
+                "getSnoozeCtrPower", root.findViewById(R.id.tbPowerSnooze),
+                "getSnoozeCtrShake", root.findViewById(R.id.tbShakeSnooze),
+                "getDismissCtrOnscreen", root.findViewById(R.id.tbOnScreenDismiss),
+                "getDismissCtrVolume", root.findViewById(R.id.tbVolumeDimiss),
+                "getDismissCtrPower", root.findViewById(R.id.tbPowerDismiss),
+                "getDismissCtrShake", root.findViewById(R.id.tbShakeDismiss)
         );
 
         for (Map.Entry<String, ToggleButton> toggleBtn : allToggleBtns.entrySet()) {
@@ -68,7 +68,7 @@ public class ControlsFragment extends Fragment {
                     .setValue(!v.isSelected());
 
             // check for dismiss ctl if we have at least on dismiss control available
-            if (method.contains("Dismiss") && !alarmViewModel.atLeatOneDismissCrl()) {
+            if (method.contains("Dismiss") && alarmViewModel.atLeatOneDismissCrl()) {
                 // we rollback we need at least one
                 ((MutableLiveData<Boolean>)
                         alarmViewModel.getClass()

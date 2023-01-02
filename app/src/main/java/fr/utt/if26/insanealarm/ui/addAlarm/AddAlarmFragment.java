@@ -43,8 +43,7 @@ public class AddAlarmFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        //AddAlarmViewModel addAlarmViewModel =
-        //        new ViewModelProvider(this).get(AddAlarmViewModel.class);
+
         AddAlarmViewModel addAlarmViewModel = new ViewModelProvider(requireActivity()).get(AddAlarmViewModel.class);
         binding = FragmentAddEditBinding.inflate(inflater, container, false);
         root = binding.getRoot();
@@ -56,8 +55,9 @@ public class AddAlarmFragment extends Fragment {
         addBtnFrequency();
 
         // layout button part
-        root.findViewById(R.id.layoutRingtone).setOnClickListener(v ->
-                NavHostFragment.findNavController(this).navigate(R.id.action_nav_addEditAlarm_to_nav_soundAlarm)); // open new fragment to change ringtone
+        root.findViewById(R.id.layoutRingtone).setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(R.id.nav_soundAlarm);// open new fragment to change ringtone
+        });
         root.findViewById(R.id.layoutSnooze).setOnClickListener(v -> {
             NavHostFragment.findNavController(this).navigate(R.id.nav_snoozeAlarm); // open new fragment to add snooze
         });
@@ -65,10 +65,7 @@ public class AddAlarmFragment extends Fragment {
             NavHostFragment.findNavController(this).navigate(R.id.nav_dismissAlarm); // open new fragment to add snooze
 
         });
-        root.findViewById(R.id.layoutSound).setOnClickListener(v -> {
-            Log.i("ringtone", addAlarmViewModel.getAlarmLabel().getValue());
-            addAlarmViewModel.getRingtoneName().setValue("/apero.mp3");
-        });
+        root.findViewById(R.id.layoutSound).setOnClickListener(v -> addAlarmViewModel.getRingtoneName().setValue("/apero.mp3"));
 
 
         // toolbar buttons
@@ -99,6 +96,7 @@ public class AddAlarmFragment extends Fragment {
                 addAlarmViewModel.getAlarmLabel().setValue(s.toString());
             }
         });
+        binding.addAlarmBtn.setOnClickListener(v -> addAlarmViewModel.getFinalAlarm().display());
 
         return root;
     }

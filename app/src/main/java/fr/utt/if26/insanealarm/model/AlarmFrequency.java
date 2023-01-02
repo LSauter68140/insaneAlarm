@@ -171,4 +171,20 @@ public class AlarmFrequency {
 
         return validDays;
     }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "AlarmFrequency{" +
+                "alarmFrequencyId=" + alarmFrequencyId +
+                ", nextRing=" + nextRing +
+                ", monday=" + monday +
+                ", tuesday=" + tuesday +
+                ", wednesday=" + wednesday +
+                ", thursday=" + thursday +
+                ", friday=" + friday +
+                ", saturday=" + saturday +
+                ", sunday=" + sunday +
+                '}';
+    }
 }

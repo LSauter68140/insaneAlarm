@@ -10,6 +10,7 @@ import android.widget.Switch;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import fr.utt.if26.insanealarm.R;
@@ -32,7 +33,10 @@ public class DismissFragment extends Fragment {
             NavHostFragment.findNavController(this).navigate(R.id.nav_controlAlarm); // open new fragment to add snooze
         });
         root.findViewById(R.id.layoutTask).setOnClickListener(v -> {
-            NavHostFragment.findNavController(this).navigate(R.id.nav_taskAlarm); // open new fragment to add snooze
+            Bundle bundle = new Bundle();
+            bundle.putString("parentFragment", "Dismiss");
+            bundle.putString("title", getString(R.string.titleDismissSnooze));
+            Navigation.findNavController(requireView()).navigate(R.id.nav_taskAlarm, bundle);
         });
 
 

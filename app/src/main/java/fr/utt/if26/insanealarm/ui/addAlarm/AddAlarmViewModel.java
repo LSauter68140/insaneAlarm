@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Objects;
 
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.model.Alarm;
@@ -44,8 +45,26 @@ public class AddAlarmViewModel extends ViewModel {
     private final MutableLiveData<Boolean> dismissCtrPower;
     private final MutableLiveData<Boolean> dismissCtrShake;
 
+    //task
+    // snooze
+    private final MutableLiveData<String> typeSnoozeTask; // maths or text
+    private final MutableLiveData<Integer> difficultySnoozeTask;
+    private final MutableLiveData<Integer> numberTaskSnoozeTask;
+    private final MutableLiveData<Integer> timerSnoozeTask;
+    private final MutableLiveData<Boolean> canSkipSnoozeTask;
+    private final MutableLiveData<Boolean> muteSoundSnoozeTask;
+    // dismiss
+    private final MutableLiveData<String> typeDismissTask; // maths or text
+    private final MutableLiveData<Integer> difficultyDismissTask;
+    private final MutableLiveData<Integer> numberTaskDismissTask;
+    private final MutableLiveData<Integer> timerDismissTask;
+    private final MutableLiveData<Boolean> canSkipDismissTask;
+    private final MutableLiveData<Boolean> muteSoundDismissTask;
+
+    private final Alarm newAlarm;
+
     public AddAlarmViewModel() {
-        Alarm newAlarm = new Alarm(
+        newAlarm = new Alarm(
                 "Mon alarme",
                 LocalTime.now(),
                 true,
@@ -124,6 +143,34 @@ public class AddAlarmViewModel extends ViewModel {
         dismissCtrShake.setValue(newAlarm.getDismiss().getControl().isShakeUrPhone());
         dismissCtrPower = new MutableLiveData<>();
         dismissCtrPower.setValue(newAlarm.getDismiss().getControl().isPowerButton());
+
+        //task
+        typeSnoozeTask = new MutableLiveData<>();
+        typeSnoozeTask.setValue(newAlarm.getSnooze().getTask().getType());
+        difficultySnoozeTask = new MutableLiveData<>();
+        difficultySnoozeTask.setValue(newAlarm.getSnooze().getTask().getDifficulty());
+        numberTaskSnoozeTask = new MutableLiveData<>();
+        numberTaskSnoozeTask.setValue(newAlarm.getSnooze().getTask().getNumberTask());
+        timerSnoozeTask = new MutableLiveData<>();
+        timerSnoozeTask.setValue(newAlarm.getSnooze().getTask().getTimer());
+        canSkipSnoozeTask = new MutableLiveData<>();
+        canSkipSnoozeTask.setValue(newAlarm.getSnooze().getTask().isCanSkip());
+        muteSoundSnoozeTask = new MutableLiveData<>();
+        muteSoundSnoozeTask.setValue(newAlarm.getSnooze().getTask().isMuteSound());
+
+        typeDismissTask = new MutableLiveData<>();
+        typeDismissTask.setValue(newAlarm.getDismiss().getTask().getType());
+        difficultyDismissTask = new MutableLiveData<>();
+        difficultyDismissTask.setValue(newAlarm.getDismiss().getTask().getDifficulty());
+        numberTaskDismissTask = new MutableLiveData<>();
+        numberTaskDismissTask.setValue(newAlarm.getDismiss().getTask().getNumberTask());
+        timerDismissTask = new MutableLiveData<>();
+        timerDismissTask.setValue(newAlarm.getDismiss().getTask().getTimer());
+        canSkipDismissTask = new MutableLiveData<>();
+        canSkipDismissTask.setValue(newAlarm.getDismiss().getTask().isCanSkip());
+        muteSoundDismissTask = new MutableLiveData<>();
+        muteSoundDismissTask.setValue(newAlarm.getDismiss().getTask().isMuteSound());
+
     }
 
     public MutableLiveData<Alarm> getAlarm() {
@@ -211,6 +258,109 @@ public class AddAlarmViewModel extends ViewModel {
         return dismissCtrShake;
     }
 
+    public MutableLiveData<String> getTypeSnoozeTask() {
+        return typeSnoozeTask;
+    }
+
+    public MutableLiveData<Integer> getDifficultySnoozeTask() {
+        return difficultySnoozeTask;
+    }
+
+    public MutableLiveData<Integer> getNumberTaskSnoozeTask() {
+        return numberTaskSnoozeTask;
+    }
+
+    public MutableLiveData<Integer> getTimerSnoozeTask() {
+        return timerSnoozeTask;
+    }
+
+    public MutableLiveData<Boolean> getCanSkipSnoozeTask() {
+        return canSkipSnoozeTask;
+    }
+
+    public MutableLiveData<Boolean> getMuteSoundSnoozeTask() {
+        return muteSoundSnoozeTask;
+    }
+
+    public MutableLiveData<String> getTypeDismissTask() {
+        return typeDismissTask;
+    }
+
+    public MutableLiveData<Integer> getDifficultyDismissTask() {
+        return difficultyDismissTask;
+    }
+
+    public MutableLiveData<Integer> getNumberTaskDismissTask() {
+        return numberTaskDismissTask;
+    }
+
+    public MutableLiveData<Integer> getTimerDismissTask() {
+        return timerDismissTask;
+    }
+
+    public MutableLiveData<Boolean> getCanSkipDismissTask() {
+        return canSkipDismissTask;
+    }
+
+    public MutableLiveData<Boolean> getMuteSoundDismissTask() {
+        return muteSoundDismissTask;
+    }
+
+
+    public int getTypeToInt(String type) {
+        if (type == null)
+            return 0;
+        switch (type) {
+            case "Maths":
+                return 1;
+            case "Write":
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
+    public String getDifficultyToString(int difficulty, Resources resources) {
+        switch (difficulty) {
+            case 1:
+                return resources.getString(R.string.taskDifficultyEasy);
+            case 2:
+                return resources.getString(R.string.taskDifficultyMedium);
+            case 3:
+                return resources.getString(R.string.taskDifficultyHard);
+            default:
+                return "";
+        }
+    }
+
+    public String getMathsExample(int difficulty) {
+        // random example ?
+        switch (difficulty) {
+            case 1:
+                return "4+7";
+            case 2:
+                return "3+8*4";
+            case 3:
+                return "54*29+56";
+            default:
+                return "";
+        }
+    }
+
+    public String getWriteExample(int difficulty, Resources resources) {
+        // random example ?
+        switch (difficulty) {
+            case 1:
+                return resources.getString(R.string.taskWriteEasy);
+            case 2:
+                return resources.getString(R.string.taskWriteMedium);
+            case 3:
+                return resources.getString(R.string.taskWriteHard);
+            default:
+                return "";
+        }
+    }
+
     public String ConvertFlashLightModeToStr(Integer flashLightMode, Resources resources) {
         switch (flashLightMode) {
             case 1:
@@ -224,9 +374,31 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public boolean atLeatOneDismissCrl() {
-        return Boolean.TRUE.equals(dismissCtrShake.getValue()) ||
-                Boolean.TRUE.equals(dismissCtrOnscreen.getValue()) ||
-                Boolean.TRUE.equals(dismissCtrVolume.getValue()) ||
-                Boolean.TRUE.equals(dismissCtrPower.getValue());
+        return !Boolean.TRUE.equals(dismissCtrShake.getValue()) &&
+                !Boolean.TRUE.equals(dismissCtrOnscreen.getValue()) &&
+                !Boolean.TRUE.equals(dismissCtrVolume.getValue()) &&
+                !Boolean.TRUE.equals(dismissCtrPower.getValue());
     }
+
+    public Alarm getFinalAlarm() {
+
+
+       /* private final MutableLiveData<Boolean> increaseVolume;
+        private final MutableLiveData<Integer> alarmVolume;
+        private final MutableLiveData<Integer> snoozeLimit;
+        private final MutableLiveData<Integer> snoozeTime;
+        private final MutableLiveData<Boolean> activateSnooze;
+        private final MutableLiveData<Boolean> autoDismiss;
+        private final MutableLiveData<Integer> maxTimeSecAutoDismiss;*/
+
+        newAlarm.setName(Objects.requireNonNull(alarmLabel.getValue()));
+        newAlarm.getSound().setRingtonePath(ringtoneName.getValue());
+        newAlarm.getSound().setNeedVibration(needVibration.getValue());
+        newAlarm.getSound().setSameAsPhone(sameAsPhone.getValue());
+        newAlarm.getSound().setFlashLight(flashLightMode.getValue());
+
+        return newAlarm;
+    }
+
+
 }

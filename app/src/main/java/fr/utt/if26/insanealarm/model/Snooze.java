@@ -1,5 +1,6 @@
 package fr.utt.if26.insanealarm.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
@@ -94,5 +95,19 @@ public class Snooze {
 
     public void setSnoozeLimit(Integer snoozeLimit) {
         this.snoozeLimit = snoozeLimit;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Snooze{" +
+                "snoozeId=" + snoozeId +
+                ", isActivated=" + isActivated +
+                ", activateNxtSnoozeMode=" + activateNxtSnoozeMode +
+                ", snoozeSecTime=" + snoozeSecTime +
+                ", snoozeLimit=" + snoozeLimit +
+                ", control=" + control +
+                ", task=" + task +
+                '}';
     }
 }
