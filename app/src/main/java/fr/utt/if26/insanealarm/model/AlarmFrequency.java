@@ -6,10 +6,12 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import fr.utt.if26.insanealarm.database.converters.Converters;
+import fr.utt.if26.insanealarm.utils.DayTimeTranslator;
 
 //@Entity(foreignKeys = @ForeignKey(entity = AlarmFrequency.class, parentColumns = "frequencyID", childColumns = "alarmFrequencyId", onDelete = CASCADE))
 @Entity(tableName = "AlarmFrequency")
@@ -18,7 +20,6 @@ public class AlarmFrequency {
     @ColumnInfo(name = "alarmFrequencyId")
     @PrimaryKey(autoGenerate = true)
     private Integer alarmFrequencyId = 0;
-
     @NonNull
     @TypeConverters(Converters.class)
     private LocalDateTime nextRing;
@@ -142,6 +143,54 @@ public class AlarmFrequency {
 
     public void setSunday(Boolean sunday) {
         this.sunday = sunday;
+    }
+
+    public ArrayList<Boolean> getAllWeek() {
+
+        ArrayList<Boolean> week = new ArrayList<>();
+        Class<? extends AlarmFrequency> clazz = this.getClass();
+        Field[] f = clazz.getDeclaredFields();
+        try {
+            int i = 0;
+            int fieldIndex = 0;
+            Field field;
+            do {
+                field = f[fieldIndex];
+                // to put days in the correct order
+                if (field.getType() == Boolean.class && DayTimeTranslator.weekDays[i].equals(field.getName())) {
+                    week.add((Boolean) field.get(this));
+                    i++;
+                }
+                fieldIndex++;
+                fieldIndex = fieldIndex % f.length;
+            } while (i < 7);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        return week;
+    }
+
+    public void setArrayToWeek(ArrayList<Boolean> week) {
+        Class<? extends AlarmFrequency> clazz = this.getClass();
+        Field[] f = clazz.getDeclaredFields();
+        try {
+            int i = 0;
+            int fieldIndex = 0;
+            Field field;
+            do {
+                field = f[fieldIndex];
+                // to put days in the correct order
+                if (field.getType() == Boolean.class && DayTimeTranslator.weekDays[i].equals(field.getName())) {
+                    field.set(this, week.get(i));
+                    i++;
+                }
+                fieldIndex++;
+                fieldIndex = fieldIndex % f.length;
+            } while (i < 7);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<String> getWeekSchedule() {

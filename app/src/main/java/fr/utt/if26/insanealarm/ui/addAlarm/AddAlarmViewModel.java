@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import fr.utt.if26.insanealarm.R;
@@ -22,13 +23,20 @@ import fr.utt.if26.insanealarm.model.WakeupCheck;
 public class AddAlarmViewModel extends ViewModel {
 
     private final MutableLiveData<Alarm> mNewAlarm;
+    private final Alarm newAlarm;
+
     private final MutableLiveData<String> ringtoneName;
     private final MutableLiveData<String> alarmLabel;
+    private final MutableLiveData<String> alarmName;
+
+    // sound
     private final MutableLiveData<Integer> flashLightMode;
     private final MutableLiveData<Boolean> needVibration;
     private final MutableLiveData<Boolean> sameAsPhone;
     private final MutableLiveData<Boolean> increaseVolume;
     private final MutableLiveData<Integer> alarmVolume;
+
+    // snooze
     private final MutableLiveData<Integer> snoozeLimit;
     private final MutableLiveData<Integer> snoozeTime;
     private final MutableLiveData<Boolean> activateSnooze;
@@ -61,7 +69,15 @@ public class AddAlarmViewModel extends ViewModel {
     private final MutableLiveData<Boolean> canSkipDismissTask;
     private final MutableLiveData<Boolean> muteSoundDismissTask;
 
-    private final Alarm newAlarm;
+    //wakeUp check
+    private final MutableLiveData<Boolean> wkupChkIsActivate;
+    private final MutableLiveData<Integer> wkupChkDelayAfterDismiss;
+    private final MutableLiveData<Integer> wkupChkCountdownTime;
+
+
+    // alarmFrequency
+    private final MutableLiveData<LocalDateTime> nextRing;
+    private final MutableLiveData<ArrayList<Boolean>> alarmFrequencyDay;
 
     public AddAlarmViewModel() {
         newAlarm = new Alarm(
@@ -71,12 +87,12 @@ public class AddAlarmViewModel extends ViewModel {
                 "Oouh c'est l'heure de se lever",
                 new AlarmFrequency(
                         LocalDateTime.now(),
+                        true,
                         false,
                         false,
                         false,
                         false,
-                        false,
-                        false,
+                        true,
                         false),
                 new Sound("/ringtone.mp3", false, 0, true, true, 0),
                 new WakeupCheck(false, 0, 0),
@@ -96,13 +112,16 @@ public class AddAlarmViewModel extends ViewModel {
         );
         mNewAlarm = new MutableLiveData<>();
         mNewAlarm.setValue(newAlarm);
+        alarmName = new MutableLiveData<>();
+        alarmName.setValue(newAlarm.getName());
         // first add page
         ringtoneName = new MutableLiveData<>();
         ringtoneName.setValue(newAlarm.getSound().getRingtonePath());
         flashLightMode = new MutableLiveData<>();
         flashLightMode.setValue(newAlarm.getSound().getFlashLight());
         alarmLabel = new MutableLiveData<>();
-        alarmLabel.setValue(newAlarm.getLabel());
+        alarmLabel.setValue(newAlarm.getLabel(alarmLabel.getValue()));
+
         // sound
         needVibration = new MutableLiveData<>();
         needVibration.setValue(newAlarm.getSound().getNeedVibration());
@@ -170,6 +189,21 @@ public class AddAlarmViewModel extends ViewModel {
         canSkipDismissTask.setValue(newAlarm.getDismiss().getTask().isCanSkip());
         muteSoundDismissTask = new MutableLiveData<>();
         muteSoundDismissTask.setValue(newAlarm.getDismiss().getTask().isMuteSound());
+
+        // wakeup check
+
+        wkupChkIsActivate = new MutableLiveData<>();
+        wkupChkIsActivate.setValue(newAlarm.getWakeupCheck().getActivate());
+        wkupChkDelayAfterDismiss = new MutableLiveData<>();
+        wkupChkDelayAfterDismiss.setValue(newAlarm.getWakeupCheck().getDelayAfterDismiss());
+        wkupChkCountdownTime = new MutableLiveData<>();
+        wkupChkCountdownTime.setValue(newAlarm.getWakeupCheck().getCountdownTime());
+
+        // frequency
+        alarmFrequencyDay = new MutableLiveData<>();
+        alarmFrequencyDay.setValue(newAlarm.getAlarmFrequency().getAllWeek());
+        nextRing = new MutableLiveData<>();
+        nextRing.setValue(newAlarm.getAlarmFrequency().getNextRing());
 
     }
 
@@ -306,6 +340,29 @@ public class AddAlarmViewModel extends ViewModel {
         return muteSoundDismissTask;
     }
 
+    public MutableLiveData<String> getAlarmName() {
+        return alarmName;
+    }
+
+    public MutableLiveData<Boolean> getWkupChkIsActivate() {
+        return wkupChkIsActivate;
+    }
+
+    public MutableLiveData<Integer> getWkupChkDelayAfterDismiss() {
+        return wkupChkDelayAfterDismiss;
+    }
+
+    public MutableLiveData<Integer> getWkupChkCountdownTime() {
+        return wkupChkCountdownTime;
+    }
+
+    public MutableLiveData<LocalDateTime> getNextRing() {
+        return nextRing;
+    }
+
+    public MutableLiveData<ArrayList<Boolean>> getAlarmFrequencyDay() {
+        return alarmFrequencyDay;
+    }
 
     public int getTypeToInt(String type) {
         if (type == null)
@@ -373,30 +430,63 @@ public class AddAlarmViewModel extends ViewModel {
         }
     }
 
-    public boolean atLeatOneDismissCrl() {
+    public boolean atLeastOneDismissCrl() {
         return !Boolean.TRUE.equals(dismissCtrShake.getValue()) &&
                 !Boolean.TRUE.equals(dismissCtrOnscreen.getValue()) &&
                 !Boolean.TRUE.equals(dismissCtrVolume.getValue()) &&
                 !Boolean.TRUE.equals(dismissCtrPower.getValue());
     }
 
+
     public Alarm getFinalAlarm() {
 
 
-       /* private final MutableLiveData<Boolean> increaseVolume;
-        private final MutableLiveData<Integer> alarmVolume;
-        private final MutableLiveData<Integer> snoozeLimit;
-        private final MutableLiveData<Integer> snoozeTime;
-        private final MutableLiveData<Boolean> activateSnooze;
-        private final MutableLiveData<Boolean> autoDismiss;
-        private final MutableLiveData<Integer> maxTimeSecAutoDismiss;*/
-
-        newAlarm.setName(Objects.requireNonNull(alarmLabel.getValue()));
+        // alarm
+        newAlarm.setName(Objects.requireNonNull(alarmName.getValue()));
+        newAlarm.getLabel(alarmLabel.getValue());
+        // sound
         newAlarm.getSound().setRingtonePath(ringtoneName.getValue());
         newAlarm.getSound().setNeedVibration(needVibration.getValue());
         newAlarm.getSound().setSameAsPhone(sameAsPhone.getValue());
         newAlarm.getSound().setFlashLight(flashLightMode.getValue());
+        newAlarm.getSound().setAlarmVolume(alarmVolume.getValue());
+        newAlarm.getSound().setIncreaseVolume(increaseVolume.getValue());
+        // snooze
+        newAlarm.getSnooze().setActivated(activateSnooze.getValue());
+        newAlarm.getSnooze().setSnoozeLimit(snoozeLimit.getValue());
+        newAlarm.getSnooze().setSnoozeSecTime(maxTimeSecAutoDismiss.getValue());
+        newAlarm.getSnooze().getControl().setButtonOnScreen(Boolean.TRUE.equals(snoozeCtrOnscreen.getValue()));
+        newAlarm.getSnooze().getControl().setPowerButton(Boolean.TRUE.equals(snoozeCtrPower.getValue()));
+        newAlarm.getSnooze().getControl().setVolumeButton(Boolean.TRUE.equals(snoozeCtrVolume.getValue()));
+        newAlarm.getSnooze().getControl().setShakeUrPhone(Boolean.TRUE.equals(snoozeCtrShake.getValue()));
+        newAlarm.getSnooze().getTask().setCanSkip(Boolean.TRUE.equals(canSkipSnoozeTask.getValue()));
+        newAlarm.getSnooze().getTask().setDifficulty(difficultySnoozeTask.getValue());
+        newAlarm.getSnooze().getTask().setNumberTask(numberTaskSnoozeTask.getValue());
+        newAlarm.getSnooze().getTask().setMuteSound(Boolean.TRUE.equals(muteSoundSnoozeTask.getValue()));
+        newAlarm.getSnooze().getTask().setTimer(timerSnoozeTask.getValue());
+        newAlarm.getSnooze().getTask().setType(typeSnoozeTask.getValue());
+        // dismiss
+        newAlarm.getDismiss().setAutoDismiss(autoDismiss.getValue());
+        newAlarm.getDismiss().setMaxTimeSecAutoDismiss(maxTimeSecAutoDismiss.getValue());
+        newAlarm.getDismiss().getControl().setButtonOnScreen(Boolean.TRUE.equals(dismissCtrOnscreen.getValue()));
+        newAlarm.getDismiss().getControl().setPowerButton(Boolean.TRUE.equals(dismissCtrPower.getValue()));
+        newAlarm.getDismiss().getControl().setVolumeButton(Boolean.TRUE.equals(dismissCtrVolume.getValue()));
+        newAlarm.getDismiss().getControl().setShakeUrPhone(Boolean.TRUE.equals(dismissCtrShake.getValue()));
+        newAlarm.getDismiss().getTask().setCanSkip(Boolean.TRUE.equals(canSkipDismissTask.getValue()));
+        newAlarm.getDismiss().getTask().setDifficulty(difficultyDismissTask.getValue());
+        newAlarm.getDismiss().getTask().setNumberTask(numberTaskDismissTask.getValue());
+        newAlarm.getDismiss().getTask().setMuteSound(Boolean.TRUE.equals(muteSoundDismissTask.getValue()));
+        newAlarm.getDismiss().getTask().setTimer(timerDismissTask.getValue());
+        newAlarm.getDismiss().getTask().setType(typeDismissTask.getValue());
 
+        // wakeUp check
+        newAlarm.getWakeupCheck().setActivate(wkupChkIsActivate.getValue());
+        newAlarm.getWakeupCheck().setCountdownTime(wkupChkCountdownTime.getValue());
+        newAlarm.getWakeupCheck().setDelayAfterDismiss(wkupChkDelayAfterDismiss.getValue());
+
+        // alarm frequency
+        newAlarm.getFrequency().setArrayToWeek(alarmFrequencyDay.getValue());
+        newAlarm.getFrequency().setNextRing(Objects.requireNonNull(nextRing.getValue()));
         return newAlarm;
     }
 

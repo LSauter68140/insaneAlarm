@@ -143,12 +143,8 @@ public class Alarm {
     }
 
     @NonNull
-    public Snooze getSnoozeId() {
-        return snooze;
-    }
-
-    public void setSnoozeId(@NonNull Snooze snooze) {
-        this.snooze = snooze;
+    public String getLabel() {
+        return label;
     }
 
     @NonNull
@@ -170,7 +166,7 @@ public class Alarm {
     }
 
     @NonNull
-    public String getLabel() {
+    public String getLabel(String value) {
         return label;
     }
 

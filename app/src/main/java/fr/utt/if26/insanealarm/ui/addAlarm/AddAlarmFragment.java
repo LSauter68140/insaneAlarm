@@ -25,7 +25,10 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 import fr.utt.if26.insanealarm.R;
@@ -40,11 +43,13 @@ public class AddAlarmFragment extends Fragment {
     private TimePicker timePickerAddAlarm;
     private TextView tvNextGooff;
     private Boolean[] nextDayGooff;
+    private AddAlarmViewModel addAlarmViewModel;
 
+    @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        AddAlarmViewModel addAlarmViewModel = new ViewModelProvider(requireActivity()).get(AddAlarmViewModel.class);
+        addAlarmViewModel = new ViewModelProvider(requireActivity()).get(AddAlarmViewModel.class);
         binding = FragmentAddEditBinding.inflate(inflater, container, false);
         root = binding.getRoot();
 
@@ -80,6 +85,23 @@ public class AddAlarmFragment extends Fragment {
                         .setText(FileManager.getNameFromURI(requireContext(), Uri.parse(ringtone)))
         );
 
+
+        addAlarmViewModel.getAlarmFrequencyDay().observe(getViewLifecycleOwner(), frequencyDay -> {
+            int index = 0;
+            nextDayGooff = new Boolean[frequencyDay.size()];
+            nextDayGooff = frequencyDay.toArray(nextDayGooff);
+            for (Boolean activateDay : frequencyDay) {
+                ((CheckBox) binding.layoutFrequencyBtn.getChildAt(index)).setChecked(activateDay);
+                index++;
+            }
+        });
+        addAlarmViewModel.getNextRing().observe(getViewLifecycleOwner(), nextRing -> {
+            Duration totalDuration = Duration.between(LocalDateTime.now(), nextRing);
+            long minutes = (totalDuration.toMinutes()) % 60;
+            long hour = (totalDuration.toHours()) % 24;
+            long day = totalDuration.toDays();
+            tvNextGooff.setText(day + "j " + hour + "h " + minutes + "m");
+        });
         ((EditText) root.findViewById(R.id.etAlarmLabel)).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -110,6 +132,7 @@ public class AddAlarmFragment extends Fragment {
                         LinearLayout.LayoutParams.WRAP_CONTENT, 1
                 );
         String[] days = {"mo", "tu", "we", "th", "fr", "sa", "su"};
+        // alarmViewModel state
         CheckBox checkBox;
         int index = 0;
         for (String day : days) {
@@ -126,23 +149,23 @@ public class AddAlarmFragment extends Fragment {
             layoutFrequencyBtn.addView(checkBox);
             index++;
         }
-        nextDayGooff = new Boolean[]{false, false, false, false, false, false, false};
     }
 
     public void checkBoxListener(View v) {
         CheckBox clicked = (CheckBox) v;
         int index = Integer.parseInt((String) clicked.getHint());
-        nextDayGooff[index] = clicked.isChecked();
+        nextDayGooff[index] = !nextDayGooff[index];
+        addAlarmViewModel.getAlarmFrequencyDay().setValue(new ArrayList<>(Arrays.asList(nextDayGooff)));
         setNextGoOffCountDown(timePickerAddAlarm.getHour(), timePickerAddAlarm.getMinute());
     }
 
-    @SuppressLint("SetTextI18n")
     public void setNextGoOffCountDown(int hourGoOff, int minuteGoOff) {
 
         LocalTime timeGoOff = LocalTime.parse(DayTimeTranslator.readableTime((long) hourGoOff, (long) minuteGoOff, 0L));
         int hourCurrent = LocalTime.now().getHour();
         int minuteCurrent = LocalTime.now().getMinute();
         LocalTime timeCurrent = LocalTime.parse(DayTimeTranslator.readableTime((long) hourCurrent, (long) minuteCurrent, 0L));
+
         Duration totalDuration = Duration.between(timeCurrent, timeGoOff);
 
         int currentDay = LocalDate.now().getDayOfWeek().getValue();
@@ -166,11 +189,9 @@ public class AddAlarmFragment extends Fragment {
                 totalDuration = totalDuration.plusDays(1);
             }
         }
-        long minutes = (totalDuration.toMinutes()) % 60;
-        long hour = (totalDuration.toHours()) % 24;
-        long day = totalDuration.toDays();
 
-        tvNextGooff.setText(day + "j " + hour + "h " + minutes + "m");
+        addAlarmViewModel.getNextRing().setValue(LocalDateTime.now().plus(totalDuration));
+
     }
 
     public void onDestroyView() {

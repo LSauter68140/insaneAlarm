@@ -6,6 +6,7 @@ import fr.utt.if26.insanealarm.R;
 
 public class DayTimeTranslator {
 
+    public final static String[] weekDays = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
 
     public static String getDay(String abr, Boolean isShort, Resources resources) {
         switch (abr) {

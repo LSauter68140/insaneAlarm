@@ -68,7 +68,7 @@ public class ControlsFragment extends Fragment {
                     .setValue(!v.isSelected());
 
             // check for dismiss ctl if we have at least on dismiss control available
-            if (method.contains("Dismiss") && alarmViewModel.atLeatOneDismissCrl()) {
+            if (method.contains("Dismiss") && alarmViewModel.atLeastOneDismissCrl()) {
                 // we rollback we need at least one
                 ((MutableLiveData<Boolean>)
                         alarmViewModel.getClass()
