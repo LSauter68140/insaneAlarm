@@ -7,12 +7,13 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 
 import fr.utt.if26.insanealarm.database.converters.Converters;
 
 @Entity(tableName = "Alarm")
-public class Alarm {
+public class Alarm implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private Integer id;
@@ -193,10 +194,11 @@ public class Alarm {
         return "Alarm{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", label='" + label + '\'' +
                 ", timeToGoOff=" + timeToGoOff +
                 ", isActivate=" + isActivate +
                 ", alarmFrequency=" + alarmFrequency +
-                ", sound='" + sound + '\'' +
+                ", sound=" + sound +
                 ", snooze=" + snooze +
                 ", dismiss=" + dismiss +
                 ", wakeupCheck=" + wakeupCheck +

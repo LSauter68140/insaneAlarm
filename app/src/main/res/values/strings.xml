@@ -88,5 +88,8 @@
     <string name="taskWriteEasy">azertyuiop</string>
     <string name="taskWriteMedium">Bonjour bonjour !!!</string>
     <string name="taskWriteHard">Il est l\'heure de se réveiller !!!</string>
+    <string name="tvWakeUpCheck">Ajouter une vérification de votre réveil effectif</string>
+    <string name="tvDelayAfterDismiss">Temps après la vérification du réveil</string>
+    <string name="tvCountdownTime">Temps d\'apparition de la notification pour vérifier le bon reveil (après ce laps de temps la sonnerie s\'enclenchera</string>
 
 </resources>

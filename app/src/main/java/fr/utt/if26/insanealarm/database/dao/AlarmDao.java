@@ -14,7 +14,7 @@ import fr.utt.if26.insanealarm.model.Alarm;
 @Dao
 public interface AlarmDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAlarm(Alarm alarm);
 
     @Query("DELETE FROM alarm")

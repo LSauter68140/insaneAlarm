@@ -82,7 +82,7 @@ public class SoundFragment extends Fragment {
         binding.btnTestPauseRingtone.setOnClickListener(this::listenerToggleBtnPlayPause);
 
         /// listener for each each layout
-        binding.layoutSound.setOnClickListener(this::listenerLayoutSound);
+        binding.layoutWakeupCheck.setOnClickListener(this::listenerLayoutSound);
         binding.layoutFlashLight.setOnClickListener(this::listenerLayoutFlashLight);
         binding.layoutNeedVibration.setOnClickListener(this::listenerLayoutVibration);
         binding.layoutIncreaseVolume.setOnClickListener(this::listenerLayoutIncreaseVolume);

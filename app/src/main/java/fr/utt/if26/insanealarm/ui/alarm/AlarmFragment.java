@@ -41,7 +41,7 @@ public class AlarmFragment extends Fragment {
         RecyclerView recyclerView = root.findViewById(R.id.alarmRecyclerView);
 
         AlarmViewModel alarmViewModel =
-                new ViewModelProvider(this).get(AlarmViewModel.class);
+                new ViewModelProvider(requireActivity()).get(AlarmViewModel.class);
         final AlarmListAdapter adapter = new AlarmListAdapter(new AlarmListAdapter.AlarmDiff(), alarmViewModel);
 
         alarmViewModel.getAllAlarms().observe(getViewLifecycleOwner(), adapter::submitList);

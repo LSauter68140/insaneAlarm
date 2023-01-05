@@ -22,62 +22,62 @@ import fr.utt.if26.insanealarm.model.WakeupCheck;
 
 public class AddAlarmViewModel extends ViewModel {
 
-    private final MutableLiveData<Alarm> mNewAlarm;
-    private final Alarm newAlarm;
+    private MutableLiveData<Alarm> mNewAlarm;
+    private Alarm newAlarm;
 
-    private final MutableLiveData<String> ringtoneName;
-    private final MutableLiveData<String> alarmLabel;
-    private final MutableLiveData<String> alarmName;
+    private MutableLiveData<String> ringtoneName;
+    private MutableLiveData<String> alarmLabel;
+    private MutableLiveData<String> alarmName;
 
     // sound
-    private final MutableLiveData<Integer> flashLightMode;
-    private final MutableLiveData<Boolean> needVibration;
-    private final MutableLiveData<Boolean> sameAsPhone;
-    private final MutableLiveData<Boolean> increaseVolume;
-    private final MutableLiveData<Integer> alarmVolume;
+    private MutableLiveData<Integer> flashLightMode;
+    private MutableLiveData<Boolean> needVibration;
+    private MutableLiveData<Boolean> sameAsPhone;
+    private MutableLiveData<Boolean> increaseVolume;
+    private MutableLiveData<Integer> alarmVolume;
 
     // snooze
-    private final MutableLiveData<Integer> snoozeLimit;
-    private final MutableLiveData<Integer> snoozeTime;
-    private final MutableLiveData<Boolean> activateSnooze;
-    private final MutableLiveData<Boolean> autoDismiss;
-    private final MutableLiveData<Integer> maxTimeSecAutoDismiss;
+    private MutableLiveData<Integer> snoozeLimit;
+    private MutableLiveData<Integer> snoozeTime;
+    private MutableLiveData<Boolean> activateSnooze;
+    private MutableLiveData<Boolean> autoDismiss;
+    private MutableLiveData<Integer> maxTimeSecAutoDismiss;
 
     //controls mutable
-    private final MutableLiveData<Boolean> snoozeCtrOnscreen;
-    private final MutableLiveData<Boolean> snoozeCtrVolume;
-    private final MutableLiveData<Boolean> snoozeCtrPower;
-    private final MutableLiveData<Boolean> snoozeCtrShake;
-    private final MutableLiveData<Boolean> dismissCtrOnscreen;
-    private final MutableLiveData<Boolean> dismissCtrVolume;
-    private final MutableLiveData<Boolean> dismissCtrPower;
-    private final MutableLiveData<Boolean> dismissCtrShake;
+    private MutableLiveData<Boolean> snoozeCtrOnscreen;
+    private MutableLiveData<Boolean> snoozeCtrVolume;
+    private MutableLiveData<Boolean> snoozeCtrPower;
+    private MutableLiveData<Boolean> snoozeCtrShake;
+    private MutableLiveData<Boolean> dismissCtrOnscreen;
+    private MutableLiveData<Boolean> dismissCtrVolume;
+    private MutableLiveData<Boolean> dismissCtrPower;
+    private MutableLiveData<Boolean> dismissCtrShake;
 
     //task
     // snooze
-    private final MutableLiveData<String> typeSnoozeTask; // maths or text
-    private final MutableLiveData<Integer> difficultySnoozeTask;
-    private final MutableLiveData<Integer> numberTaskSnoozeTask;
-    private final MutableLiveData<Integer> timerSnoozeTask;
-    private final MutableLiveData<Boolean> canSkipSnoozeTask;
-    private final MutableLiveData<Boolean> muteSoundSnoozeTask;
+    private MutableLiveData<String> typeSnoozeTask; // maths or text
+    private MutableLiveData<Integer> difficultySnoozeTask;
+    private MutableLiveData<Integer> numberTaskSnoozeTask;
+    private MutableLiveData<Integer> timerSnoozeTask;
+    private MutableLiveData<Boolean> canSkipSnoozeTask;
+    private MutableLiveData<Boolean> muteSoundSnoozeTask;
     // dismiss
-    private final MutableLiveData<String> typeDismissTask; // maths or text
-    private final MutableLiveData<Integer> difficultyDismissTask;
-    private final MutableLiveData<Integer> numberTaskDismissTask;
-    private final MutableLiveData<Integer> timerDismissTask;
-    private final MutableLiveData<Boolean> canSkipDismissTask;
-    private final MutableLiveData<Boolean> muteSoundDismissTask;
+    private MutableLiveData<String> typeDismissTask; // maths or text
+    private MutableLiveData<Integer> difficultyDismissTask;
+    private MutableLiveData<Integer> numberTaskDismissTask;
+    private MutableLiveData<Integer> timerDismissTask;
+    private MutableLiveData<Boolean> canSkipDismissTask;
+    private MutableLiveData<Boolean> muteSoundDismissTask;
 
     //wakeUp check
-    private final MutableLiveData<Boolean> wkupChkIsActivate;
-    private final MutableLiveData<Integer> wkupChkDelayAfterDismiss;
-    private final MutableLiveData<Integer> wkupChkCountdownTime;
+    private MutableLiveData<Boolean> wkupChkIsActivate;
+    private MutableLiveData<Integer> wkupChkDelayAfterDismiss;
+    private MutableLiveData<Integer> wkupChkCountdownTime;
 
 
     // alarmFrequency
-    private final MutableLiveData<LocalDateTime> nextRing;
-    private final MutableLiveData<ArrayList<Boolean>> alarmFrequencyDay;
+    private MutableLiveData<LocalDateTime> nextRing;
+    private MutableLiveData<ArrayList<Boolean>> alarmFrequencyDay;
 
     public AddAlarmViewModel() {
         newAlarm = new Alarm(
@@ -110,6 +110,10 @@ public class AddAlarmViewModel extends ViewModel {
                         true, 85
                 )
         );
+        initMutableLiveData();
+    }
+
+    private void initMutableLiveData() {
         mNewAlarm = new MutableLiveData<>();
         mNewAlarm.setValue(newAlarm);
         alarmName = new MutableLiveData<>();
@@ -205,6 +209,11 @@ public class AddAlarmViewModel extends ViewModel {
         nextRing = new MutableLiveData<>();
         nextRing.setValue(newAlarm.getAlarmFrequency().getNextRing());
 
+    }
+
+    public void addExistingAlarm(Alarm alarm) {
+        newAlarm = alarm;
+        initMutableLiveData();
     }
 
     public MutableLiveData<Alarm> getAlarm() {
@@ -443,7 +452,10 @@ public class AddAlarmViewModel extends ViewModel {
 
         // alarm
         newAlarm.setName(Objects.requireNonNull(alarmName.getValue()));
-        newAlarm.getLabel(alarmLabel.getValue());
+        newAlarm.setLabel(Objects.requireNonNull(alarmLabel.getValue()));
+        newAlarm.setTimeToGoOff(Objects.requireNonNull(nextRing.getValue()).toLocalTime());
+
+
         // sound
         newAlarm.getSound().setRingtonePath(ringtoneName.getValue());
         newAlarm.getSound().setNeedVibration(needVibration.getValue());

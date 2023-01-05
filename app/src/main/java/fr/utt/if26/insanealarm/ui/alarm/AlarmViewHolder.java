@@ -7,6 +7,7 @@ import static fr.utt.if26.insanealarm.R.string;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalTime;
@@ -35,6 +37,7 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     private final ImageButton settingBtn;
     private final Switch activateAlarm;
     private final TextView type;
+    private static View viewGlobal = null;
 
     @SuppressLint("NonConstantResourceId")
     public AlarmViewHolder(@NonNull View itemView) {
@@ -57,9 +60,9 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     }
 
     static AlarmViewHolder create(ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext())
+        viewGlobal = LayoutInflater.from(parent.getContext())
                 .inflate(layout.alarm_list_item, parent, false);
-        return new AlarmViewHolder(view);
+        return new AlarmViewHolder(viewGlobal);
     }
 
     private String formatNextTimeToGoOff(LocalTime localTime) {
@@ -108,15 +111,15 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case id.alarmSettingEdit:
-                    Toast.makeText(settingBtn.getContext(), "Editer " + alarm.getName(), Toast.LENGTH_SHORT).show();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("alarmToEdit", alarm);
+                    Navigation.findNavController(viewGlobal).navigate(id.nav_addEditAlarm, bundle);
                     return true;
                 case id.alarmSettingPreview:
                     Toast.makeText(itemView.getContext(), "Visualiser", Toast.LENGTH_SHORT).show();
-
                     return true;
                 case id.alarmSettingDelete:
-                    Toast.makeText(itemView.getContext(), "supprimer", Toast.LENGTH_SHORT).show();
-
+                    alarmViewModel.deleteAlarmById(alarm.getId());
                     return true;
                 default:
                     return false;

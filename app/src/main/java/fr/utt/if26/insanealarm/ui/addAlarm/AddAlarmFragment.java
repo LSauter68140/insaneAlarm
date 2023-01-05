@@ -33,6 +33,8 @@ import java.util.Objects;
 
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.FragmentAddEditBinding;
+import fr.utt.if26.insanealarm.model.Alarm;
+import fr.utt.if26.insanealarm.ui.alarm.AlarmViewModel;
 import fr.utt.if26.insanealarm.utils.DayTimeTranslator;
 import fr.utt.if26.insanealarm.utils.FileManager;
 
@@ -49,13 +51,32 @@ public class AddAlarmFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        AlarmViewModel alarmViewModel =
+                new ViewModelProvider(requireActivity()).get(AlarmViewModel.class);
         addAlarmViewModel = new ViewModelProvider(requireActivity()).get(AddAlarmViewModel.class);
+
         binding = FragmentAddEditBinding.inflate(inflater, container, false);
         root = binding.getRoot();
+
+        if (getArguments() != null) {
+
+
+            Alarm alarm = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                alarm = (Alarm) getArguments().getSerializable("alarmToEdit", Alarm.class);
+            } else {
+                alarm = (Alarm) getArguments().getSerializable("alarmToEdit");
+            }
+            addAlarmViewModel.addExistingAlarm(alarm);
+            //alarm.display();
+        }
+
 
         tvNextGooff = root.findViewById(R.id.tvNextGooff);
         timePickerAddAlarm = root.findViewById(R.id.timePickerAddAlarm);
         timePickerAddAlarm.setIs24HourView(true);
+        timePickerAddAlarm.setHour(Objects.requireNonNull(addAlarmViewModel.getNextRing().getValue()).getHour());
+        timePickerAddAlarm.setMinute(Objects.requireNonNull(addAlarmViewModel.getNextRing().getValue()).getMinute());
         timePickerAddAlarm.setOnTimeChangedListener((view, hour, minute) -> setNextGoOffCountDown(hour, minute));
         addBtnFrequency();
 
@@ -67,10 +88,12 @@ public class AddAlarmFragment extends Fragment {
             NavHostFragment.findNavController(this).navigate(R.id.nav_snoozeAlarm); // open new fragment to add snooze
         });
         root.findViewById(R.id.layoutDismiss).setOnClickListener(v -> {
-            NavHostFragment.findNavController(this).navigate(R.id.nav_dismissAlarm); // open new fragment to add snooze
+            NavHostFragment.findNavController(this).navigate(R.id.nav_dismissAlarm); // open new fragment to add dismiss
 
         });
-        root.findViewById(R.id.layoutSound).setOnClickListener(v -> addAlarmViewModel.getRingtoneName().setValue("/apero.mp3"));
+        root.findViewById(R.id.layoutWakeupCheck).setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(R.id.nav_wakeupCheckAlarm); // open new fragment to add wakeUpCheck
+        });
 
 
         // toolbar buttons
@@ -102,6 +125,32 @@ public class AddAlarmFragment extends Fragment {
             long day = totalDuration.toDays();
             tvNextGooff.setText(day + "j " + hour + "h " + minutes + "m");
         });
+        addAlarmViewModel.getAlarmName().observe(
+                getViewLifecycleOwner(),
+                alarmName -> observerTextView(((EditText) root.findViewById(R.id.editAlarmName)), alarmName)
+        );
+        addAlarmViewModel.getAlarmLabel().observe(
+                getViewLifecycleOwner(),
+                alarmLabel -> observerTextView(((EditText) root.findViewById(R.id.etAlarmLabel)), alarmLabel)
+        );
+        ((EditText) root.findViewById(R.id.editAlarmName)).addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().equals(addAlarmViewModel.getAlarmName().getValue()))
+                    addAlarmViewModel.getAlarmName().setValue(s.toString());
+            }
+        });
         ((EditText) root.findViewById(R.id.etAlarmLabel)).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -115,10 +164,15 @@ public class AddAlarmFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                addAlarmViewModel.getAlarmLabel().setValue(s.toString());
+                if (!s.toString().equals(addAlarmViewModel.getAlarmLabel().getValue()))
+                    addAlarmViewModel.getAlarmLabel().setValue(s.toString());
             }
         });
-        binding.addAlarmBtn.setOnClickListener(v -> addAlarmViewModel.getFinalAlarm().display());
+        binding.addAlarmBtn.setOnClickListener(v -> {
+            addAlarmViewModel.getFinalAlarm().display();
+            alarmViewModel.insert(addAlarmViewModel.getFinalAlarm());
+            NavHostFragment.findNavController(this).navigateUp();
+        });
 
         return root;
     }
@@ -194,6 +248,12 @@ public class AddAlarmFragment extends Fragment {
 
     }
 
+    public void observerTextView(EditText editText, String newValue) {
+        editText.setText(newValue);
+        editText.setSelection(newValue.length());
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;

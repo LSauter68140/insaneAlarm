@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/layoutSound"
+        android:id="@+id/layoutWakeupCheck"
         android:layout_width="310dp"
         android:layout_height="73dp"
         android:layout_marginTop="44dp"
@@ -58,7 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutSound" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutWakeupCheck" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -209,7 +209,7 @@
         android:background="@drawable/play_pause_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/layoutSound"
+        app:layout_constraintStart_toEndOf="@+id/layoutWakeupCheck"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
