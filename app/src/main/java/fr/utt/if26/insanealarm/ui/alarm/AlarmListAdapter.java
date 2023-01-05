@@ -1,6 +1,7 @@
 package fr.utt.if26.insanealarm.ui.alarm;
 
 import android.annotation.SuppressLint;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -12,16 +13,18 @@ import fr.utt.if26.insanealarm.model.Alarm;
 public class AlarmListAdapter extends ListAdapter<Alarm, AlarmViewHolder> {
 
     AlarmViewModel alarmViewModel;
+    final View globalView;
 
-    protected AlarmListAdapter(@NonNull DiffUtil.ItemCallback<Alarm> diffCallback, AlarmViewModel alarmViewHolder) {
+    protected AlarmListAdapter(@NonNull DiffUtil.ItemCallback<Alarm> diffCallback, AlarmViewModel alarmViewHolder, View globalView) {
         super(diffCallback);
         this.alarmViewModel = alarmViewHolder;
+        this.globalView = globalView;
     }
 
     @NonNull
     @Override
     public AlarmViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return AlarmViewHolder.create(parent);
+        return AlarmViewHolder.create(parent, globalView);
     }
 
     @Override

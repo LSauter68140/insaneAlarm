@@ -37,16 +37,17 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     private final ImageButton settingBtn;
     private final Switch activateAlarm;
     private final TextView type;
-    private static View viewGlobal = null;
+    private final View viewGlobal;
 
     @SuppressLint("NonConstantResourceId")
-    public AlarmViewHolder(@NonNull View itemView) {
+    public AlarmViewHolder(@NonNull View itemView, View viewGlobal) {
         super(itemView);
         nextRingTime = itemView.findViewById(id.listItemNextRingTime);
         frequency = itemView.findViewById(id.listItemFrequency);
         settingBtn = itemView.findViewById(id.listItemSettingBtn);
         activateAlarm = itemView.findViewById(id.listItemActivateAlarm);
         type = itemView.findViewById(id.listItemType);
+        this.viewGlobal = viewGlobal;
     }
 
 
@@ -59,10 +60,10 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         settingBtn.setOnClickListener(v -> onClickSettingBtn(v, alarmViewModel, alarm));
     }
 
-    static AlarmViewHolder create(ViewGroup parent) {
-        viewGlobal = LayoutInflater.from(parent.getContext())
+    static AlarmViewHolder create(ViewGroup parent, View viewGlobal) {
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(layout.alarm_list_item, parent, false);
-        return new AlarmViewHolder(viewGlobal);
+        return new AlarmViewHolder(view, viewGlobal);
     }
 
     private String formatNextTimeToGoOff(LocalTime localTime) {
