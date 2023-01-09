@@ -6,10 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.InputType;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +14,7 @@ import java.util.HashMap;
 
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.ActivityDoingTaskBinding;
+import fr.utt.if26.insanealarm.model.Alarm;
 import fr.utt.if26.insanealarm.model.Task;
 import fr.utt.if26.insanealarm.utils.TaskQuestion;
 
@@ -25,6 +22,7 @@ import fr.utt.if26.insanealarm.utils.TaskQuestion;
 public class DoingTaskActivity extends AppCompatActivity {
 
     Task task;
+    Alarm alarm;
     Float resultTask;
     String questionTask;
     String taskType;
@@ -39,15 +37,16 @@ public class DoingTaskActivity extends AppCompatActivity {
         // get data for doing task
         Intent getIntent = getIntent();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            task = (Task) getIntent.getSerializableExtra("taskToDo", Task.class);
+            task = getIntent.getSerializableExtra("taskToDo", Task.class);
+            alarm = getIntent.getSerializableExtra("alarm", Alarm.class);
         } else {
             task = (Task) getIntent.getSerializableExtra("taskToDo");
+            alarm = (Alarm) getIntent.getSerializableExtra("alarm");
         }
-
         if (task == null)
             return;
         taskType = task.getType();
-        ((TextView) binding.taskTodoTitle).append(
+        binding.taskTodoTitle.append(
                 taskType.equals("Maths") ?
                         getString(R.string.oneCalcul) :
                         getString(R.string.recopyText)
@@ -56,24 +55,24 @@ public class DoingTaskActivity extends AppCompatActivity {
             HashMap<Float, String> mathsTask = TaskQuestion.getMathsTask(task.getDifficulty());
             resultTask = (float) mathsTask.keySet().toArray()[0];
             questionTask = mathsTask.get(resultTask);
-            ((EditText) binding.answerTaskTodo).setInputType(InputType.TYPE_CLASS_NUMBER);
+            binding.answerTaskTodo.setInputType(InputType.TYPE_CLASS_NUMBER);
         } else {
             questionTask = TaskQuestion.getWriteTask(task.getDifficulty(), getResources());
         }
-        ((TextView) binding.tvTaskTodoQu).setText(questionTask);
+        binding.tvTaskTodoQu.setText(questionTask);
 
         // add timer
 
         new CountDownTimer(task.getTimer() * 1000, 1000) {
             @SuppressLint("SetTextI18n")
             public void onTick(long millisUntilFinished) {
-                ((TextView) binding.tvTaskTodoTimer).setText(
+                binding.tvTaskTodoTimer.setText(
                         getString(R.string.remingTime) + millisUntilFinished / 1000);
             }
 
             @SuppressLint("SetTextI18n")
             public void onFinish() {
-                ((TextView) binding.tvTaskTodoTimer).setText("time out!");
+                binding.tvTaskTodoTimer.setText("time out!");
                 //new calculation
                 recreate();
             }
@@ -83,20 +82,22 @@ public class DoingTaskActivity extends AppCompatActivity {
         /// configure btn
 
         // skip button -  new calculation
-        ((Button) binding.btnTaskToDoSkip).setOnClickListener(v -> recreate());
+        binding.btnTaskToDoSkip.setOnClickListener(v -> recreate());
 
         // check if the calculation is right !
-        ((Button) binding.btnTaskTodoOk).setOnClickListener(v -> {
+        binding.btnTaskTodoOk.setOnClickListener(v -> {
             //check if it ok
-            String resultUser = ((EditText) binding.answerTaskTodo).getText().toString();
-            Log.i("r", Float.toString(resultTask));
-            Log.i("r", Float.toString(Float.parseFloat(resultUser)));
-
+            String resultUser = binding.answerTaskTodo.getText().toString();
             if ((taskType.equals("Maths") && Float.compare(Float.parseFloat(resultUser), resultTask) == 0) ||
-                    taskType.equals("Write") && resultUser.equals(questionTask)
+                    taskType.equals("Write") && resultUser.trim().equals(questionTask.trim())
             ) {
                 // ok
                 Toast.makeText(getApplicationContext(), "ok babe", Toast.LENGTH_SHORT).show();
+                Intent controlListenerIntent = new Intent(getApplicationContext(), ControlsListener.class);
+                controlListenerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                controlListenerIntent.putExtra("alarm", alarm);
+                //doingTaskIntent.putExtra("taskToDo", alarmToGoOff.getSnooze().getTask());
+                getApplicationContext().startActivity(controlListenerIntent);
                 onStop();
             } else {
                 // oupsi

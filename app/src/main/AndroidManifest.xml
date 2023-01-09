@@ -30,6 +30,9 @@
                 android:value="" />
         </activity>
         <activity android:name=".ui.stopAlarm.DoingTaskActivity" />
+        <activity android:name=".ui.stopAlarm.ControlsListener" />
+
+        <service android:name=".service.RingtonePlayingService" />
     </application>
 
 </manifest>

@@ -4,8 +4,6 @@ package fr.utt.if26.insanealarm.worker;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.util.Log;
 
@@ -16,6 +14,7 @@ import androidx.work.WorkerParameters;
 
 import fr.utt.if26.insanealarm.database.InsaneAlarmDatabase;
 import fr.utt.if26.insanealarm.model.Alarm;
+import fr.utt.if26.insanealarm.service.RingtonePlayingService;
 import fr.utt.if26.insanealarm.ui.stopAlarm.DoingTaskActivity;
 
 public class AlarmGoOffWorker extends Worker {
@@ -37,16 +36,21 @@ public class AlarmGoOffWorker extends Worker {
         // let's go
         InsaneAlarmDatabase db = InsaneAlarmDatabase.getDatabase(context);
         Alarm alarmToGoOff = db.alarmDao().getAlarmById(alarmId);
+        Log.i("alarm", String.valueOf(alarmId));
         if (alarmToGoOff != null) {
-            Ringtone ringtoneTest = RingtoneManager.getRingtone(context, Uri.parse(alarmToGoOff.getSound().getRingtonePath()));
-            ringtoneTest.play();
             // snooze
+            Intent startIntent = new Intent(context, RingtonePlayingService.class);
+            startIntent.putExtra("ringtone-uri", Uri.parse(alarmToGoOff.getSound().getRingtonePath()).toString());
+            //context.stopService(startIntent);
+            Log.d("uri", startIntent.getExtras().getString("ringtone-uri"));
+            context.startService(startIntent);
 
             if (alarmToGoOff.getSnooze().getActivated()) {
                 // first we snooze
                 Intent doingTaskIntent = new Intent(getApplicationContext(), DoingTaskActivity.class);
                 doingTaskIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 doingTaskIntent.putExtra("taskToDo", alarmToGoOff.getSnooze().getTask());
+                doingTaskIntent.putExtra("alarm", alarmToGoOff);
                 getApplicationContext().startActivity(doingTaskIntent);
             }
             // snooze

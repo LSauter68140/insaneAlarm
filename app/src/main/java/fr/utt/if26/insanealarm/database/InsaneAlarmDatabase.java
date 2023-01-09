@@ -102,11 +102,11 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
 
                                         0,
                                         0,
-                                        new Task("math", 1, 2, 60, true, false)
+                                        new Task("Maths", 1, 2, 60, true, false)
                                 ),
                                 new Dismiss(
                                         new Control(true, 0, false, false, false),
-                                        new Task("write", 2, 1, 0, true, true), false, 0)
+                                        new Task("Write", 2, 1, 0, true, true), false, 0)
                         )
                 );
                 alarmDao.insertAlarm(
