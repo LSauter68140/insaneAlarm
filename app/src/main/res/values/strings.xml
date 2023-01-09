@@ -91,5 +91,12 @@
     <string name="tvWakeUpCheck">Ajouter une vérification de votre réveil effectif</string>
     <string name="tvDelayAfterDismiss">Temps après la vérification du réveil</string>
     <string name="tvCountdownTime">Temps d\'apparition de la notification pour vérifier le bon reveil (après ce laps de temps la sonnerie s\'enclenchera</string>
+    <string name="tvDoingTaskTitle">Tâche à faire : </string>
+    <string name="oupada">Oupada</string>
+    <string name="okBaby">OK baby</string>
+    <string name="oneCalcul">Un calcul</string>
+    <string name="recopyText">Recopier du texte</string>
+    <string name="remingTime">\"Temps restant : \"</string>
+    <string name="noValidateInfoTask">Le résultat proposé n\'est pas bon…</string>
 
 </resources>

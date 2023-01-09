@@ -28,4 +28,7 @@ public interface AlarmDao {
 
     @Query("SELECT * FROM alarm ORDER BY nextRing ASC")
     LiveData<List<Alarm>> getAlarm();
+
+    @Query("Select * from alarm WHERE id = :id")
+    Alarm getAlarmById(Integer id);
 }

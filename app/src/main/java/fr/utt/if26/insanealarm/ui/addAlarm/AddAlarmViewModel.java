@@ -399,34 +399,6 @@ public class AddAlarmViewModel extends ViewModel {
         }
     }
 
-    public String getMathsExample(int difficulty) {
-        // random example ?
-        switch (difficulty) {
-            case 1:
-                return "4+7";
-            case 2:
-                return "3+8*4";
-            case 3:
-                return "54*29+56";
-            default:
-                return "";
-        }
-    }
-
-    public String getWriteExample(int difficulty, Resources resources) {
-        // random example ?
-        switch (difficulty) {
-            case 1:
-                return resources.getString(R.string.taskWriteEasy);
-            case 2:
-                return resources.getString(R.string.taskWriteMedium);
-            case 3:
-                return resources.getString(R.string.taskWriteHard);
-            default:
-                return "";
-        }
-    }
-
     public String ConvertFlashLightModeToStr(Integer flashLightMode, Resources resources) {
         switch (flashLightMode) {
             case 1:

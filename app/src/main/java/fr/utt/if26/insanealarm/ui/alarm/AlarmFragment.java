@@ -13,19 +13,33 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.FragmentAlarmBinding;
+import fr.utt.if26.insanealarm.model.Alarm;
+import fr.utt.if26.insanealarm.worker.AlarmGoOffWorker;
 
 
 public class AlarmFragment extends Fragment {
+
+
+    private AlarmViewModel alarmViewModel;
 
     // FAB menu
     FloatingActionButton fab, fab1, fab2, fab3;
     LinearLayout fabLayout1, fabLayout2, fabLayout3;
     View fabBGLayout;
+
     boolean isFABOpen = false;
 
 
@@ -40,11 +54,14 @@ public class AlarmFragment extends Fragment {
 
         RecyclerView recyclerView = root.findViewById(R.id.alarmRecyclerView);
 
-        AlarmViewModel alarmViewModel =
-                new ViewModelProvider(requireActivity()).get(AlarmViewModel.class);
+        alarmViewModel =
+                new ViewModelProvider(this).get(AlarmViewModel.class);
         final AlarmListAdapter adapter = new AlarmListAdapter(new AlarmListAdapter.AlarmDiff(), alarmViewModel, root);
 
-        alarmViewModel.getAllAlarms().observe(getViewLifecycleOwner(), adapter::submitList);
+        alarmViewModel.getAllAlarms().observe(getViewLifecycleOwner(), alarms -> {
+            updateAlarmWorks(alarms);
+            adapter.submitList(alarms);
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -138,4 +155,33 @@ public class AlarmFragment extends Fragment {
         });
     }
 
+
+    // work Manager function
+    private void updateAlarmWorks(List<Alarm> alarms) {
+        // cancel all the previous worker and create new one
+        WorkManager.getInstance(requireContext()).cancelAllWorkByTag("alarm");
+        Duration timeBetween;
+        for (Alarm alarm : alarms) {
+            if (!alarm.getActivate())
+                continue;
+            timeBetween = Duration.between(LocalDateTime.now(), alarm.getAlarmFrequency().getNextRing());
+
+            if (timeBetween.toMillis() < 0d) {
+                // time passed
+                // if frequency is non -> desactivate alarm
+                // other wise recalculate new go off time !!!
+                alarmViewModel.checkNextGoOff(alarm);
+                continue;
+            }
+
+            OneTimeWorkRequest workAlarmRing =
+                    new OneTimeWorkRequest.Builder(AlarmGoOffWorker.class)
+                            .setInitialDelay(timeBetween.toMinutes(), TimeUnit.MINUTES)// Use this when you want to add initial delay or schedule initial work to `OneTimeWorkRequest` e.g. setInitialDelay(2, TimeUnit.HOURS)
+                            .addTag("alarm")
+                            .setInputData((new Data.Builder()).putInt("id", alarm.getId()).build())
+                            .build();
+            WorkManager.getInstance(requireContext()).enqueue(workAlarmRing);
+            /// WorkManager.getInstance(requireContext()).pruneWork();
+        }
+    }
 }

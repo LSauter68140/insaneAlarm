@@ -1,6 +1,7 @@
 package fr.utt.if26.insanealarm.ui.subPartAlarm.snooze;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,12 +65,14 @@ public class SnoozeFragment extends Fragment {
                 cntLytOptionalSttg.setVisibility(View.GONE);
             }
         });
+        Log.i("j'ai faim", String.valueOf(alarmViewModel.getActivateSnooze().getValue()));
         binding.layoutActivateSnooze.setOnClickListener(this::listenerActivateSnooze);
 
         return root;
     }
 
     public void listenerActivateSnooze(View v) {
+        Log.i("apero", "test");
         alarmViewModel.getActivateSnooze().setValue(Boolean.FALSE.equals(alarmViewModel.getActivateSnooze().getValue()));
     }
 

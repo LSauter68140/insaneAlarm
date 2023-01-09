@@ -24,7 +24,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -35,6 +34,7 @@ import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.FragmentAddEditBinding;
 import fr.utt.if26.insanealarm.model.Alarm;
 import fr.utt.if26.insanealarm.ui.alarm.AlarmViewModel;
+import fr.utt.if26.insanealarm.utils.AlarmUtils;
 import fr.utt.if26.insanealarm.utils.DayTimeTranslator;
 import fr.utt.if26.insanealarm.utils.FileManager;
 
@@ -59,16 +59,14 @@ public class AddAlarmFragment extends Fragment {
         root = binding.getRoot();
 
         if (getArguments() != null) {
-
-
-            Alarm alarm = null;
+            Alarm alarm;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-                alarm = (Alarm) getArguments().getSerializable("alarmToEdit", Alarm.class);
+                alarm = getArguments().getSerializable("alarmToEdit", Alarm.class);
             } else {
                 alarm = (Alarm) getArguments().getSerializable("alarmToEdit");
             }
-            addAlarmViewModel.addExistingAlarm(alarm);
-            //alarm.display();
+            if (!alarm.getId().equals(Objects.requireNonNull(addAlarmViewModel.getAlarm().getValue()).getId()))
+                addAlarmViewModel.addExistingAlarm(alarm);
         }
 
 
@@ -100,7 +98,8 @@ public class AddAlarmFragment extends Fragment {
         root.findViewById(R.id.discardBtn).setOnClickListener(v ->
                 NavHostFragment.findNavController(this).navigateUp());
         root.findViewById(R.id.previewBtn).setOnClickListener(v -> {
-            //TODO
+            // TODO
+            Log.i("apero", addAlarmViewModel.getRingtoneName().getValue());
         });
 
         addAlarmViewModel.getRingtoneName().observe(getViewLifecycleOwner(), ringtone ->
@@ -171,6 +170,7 @@ public class AddAlarmFragment extends Fragment {
         binding.addAlarmBtn.setOnClickListener(v -> {
             addAlarmViewModel.getFinalAlarm().display();
             alarmViewModel.insert(addAlarmViewModel.getFinalAlarm());
+
             NavHostFragment.findNavController(this).navigateUp();
         });
 
@@ -214,38 +214,9 @@ public class AddAlarmFragment extends Fragment {
     }
 
     public void setNextGoOffCountDown(int hourGoOff, int minuteGoOff) {
-
         LocalTime timeGoOff = LocalTime.parse(DayTimeTranslator.readableTime((long) hourGoOff, (long) minuteGoOff, 0L));
-        int hourCurrent = LocalTime.now().getHour();
-        int minuteCurrent = LocalTime.now().getMinute();
-        LocalTime timeCurrent = LocalTime.parse(DayTimeTranslator.readableTime((long) hourCurrent, (long) minuteCurrent, 0L));
-
-        Duration totalDuration = Duration.between(timeCurrent, timeGoOff);
-
-        int currentDay = LocalDate.now().getDayOfWeek().getValue();
-        int index = currentDay;
-        // check next day
-        do {
-            index += 1;
-            index = index % 7;
-            Log.i("index", String.valueOf(index));
-        } while (index != currentDay && !nextDayGooff[index]);
-        //compute day between
-        int dayBetween = ((index - currentDay) + 7) % 7;
-        totalDuration = totalDuration.plusDays(dayBetween);
-
-        // convert into readable time;
-        if (totalDuration.toMinutes() < 0) {
-            if (nextDayGooff[currentDay]) {
-                // add a week if the time is done and we want an alarm the next week and only this day
-                totalDuration = totalDuration.plusDays(7);
-            } else {
-                totalDuration = totalDuration.plusDays(1);
-            }
-        }
-
+        Duration totalDuration = AlarmUtils.getDurationNextGoOff(timeGoOff, nextDayGooff);
         addAlarmViewModel.getNextRing().setValue(LocalDateTime.now().plus(totalDuration));
-
     }
 
     public void observerTextView(EditText editText, String newValue) {

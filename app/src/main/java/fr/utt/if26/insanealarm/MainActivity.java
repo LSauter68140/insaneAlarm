@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -12,6 +13,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 
 import fr.utt.if26.insanealarm.databinding.ActivityMainBinding;
+import fr.utt.if26.insanealarm.ui.addAlarm.AddAlarmViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
-
+        AddAlarmViewModel addAlarmViewModel = new ViewModelProvider(this).get(AddAlarmViewModel.class);
 
         drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;

@@ -54,7 +54,7 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
     // singleton
     private static volatile InsaneAlarmDatabase INSTANCE;
 
-    static InsaneAlarmDatabase getDatabase(final Context context) {
+    public static InsaneAlarmDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (InsaneAlarmDatabase.class) {
                 if (INSTANCE == null) {
@@ -84,7 +84,7 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
                                 false,
                                 "C'est meme plus la peine de se lever je crois !",
                                 new AlarmFrequency(
-                                        LocalDateTime.now().plusDays(2),
+                                        LocalDateTime.now().minusHours(1),
                                         false,
                                         true,
                                         true,
@@ -116,7 +116,7 @@ public abstract class InsaneAlarmDatabase extends RoomDatabase {
                                 true,
                                 "Oh tu vas arriver en retard",
                                 new AlarmFrequency(
-                                        LocalDateTime.now().plusDays(2),
+                                        LocalDateTime.now().minusHours(3),
                                         false,
                                         true,
                                         false,

@@ -25,6 +25,10 @@ public class AlarmRepository {
         return this.allAlarm;
     }
 
+    public Alarm getAlarmById(Integer id) {
+        return alarmDao.getAlarmById(id);
+    }
+
     public void insertAlarm(Alarm alarm) {
         InsaneAlarmDatabase.databaseWriteExecutor.execute(() -> alarmDao.insertAlarm(alarm));
     }

@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.FragmentSubPartTaskBinding;
 import fr.utt.if26.insanealarm.ui.addAlarm.AddAlarmViewModel;
+import fr.utt.if26.insanealarm.utils.TaskQuestion;
 
 public class TasksFragment extends Fragment {
     private FragmentSubPartTaskBinding binding;
@@ -264,10 +265,10 @@ public class TasksFragment extends Fragment {
     public void updateTextViewWithdiffType() {
         if (radioIndexSelected == 1) {
             // maths
-            taskExample.setText(alarmViewModel.getMathsExample(difficulty));
+            taskExample.setText(TaskQuestion.getMathsExample(difficulty));
         } else if (radioIndexSelected == 2) {
             // write
-            taskExample.setText(alarmViewModel.getWriteExample(difficulty, getResources()));
+            taskExample.setText(TaskQuestion.getWriteExample(difficulty, getResources()));
         }
         // nothing
         seekBarDesc.setText(alarmViewModel.getDifficultyToString(difficulty, getResources()));
