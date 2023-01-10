@@ -5,8 +5,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "Sound")
-public class Sound {
+public class Sound implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private Integer soundId;
     @ColumnInfo(name = "ringtonePath")

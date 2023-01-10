@@ -17,14 +17,17 @@ public class AlarmUtils {
         Duration totalDuration = Duration.between(timeCurrent, timeGoOff);
 
         int currentDay = LocalDate.now().getDayOfWeek().getValue();
-        int index = currentDay;
-        // check next day
-        do {
-            index += 1;
-            index = index % 7;
-        } while (index != currentDay && !nextDayGoOff[index]);
+        int dayBetween = 0;
         //compute day between
-        int dayBetween = ((index - currentDay) + 7) % 7;
+        if (!(nextDayGoOff[currentDay] && timeGoOff.isAfter(timeCurrent))) {
+            int index = currentDay;
+            // check next day
+            do {
+                index += 1;
+                index = index % 7;
+            } while (index != currentDay && !nextDayGoOff[index]);
+            dayBetween = ((index - currentDay) + 7) % 7;
+        }
         totalDuration = totalDuration.plusDays(dayBetween);
 
         // convert into readable time;

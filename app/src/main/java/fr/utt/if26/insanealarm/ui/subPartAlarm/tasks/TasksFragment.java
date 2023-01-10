@@ -91,7 +91,7 @@ public class TasksFragment extends Fragment {
                         observerSeekBarTask(widget.getKey(), (SeekBar) widget.getValue(), getViewLifecycleOwner());
                         listenerSeekBar(widget.getKey(), (SeekBar) widget.getValue());
                         break;
-                    case "NumberTask":
+                    case "Number":
                     case "Timer":
                         observerNumberPickerTask(widget.getKey(), (NumberPicker) widget.getValue(), getViewLifecycleOwner());
                         listenerNumberPickerTask(widget.getKey(), (NumberPicker) widget.getValue());

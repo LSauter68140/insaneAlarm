@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import fr.utt.if26.insanealarm.utils.DayTimeTranslator;
 
 //@Entity(foreignKeys = @ForeignKey(entity = AlarmFrequency.class, parentColumns = "frequencyID", childColumns = "alarmFrequencyId", onDelete = CASCADE))
 @Entity(tableName = "AlarmFrequency")
-public class AlarmFrequency {
+public class AlarmFrequency implements Serializable {
 
     @ColumnInfo(name = "alarmFrequencyId")
     @PrimaryKey(autoGenerate = true)

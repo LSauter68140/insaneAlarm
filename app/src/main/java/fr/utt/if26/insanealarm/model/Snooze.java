@@ -6,9 +6,11 @@ import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 //@Entity(foreignKeys = @ForeignKey(entity = Snooze.class, parentColumns = "snoozeId", childColumns = "id", onDelete = CASCADE))
 @Entity(tableName = "Snooze")
-public class Snooze {
+public class Snooze implements Serializable {
 
     @ColumnInfo(name = "snoozeId")
     @PrimaryKey(autoGenerate = true)

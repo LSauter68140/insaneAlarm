@@ -4,6 +4,10 @@
     package="fr.utt.if26.insanealarm">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -33,6 +37,9 @@
         <activity android:name=".ui.stopAlarm.ControlsListener" />
 
         <service android:name=".service.RingtonePlayingService" />
+        <service android:name=".service.VibratorService" />
+        <service android:name=".service.CameraFlashService" />
+
     </application>
 
 </manifest>

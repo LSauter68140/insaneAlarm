@@ -34,6 +34,7 @@ public class DoingTaskActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         task = null;
+        String snoozeOrDismiss = "dismiss"; // default value
         // get data for doing task
         Intent getIntent = getIntent();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -43,8 +44,15 @@ public class DoingTaskActivity extends AppCompatActivity {
             task = (Task) getIntent.getSerializableExtra("taskToDo");
             alarm = (Alarm) getIntent.getSerializableExtra("alarm");
         }
-        if (task == null)
+        if (getIntent.getStringExtra("type") != null) {
+            snoozeOrDismiss = getIntent.getStringExtra("type");
+        }
+        // skip task if we don't need it
+        if (task == null || !TaskQuestion.taskTypeNames.contains(task.getType())) {
+            startControlListenerIntent(snoozeOrDismiss);
             return;
+        }
+
         taskType = task.getType();
         binding.taskTodoTitle.append(
                 taskType.equals("Maths") ?
@@ -62,7 +70,6 @@ public class DoingTaskActivity extends AppCompatActivity {
         binding.tvTaskTodoQu.setText(questionTask);
 
         // add timer
-
         new CountDownTimer(task.getTimer() * 1000, 1000) {
             @SuppressLint("SetTextI18n")
             public void onTick(long millisUntilFinished) {
@@ -76,7 +83,6 @@ public class DoingTaskActivity extends AppCompatActivity {
                 //new calculation
                 recreate();
             }
-
         }.start();
 
         /// configure btn
@@ -85,6 +91,7 @@ public class DoingTaskActivity extends AppCompatActivity {
         binding.btnTaskToDoSkip.setOnClickListener(v -> recreate());
 
         // check if the calculation is right !
+        String finalSnoozeOrDismiss = snoozeOrDismiss;
         binding.btnTaskTodoOk.setOnClickListener(v -> {
             //check if it ok
             String resultUser = binding.answerTaskTodo.getText().toString();
@@ -93,17 +100,21 @@ public class DoingTaskActivity extends AppCompatActivity {
             ) {
                 // ok
                 Toast.makeText(getApplicationContext(), "ok babe", Toast.LENGTH_SHORT).show();
-                Intent controlListenerIntent = new Intent(getApplicationContext(), ControlsListener.class);
-                controlListenerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                controlListenerIntent.putExtra("alarm", alarm);
-                //doingTaskIntent.putExtra("taskToDo", alarmToGoOff.getSnooze().getTask());
-                getApplicationContext().startActivity(controlListenerIntent);
-                onStop();
+                startControlListenerIntent(finalSnoozeOrDismiss);
             } else {
                 // oupsi
                 Toast.makeText(getApplicationContext(), R.string.noValidateInfoTask, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void startControlListenerIntent(String finalSnoozeOrDismiss) {
+        Intent controlListenerIntent = new Intent(getApplicationContext(), ControlsListener.class);
+        controlListenerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        controlListenerIntent.putExtra("alarm", alarm);
+        controlListenerIntent.putExtra("type", finalSnoozeOrDismiss);
+        getApplicationContext().startActivity(controlListenerIntent);
+        finish();
     }
 }
 

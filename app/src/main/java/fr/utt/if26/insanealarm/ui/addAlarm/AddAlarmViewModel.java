@@ -309,7 +309,7 @@ public class AddAlarmViewModel extends ViewModel {
         return difficultySnoozeTask;
     }
 
-    public MutableLiveData<Integer> getNumberTaskSnoozeTask() {
+    public MutableLiveData<Integer> getNumberSnoozeTask() {
         return numberTaskSnoozeTask;
     }
 
@@ -333,7 +333,7 @@ public class AddAlarmViewModel extends ViewModel {
         return difficultyDismissTask;
     }
 
-    public MutableLiveData<Integer> getNumberTaskDismissTask() {
+    public MutableLiveData<Integer> getNumberDismissTask() {
         return numberTaskDismissTask;
     }
 

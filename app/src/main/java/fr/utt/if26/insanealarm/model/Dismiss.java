@@ -6,8 +6,10 @@ import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "Dismiss")
-public class Dismiss {
+public class Dismiss implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private Integer dismissId;

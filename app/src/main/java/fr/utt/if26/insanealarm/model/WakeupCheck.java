@@ -5,8 +5,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "wakeupCheck")
-public class WakeupCheck {
+public class WakeupCheck implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private Integer wakeupCheckId;

@@ -5,12 +5,14 @@ import android.content.res.Resources;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import fr.utt.if26.insanealarm.R;
 
 public class TaskQuestion {
 
+    public static final List<String> taskTypeNames = List.of(new String[]{"Maths", "Write"});
 
     public static String getMathsExample(int difficulty) {
         // random example ?
@@ -30,7 +32,8 @@ public class TaskQuestion {
         // random example ?
         switch (difficulty) {
             case 1:
-                return resources.getString(R.string.taskWriteEasy);
+                return "a";
+            //return resources.getString(R.string.taskWriteEasy);
             case 2:
                 return resources.getString(R.string.taskWriteMedium);
             case 3:
@@ -84,7 +87,8 @@ public class TaskQuestion {
         // if time add random or dictionary example
         switch (difficulty) {
             case 1:
-                return resources.getString(R.string.taskWriteEasy);
+                return "a";
+            // return resources.getString(R.string.taskWriteEasy);
             case 2:
                 return resources.getString(R.string.taskWriteMedium);
             case 3:

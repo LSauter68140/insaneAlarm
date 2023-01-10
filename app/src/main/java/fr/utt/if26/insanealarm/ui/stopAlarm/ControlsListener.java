@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.work.Data;
@@ -24,7 +25,9 @@ import java.util.concurrent.TimeUnit;
 
 import fr.utt.if26.insanealarm.broadcastReceiver.PowerOnOffButtonReceiver;
 import fr.utt.if26.insanealarm.model.Alarm;
+import fr.utt.if26.insanealarm.service.CameraFlashService;
 import fr.utt.if26.insanealarm.service.RingtonePlayingService;
+import fr.utt.if26.insanealarm.service.VibratorService;
 import fr.utt.if26.insanealarm.service.VolumeButtonObserver;
 import fr.utt.if26.insanealarm.ui.alarm.AlarmViewModel;
 import fr.utt.if26.insanealarm.utils.AlarmUtils;
@@ -36,7 +39,7 @@ public class ControlsListener extends AppCompatActivity {
     PowerOnOffButtonReceiver powerOnOffButtonReceveier;
 
     public MutableLiveData<Boolean> mediaIsActivate;
-    public String type;
+    public String type = "";
     public Alarm alarm;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +56,8 @@ public class ControlsListener extends AppCompatActivity {
             alarm = (Alarm) getIntent.getSerializableExtra("alarm");
         }
 
-
         mediaIsActivate = new MutableLiveData<>();
         mediaIsActivate.setValue(true);
-
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -99,7 +100,6 @@ public class ControlsListener extends AppCompatActivity {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     //UI update here
-                    Log.d("apero", intent.getStringExtra("number"));
                     mediaIsActivate.setValue(false);
                 }
             };
@@ -111,21 +111,27 @@ public class ControlsListener extends AppCompatActivity {
 
         mediaIsActivate.observe(this, mediaIsActivate -> {
             if (!mediaIsActivate) {
-                //end the media player
                 Log.i("desactivé", "mediaIsActivate a été désactivé");
-                Intent stopIntent = new Intent(getApplicationContext(), RingtonePlayingService.class);
-                getApplicationContext().stopService(stopIntent);
 
+                // stop all the alarms services
+                getApplicationContext().stopService(new Intent(getApplicationContext(), RingtonePlayingService.class));
+                getApplicationContext().stopService(new Intent(getApplicationContext(), VibratorService.class));
+                getApplicationContext().stopService(new Intent(getApplicationContext(), CameraFlashService.class));
+
+                // remove notification
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+                notificationManager.cancel(alarm.getId());
                 // if is from snooze we remove one and plan a new delay
                 if (type.equals("snooze")) {
+                    // snooze mode
                     if (alarm.getSnooze().getSnoozeLimit() == 0) {
                         alarm.getSnooze().setActivated(false);
                     } else {
                         alarm.getSnooze().setSnoozeLimit(alarm.getSnooze().getSnoozeLimit() - 1);
                     }
                     alarm.getFrequency().setNextRing(LocalDateTime.now().plusMinutes(alarm.getSnooze().getSnoozeSecTime()));
-                } else {
-                    // from dismiss
+                } else if (type.equals("dismiss")) {
+                    // dismiss mode
                     if (alarm.getFrequency().getWeekSchedule().size() == 0) {
                         alarm.setActivate(false); // deactivate alarm for an onetime alarm
                     } else {
@@ -135,7 +141,7 @@ public class ControlsListener extends AppCompatActivity {
                                 alarm.getTimeToGoOff(),
                                 days);
                         // to avoid that the alarm go off at the same time
-                        if (totalDuration.getSeconds() == 0) {
+                        if (totalDuration.toMinutes() < 2) {
                             int currentDay = LocalDate.now().getDayOfWeek().getValue();
                             int index = currentDay;
                             // check next day
@@ -149,22 +155,28 @@ public class ControlsListener extends AppCompatActivity {
                             }
                         }
                         alarm.getAlarmFrequency().setNextRing(LocalDateTime.now().plus(totalDuration).plusDays(dayBetween));
-
                     }
                     // add wakeup check if we need it
                     if (alarm.getWakeupCheck().getActivate()) {
+                        Data.Builder inputData = new Data.Builder();
+                        inputData.putInt("id", alarm.getId());
+                        inputData.putString("workerType", "wakeupcheck");
+                        inputData.build();
                         OneTimeWorkRequest workAlarmRing =
                                 new OneTimeWorkRequest.Builder(AlarmGoOffWorker.class)
                                         .setInitialDelay(alarm.getWakeupCheck().getDelayAfterDismiss(), TimeUnit.SECONDS)// Use this when you want to add initial delay or schedule initial work to `OneTimeWorkRequest` e.g. setInitialDelay(2, TimeUnit.HOURS)
                                         .addTag("alarm_wakeupcheck")
-                                        .setInputData((new Data.Builder()).putInt("id", alarm.getId()).build())
+                                        .setInputData(inputData.build())
                                         .build();
                         WorkManager.getInstance(getApplicationContext()).enqueue(workAlarmRing);
                     }
                 }
+                // for wake up check we have nothing to do
                 // update room
                 addAlarmViewModel.updateAlarm(alarm);
                 // the ui program the next worker when the ui will be sets
+                finish();
+                this.moveTaskToBack(true);
             }
         });
     }

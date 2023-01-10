@@ -8,7 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 
 public class VolumeButtonObserver extends ContentObserver {
-    private AudioManager audioManager;
+    private final AudioManager audioManager;
     Context context;
 
     /**

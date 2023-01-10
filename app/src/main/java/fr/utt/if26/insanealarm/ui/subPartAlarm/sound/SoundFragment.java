@@ -49,7 +49,7 @@ public class SoundFragment extends Fragment {
         @SuppressLint("UseSwitchCompatOrMaterialCode")
         Switch switchNeedVibration = root.findViewById(R.id.switchNeedVirbation);
         @SuppressLint("UseSwitchCompatOrMaterialCode")
-        Switch switchSameAsPhone = root.findViewById(R.id.switchCanSkip);
+        Switch switchSameAsPhone = root.findViewById(R.id.switchSameAsPhone);
         @SuppressLint("UseSwitchCompatOrMaterialCode")
         Switch switchIncreaseVolume = root.findViewById(R.id.switchIncreaseVolume);
 
