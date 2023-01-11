@@ -9,7 +9,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,8 +117,6 @@ public class SoundFragment extends Fragment {
                 .setFragmentResultListener(
                         "ringtoneChosen", getViewLifecycleOwner(),
                         (requestKey, result) -> {
-                            Log.i("soundFragment", result.getString("uriStr"));
-                            Log.i("parsed", String.valueOf(Uri.parse(result.getString("uriStr"))));
                             alarmViewModel.getRingtoneName().setValue(result.getString("uriStr"));
                         });
         return root;
@@ -245,4 +242,5 @@ public class SoundFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
 }

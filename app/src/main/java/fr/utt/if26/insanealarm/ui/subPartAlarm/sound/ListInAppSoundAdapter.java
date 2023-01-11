@@ -2,7 +2,6 @@ package fr.utt.if26.insanealarm.ui.subPartAlarm.sound;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,9 +66,6 @@ public class ListInAppSoundAdapter extends RecyclerView.Adapter<ListInAppSoundAd
             layoutSoundNameItem.setOnClickListener(v -> {
                 try {
                     Uri ringtoneUri = FileManager.getUriToResource(itemView.getContext(), fileName.getInt(fileName));
-                    Log.i("intResources", String.valueOf(fileName.getInt(fileName)));
-                    Log.i("uri", String.valueOf(ringtoneUri));
-
                     Bundle result = new Bundle();
                     result.putString("uriStr", String.valueOf(ringtoneUri));
 

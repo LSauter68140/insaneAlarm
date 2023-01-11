@@ -1,5 +1,6 @@
 package fr.utt.if26.insanealarm.ui.stopAlarm;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -7,10 +8,10 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.work.Data;
@@ -23,7 +24,9 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.broadcastReceiver.PowerOnOffButtonReceiver;
+import fr.utt.if26.insanealarm.databinding.FragmentControlListenerBinding;
 import fr.utt.if26.insanealarm.model.Alarm;
 import fr.utt.if26.insanealarm.service.CameraFlashService;
 import fr.utt.if26.insanealarm.service.RingtonePlayingService;
@@ -46,6 +49,8 @@ public class ControlsListener extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AlarmViewModel addAlarmViewModel = new ViewModelProvider(this).get(AlarmViewModel.class);
 
+        FragmentControlListenerBinding binding = FragmentControlListenerBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         // retrieve info from dismiss/ snooze activity
 
         Intent getIntent = getIntent();
@@ -55,6 +60,23 @@ public class ControlsListener extends AppCompatActivity {
         } else {
             alarm = (Alarm) getIntent.getSerializableExtra("alarm");
         }
+
+        // update TV
+        String tvTitle;
+        String tvWayToStop = "Moyen de désactivation:\n";
+        switch (type) {
+            case "snooze":
+                tvTitle = "Snooze";
+                break;
+            case "dismiss":
+                tvTitle = "Éteindre";
+                break;
+            case "wakeupcheckup":
+                tvTitle = "Oupsi oupsi tu t'es rendormi...";
+            default:
+                tvTitle = "";
+        }
+        binding.tvControlListenerTitle.setText(tvTitle);
 
         mediaIsActivate = new MutableLiveData<>();
         mediaIsActivate.setValue(true);
@@ -68,6 +90,7 @@ public class ControlsListener extends AppCompatActivity {
 
         //on off button
         if (activatePowerBtn) {
+            tvWayToStop += "Bouton de mise sous tension \n";
             powerOnOffButtonReceveier = new PowerOnOffButtonReceiver();
             registerReceiver(powerOnOffButtonReceveier, intentFilter);
             IntentFilter filter = new IntentFilter();
@@ -87,6 +110,7 @@ public class ControlsListener extends AppCompatActivity {
                 alarm.getDismiss().getControl().isVolumeButton();
         // volume button
         if (activateVolumeBtn) {
+            tvWayToStop += "Bouton de volumes\n";
             getApplicationContext().getContentResolver()
                     .registerContentObserver(
                             android.provider.Settings.System.CONTENT_URI,
@@ -105,22 +129,31 @@ public class ControlsListener extends AppCompatActivity {
             };
             registerReceiver(updateUIRReceiver2, filter);
         }
+        // if button on screen
+        boolean btnOnScreen = Objects.equals(type, "snooze") ?
+                alarm.getSnooze().getControl().isButtonOnScreen() :
+                alarm.getDismiss().getControl().isButtonOnScreen();
+        if (btnOnScreen) {
+            tvWayToStop += "Bouton au mileu de l'écran";
+            binding.btnStopAlarm.setOnClickListener(v -> {
+                mediaIsActivate.setValue(false);
+            });
+        } else {
+            binding.btnStopAlarm.setVisibility(View.GONE);
+        }
 
+        binding.tvDesactivateMode.setText(tvWayToStop);
 
         // listener on media is activate
 
         mediaIsActivate.observe(this, mediaIsActivate -> {
             if (!mediaIsActivate) {
-                Log.i("desactivé", "mediaIsActivate a été désactivé");
-
                 // stop all the alarms services
                 getApplicationContext().stopService(new Intent(getApplicationContext(), RingtonePlayingService.class));
                 getApplicationContext().stopService(new Intent(getApplicationContext(), VibratorService.class));
                 getApplicationContext().stopService(new Intent(getApplicationContext(), CameraFlashService.class));
 
-                // remove notification
-                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-                notificationManager.cancel(alarm.getId());
+                updateNotification(alarm);
                 // if is from snooze we remove one and plan a new delay
                 if (type.equals("snooze")) {
                     // snooze mode
@@ -179,6 +212,20 @@ public class ControlsListener extends AppCompatActivity {
                 this.moveTaskToBack(true);
             }
         });
+
+
+    }
+
+    private void updateNotification(Alarm alarm) {
+        // we change priority and the user can remove it
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "notificationAlarm")
+                .setContentTitle(alarm.getName())
+                .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                .setContentText(alarm.getLabel())
+                .setPriority(NotificationCompat.PRIORITY_LOW);
+
+        NotificationManager notificationManager = getApplicationContext().getSystemService(NotificationManager.class);
+        notificationManager.notify(alarm.getId(), builder.build());
     }
 }
 

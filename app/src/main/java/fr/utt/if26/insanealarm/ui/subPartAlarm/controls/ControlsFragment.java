@@ -20,6 +20,7 @@ import fr.utt.if26.insanealarm.databinding.FragmentSubPartControlsBinding;
 import fr.utt.if26.insanealarm.ui.addAlarm.AddAlarmViewModel;
 
 public class ControlsFragment extends Fragment {
+
     private FragmentSubPartControlsBinding binding;
     private AddAlarmViewModel alarmViewModel;
 

@@ -16,18 +16,22 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.model.Alarm;
 import fr.utt.if26.insanealarm.utils.DayTimeTranslator;
+import fr.utt.if26.insanealarm.worker.AlarmGoOffWorker;
 
 @SuppressLint("UseSwitchCompatOrMaterialCode")
 public class AlarmViewHolder extends RecyclerView.ViewHolder {
@@ -36,7 +40,6 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     private final TextView frequency;
     private final ImageButton settingBtn;
     private final Switch activateAlarm;
-    private final TextView type;
     private final View viewGlobal;
 
     @SuppressLint("NonConstantResourceId")
@@ -46,7 +49,6 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         frequency = itemView.findViewById(id.listItemFrequency);
         settingBtn = itemView.findViewById(id.listItemSettingBtn);
         activateAlarm = itemView.findViewById(id.listItemActivateAlarm);
-        type = itemView.findViewById(id.listItemType);
         this.viewGlobal = viewGlobal;
     }
 
@@ -56,7 +58,6 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         frequency.setText(formatFrequency(alarm, itemView.getResources()));
         activateAlarm.setChecked(alarm.getActivate());
         activateAlarm.setOnClickListener(v -> onClickAlarmSwitch(alarmViewModel, alarm));
-        type.setText(String.valueOf(alarm.getDismiss().getTask().getNumberTask()));
         settingBtn.setOnClickListener(v -> onClickSettingBtn(v, alarmViewModel, alarm));
     }
 
@@ -91,17 +92,6 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     public void onClickAlarmSwitch(AlarmViewModel alarmViewModel, Alarm alarm) {
         alarm.setActivate(activateAlarm.isChecked());
         alarmViewModel.updateAlarm(alarm);
-        // test for animation
-        /*
-        Thread t = new Thread(() -> {
-            try {
-                Thread.sleep(400);
-                alarmViewModel.updateAlarm(alarm);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        t.start();*/
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -117,7 +107,13 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
                     Navigation.findNavController(viewGlobal).navigate(id.nav_addEditAlarm, bundle);
                     return true;
                 case id.alarmSettingPreview:
-                    Toast.makeText(itemView.getContext(), "Visualiser", Toast.LENGTH_SHORT).show();
+                    OneTimeWorkRequest workAlarmRing =
+                            new OneTimeWorkRequest.Builder(AlarmGoOffWorker.class)
+                                    .setInitialDelay(0, TimeUnit.MINUTES)// now for preview
+                                    .addTag("alarm")
+                                    .setInputData((new Data.Builder()).putInt("id", alarm.getId()).build())
+                                    .build();
+                    WorkManager.getInstance(alarmViewModel.getApplication().getApplicationContext()).enqueue(workAlarmRing);
                     return true;
                 case id.alarmSettingDelete:
                     alarmViewModel.deleteAlarmById(alarm.getId());

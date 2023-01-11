@@ -44,13 +44,13 @@ public class AlarmGoOffWorker extends Worker {
         Data data = getInputData();
         int alarmId = data.getInt("id", -1);
         String workerType = data.getString("workerType") != null ? data.getString("workerType") : null;
+        String typeRing = "";
         // none id found
         if (alarmId == -1)
             return new Result.Failure();
         // let's go
         InsaneAlarmDatabase db = InsaneAlarmDatabase.getDatabase(context);
         Alarm alarmToGoOff = db.alarmDao().getAlarmById(alarmId);
-        Log.i("alarm", String.valueOf(alarmId));
         if (alarmToGoOff != null) {
             HashMap<String, Serializable> extrasIntent = new HashMap<>();
             // need for each case
@@ -58,7 +58,8 @@ public class AlarmGoOffWorker extends Worker {
             // snooze
             if (alarmToGoOff.getSnooze().getActivated()) {
                 extrasIntent.put("taskToDo", alarmToGoOff.getSnooze().getTask());
-                extrasIntent.put("type", "snooze");
+                typeRing = "snooze";
+                extrasIntent.put("type", typeRing);
                 createNewIntent(DoingTaskActivity.class, extrasIntent);
             } else if (workerType != null) {
                 if (workerType.equals("wakeupcheckNotif")) {
@@ -67,13 +68,15 @@ public class AlarmGoOffWorker extends Worker {
                     // create new worker
                     return new Result.Success();
                 } else if (workerType.equals("wakeupcheck")) {
-                    extrasIntent.put("type", "wakeupcheckup");
+                    typeRing = "wakeupcheckup";
+                    extrasIntent.put("type", typeRing);
                     createNewIntent(ControlsListener.class, extrasIntent);
                 }
             } else {
                 // dismiss mode
                 extrasIntent.put("taskToDo", alarmToGoOff.getDismiss().getTask());
-                extrasIntent.put("type", "dismiss");
+                typeRing = "dismiss";
+                extrasIntent.put("type", typeRing);
                 createNewIntent(DoingTaskActivity.class, extrasIntent);
             }
             // start ringtone service
@@ -90,13 +93,28 @@ public class AlarmGoOffWorker extends Worker {
                 cameraFlashService.putExtra("flashMode", alarmToGoOff.getSound().getFlashLight());
                 context.startService(cameraFlashService);
             }
+            String typeNotif;
+            switch (typeRing) {
+                case "snooze":
+                    typeNotif = "Snooze";
+                    break;
+                case "dismiss":
+                    typeNotif = "Éteindre";
+                    break;
+                case "wakeupcheckup":
+                    typeNotif = "Juste pour voir si tu dors";
+                    break;
+                default:
+                    typeNotif = "";
 
+            }
             // add corresponding notification
             NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "notificationAlarm")
-                    .setContentTitle("INSANE ALARM : " + alarmToGoOff.getName())
+                    .setContentTitle(typeNotif + ": " + alarmToGoOff.getName())
                     .setSmallIcon(R.drawable.ic_baseline_notifications_24)
                     .setContentText(alarmToGoOff.getLabel())
                     .setOngoing(true)
+                    .setSilent(true)
                     .setAutoCancel(false)
                     .setPriority(NotificationCompat.PRIORITY_HIGH);
 
@@ -108,10 +126,10 @@ public class AlarmGoOffWorker extends Worker {
             // or other notification behaviors after this
             NotificationManager notificationManager = getApplicationContext().getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
-            notificationManager.notify(1, builder.build());
+            notificationManager.notify(alarmId, builder.build());
 
         } else {
-            Log.i("c'est l'heure", "de l'apero");
+            Log.i("[ERR] Worker", "impossible de démarrer le worker");
         }
 
         return new Result.Success();

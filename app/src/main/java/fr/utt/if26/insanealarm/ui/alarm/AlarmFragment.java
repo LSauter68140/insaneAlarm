@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -92,11 +93,11 @@ public class AlarmFragment extends Fragment {
             closeFABMenu();
         });
         fab2.setOnClickListener(view -> {
-            Navigation.findNavController(root).navigate(R.id.nav_slideshow);
+            Toast.makeText(getContext(), "Alarm rapide", Toast.LENGTH_SHORT).show();
             closeFABMenu();
         });
         fab3.setOnClickListener(view -> {
-            Navigation.findNavController(root).navigate(R.id.nav_alarm);
+            Toast.makeText(getContext(), "Ajouter un rappel", Toast.LENGTH_SHORT).show();
             closeFABMenu();
         });
 

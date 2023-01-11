@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,10 +96,6 @@ public class AddAlarmFragment extends Fragment {
         // toolbar buttons
         root.findViewById(R.id.discardBtn).setOnClickListener(v ->
                 NavHostFragment.findNavController(this).navigateUp());
-        root.findViewById(R.id.previewBtn).setOnClickListener(v -> {
-            // TODO
-            Log.i("apero", addAlarmViewModel.getRingtoneName().getValue());
-        });
 
         addAlarmViewModel.getRingtoneName().observe(getViewLifecycleOwner(), ringtone ->
                 ((TextView) root.findViewById(R.id.tvSoundDescription))
