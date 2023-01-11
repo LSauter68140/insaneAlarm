@@ -6,7 +6,6 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
-import android.util.Log;
 
 public class RingtonePlayingService extends Service {
     private Ringtone ringtone;
@@ -18,7 +17,6 @@ public class RingtonePlayingService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("intent", intent.getStringExtra("ringtone-uri"));
         Uri ringtoneUri = Uri.parse(intent.getStringExtra("ringtone-uri"));
         ringtone = RingtoneManager.getRingtone(this, ringtoneUri);
         ringtone.play();

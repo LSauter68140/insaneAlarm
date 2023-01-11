@@ -75,7 +75,7 @@ public class TasksFragment extends Fragment {
             for (Map.Entry<String, View> widget : tasksFragmentWidget.entrySet()) {
                 Matcher m = Pattern.compile("(?<=get)(.*)(?=" + parentFragment + ")").matcher(widget.getKey());
                 if (!m.find()) {
-                    Log.i("ERROR", "oupsi on a rien trouvé");
+                    Log.i("[ERR]", "oupsi on a rien trouvé");
                     continue;
                 }
                 String typeFunction = m.group(0);
