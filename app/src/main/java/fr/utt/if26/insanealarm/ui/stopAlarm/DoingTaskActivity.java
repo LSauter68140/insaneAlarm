@@ -14,9 +14,9 @@ import java.util.HashMap;
 
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.ActivityDoingTaskBinding;
-import fr.utt.if26.insanealarm.model.Alarm;
-import fr.utt.if26.insanealarm.model.Task;
-import fr.utt.if26.insanealarm.utils.TaskQuestion;
+import fr.utt.if26.insanealarm.room.model.Alarm;
+import fr.utt.if26.insanealarm.room.model.Task;
+import fr.utt.if26.insanealarm.taskBackground.utils.TaskQuestion;
 
 
 public class DoingTaskActivity extends AppCompatActivity {

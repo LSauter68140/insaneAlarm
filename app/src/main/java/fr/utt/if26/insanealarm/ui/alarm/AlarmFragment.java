@@ -27,8 +27,8 @@ import java.util.concurrent.TimeUnit;
 
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.FragmentAlarmBinding;
-import fr.utt.if26.insanealarm.model.Alarm;
-import fr.utt.if26.insanealarm.worker.AlarmGoOffWorker;
+import fr.utt.if26.insanealarm.room.model.Alarm;
+import fr.utt.if26.insanealarm.taskBackground.worker.AlarmGoOffWorker;
 
 
 public class AlarmFragment extends Fragment {

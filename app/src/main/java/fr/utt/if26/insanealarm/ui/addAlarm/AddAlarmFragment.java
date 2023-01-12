@@ -31,11 +31,11 @@ import java.util.Objects;
 
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.FragmentAddEditBinding;
-import fr.utt.if26.insanealarm.model.Alarm;
+import fr.utt.if26.insanealarm.room.model.Alarm;
 import fr.utt.if26.insanealarm.ui.alarm.AlarmViewModel;
-import fr.utt.if26.insanealarm.utils.AlarmUtils;
-import fr.utt.if26.insanealarm.utils.DayTimeTranslator;
-import fr.utt.if26.insanealarm.utils.FileManager;
+import fr.utt.if26.insanealarm.taskBackground.utils.AlarmUtils;
+import fr.utt.if26.insanealarm.taskBackground.utils.DayTimeTranslator;
+import fr.utt.if26.insanealarm.taskBackground.utils.FileManager;
 
 public class AddAlarmFragment extends Fragment {
 

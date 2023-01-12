@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 import fr.utt.if26.insanealarm.R;
 import fr.utt.if26.insanealarm.databinding.FragmentSubPartTaskBinding;
 import fr.utt.if26.insanealarm.ui.addAlarm.AddAlarmViewModel;
-import fr.utt.if26.insanealarm.utils.TaskQuestion;
+import fr.utt.if26.insanealarm.taskBackground.utils.TaskQuestion;
 
 public class TasksFragment extends Fragment {
     private FragmentSubPartTaskBinding binding;

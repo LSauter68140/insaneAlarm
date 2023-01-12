@@ -29,9 +29,9 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import fr.utt.if26.insanealarm.R;
-import fr.utt.if26.insanealarm.model.Alarm;
-import fr.utt.if26.insanealarm.utils.DayTimeTranslator;
-import fr.utt.if26.insanealarm.worker.AlarmGoOffWorker;
+import fr.utt.if26.insanealarm.room.model.Alarm;
+import fr.utt.if26.insanealarm.taskBackground.utils.DayTimeTranslator;
+import fr.utt.if26.insanealarm.taskBackground.worker.AlarmGoOffWorker;
 
 @SuppressLint("UseSwitchCompatOrMaterialCode")
 public class AlarmViewHolder extends RecyclerView.ViewHolder {

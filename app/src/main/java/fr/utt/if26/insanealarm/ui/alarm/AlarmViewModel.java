@@ -9,9 +9,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import fr.utt.if26.insanealarm.database.AlarmRepository;
-import fr.utt.if26.insanealarm.model.Alarm;
-import fr.utt.if26.insanealarm.utils.AlarmUtils;
+import fr.utt.if26.insanealarm.room.database.AlarmRepository;
+import fr.utt.if26.insanealarm.room.model.Alarm;
+import fr.utt.if26.insanealarm.taskBackground.utils.AlarmUtils;
 
 public class AlarmViewModel extends AndroidViewModel {
 

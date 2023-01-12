@@ -18,7 +18,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import fr.utt.if26.insanealarm.R;
-import fr.utt.if26.insanealarm.utils.FileManager;
+import fr.utt.if26.insanealarm.taskBackground.utils.FileManager;
 
 public class ListInAppSoundAdapter extends RecyclerView.Adapter<ListInAppSoundAdapter.ListInAppSoundAdapterViewHolder> {
 

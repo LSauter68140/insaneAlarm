@@ -36,9 +36,9 @@
         <activity android:name=".ui.stopAlarm.DoingTaskActivity" />
         <activity android:name=".ui.stopAlarm.ControlsListener" />
 
-        <service android:name=".service.RingtonePlayingService" />
-        <service android:name=".service.VibratorService" />
-        <service android:name=".service.CameraFlashService" />
+        <service android:name=".taskBackground.service.RingtonePlayingService" />
+        <service android:name=".taskBackground.service.VibratorService" />
+        <service android:name=".taskBackground.service.CameraFlashService" />
 
     </application>
 

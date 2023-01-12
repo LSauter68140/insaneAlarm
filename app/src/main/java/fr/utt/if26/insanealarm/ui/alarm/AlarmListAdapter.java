@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
-import fr.utt.if26.insanealarm.model.Alarm;
+import fr.utt.if26.insanealarm.room.model.Alarm;
 
 public class AlarmListAdapter extends ListAdapter<Alarm, AlarmViewHolder> {
 

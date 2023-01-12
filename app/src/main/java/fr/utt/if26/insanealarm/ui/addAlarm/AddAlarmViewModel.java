@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import fr.utt.if26.insanealarm.R;
-import fr.utt.if26.insanealarm.model.Alarm;
-import fr.utt.if26.insanealarm.model.AlarmFrequency;
-import fr.utt.if26.insanealarm.model.Control;
-import fr.utt.if26.insanealarm.model.Dismiss;
-import fr.utt.if26.insanealarm.model.Snooze;
-import fr.utt.if26.insanealarm.model.Sound;
-import fr.utt.if26.insanealarm.model.Task;
-import fr.utt.if26.insanealarm.model.WakeupCheck;
+import fr.utt.if26.insanealarm.room.model.Alarm;
+import fr.utt.if26.insanealarm.room.model.AlarmFrequency;
+import fr.utt.if26.insanealarm.room.model.Control;
+import fr.utt.if26.insanealarm.room.model.Dismiss;
+import fr.utt.if26.insanealarm.room.model.Snooze;
+import fr.utt.if26.insanealarm.room.model.Sound;
+import fr.utt.if26.insanealarm.room.model.Task;
+import fr.utt.if26.insanealarm.room.model.WakeupCheck;
 
 public class AddAlarmViewModel extends ViewModel {
 

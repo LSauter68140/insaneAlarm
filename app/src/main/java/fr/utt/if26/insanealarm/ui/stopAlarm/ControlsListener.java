@@ -25,16 +25,16 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import fr.utt.if26.insanealarm.R;
-import fr.utt.if26.insanealarm.broadcastReceiver.PowerOnOffButtonReceiver;
+import fr.utt.if26.insanealarm.taskBackground.broadcastReceiver.PowerOnOffButtonReceiver;
 import fr.utt.if26.insanealarm.databinding.FragmentControlListenerBinding;
-import fr.utt.if26.insanealarm.model.Alarm;
-import fr.utt.if26.insanealarm.service.CameraFlashService;
-import fr.utt.if26.insanealarm.service.RingtonePlayingService;
-import fr.utt.if26.insanealarm.service.VibratorService;
-import fr.utt.if26.insanealarm.service.VolumeButtonObserver;
+import fr.utt.if26.insanealarm.room.model.Alarm;
+import fr.utt.if26.insanealarm.taskBackground.service.CameraFlashService;
+import fr.utt.if26.insanealarm.taskBackground.service.RingtonePlayingService;
+import fr.utt.if26.insanealarm.taskBackground.service.VibratorService;
+import fr.utt.if26.insanealarm.taskBackground.service.VolumeButtonObserver;
 import fr.utt.if26.insanealarm.ui.alarm.AlarmViewModel;
-import fr.utt.if26.insanealarm.utils.AlarmUtils;
-import fr.utt.if26.insanealarm.worker.AlarmGoOffWorker;
+import fr.utt.if26.insanealarm.taskBackground.utils.AlarmUtils;
+import fr.utt.if26.insanealarm.taskBackground.worker.AlarmGoOffWorker;
 
 public class ControlsListener extends AppCompatActivity {
     // add listener for each button and wait
